@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "Giỏ hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-orange mb-4">🛒 Giỏ hàng của bạn</h2>
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead class="bg-orange">
+                <tr>
+                    <th>Món ăn</th>
+                    <th>Đơn giá</th>
+                    <th>Số lượng</th>
+                    <th>Thành tiền</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <strong class="text-orange">Cơm gà xối mỡ</strong><br>
+                        <small class="text-muted">Ghi chú: Không cay</small>
+                    </td>
+                    <td>35.000đ</td>
+                    <td>
+                        <input type="number" value="1" min="1" class="form-control form-control-sm" style="width:70px">
+                    </td>
+                    <td class="font-weight-bold">35.000đ</td>
+                    <td>
+                        <button class="btn btn-link text-danger">Xóa</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong class="text-orange">Bún bò Huế</strong><br>
+                        <small class="text-muted">Ghi chú: Thêm tôm</small>
+                    </td>
+                    <td>40.000đ</td>
+                    <td>
+                        <input type="number" value="2" min="1" class="form-control form-control-sm" style="width:70px">
+                    </td>
+                    <td class="font-weight-bold">80.000đ</td>
+                    <td>
+                        <button class="btn btn-link text-danger">Xóa</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label>Ghi chú đơn hàng:</label>
+                    <textarea class="form-control" rows="2" placeholder="Yêu cầu đặc biệt..."></textarea>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <h6>Tổng cộng:</h6>
+                        <h4 class="text-orange">115.000đ</h4>
+                        <button class="btn btn-orange btn-block mt-3">
+                            Đặt hàng ngay →
+                        </button>
+                        <a href="/Order" class="btn btn-outline-orange btn-block">
+                            ← Tiếp tục mua
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,158 @@
+﻿@{
+    ViewBag.Title = "Đặt đồ ăn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-orange mb-0">🍽️ Thực đơn hôm nay</h2>
+    <a href="/Cart" class="btn btn-orange">
+        🛒 Xem giỏ hàng (0) →
+    </a>
+</div>
+
+<form class="form-inline mb-4">
+    <input type="text" class="form-control mr-2" placeholder="Tìm món ăn..." style="width: 300px;">
+    <select class="form-control mr-2" style="width: 150px;">
+        <option>-- Tất cả loại --</option>
+        <option>Cơm</option>
+        <option>Bún/Phở</option>
+        <option>Mì/Pasta</option>
+        <option>Đồ uống</option>
+        <option>Tráng miệng</option>
+    </select>
+    <button type="submit" class="btn btn-orange">🔍 Lọc</button>
+</form>
+
+<div class="row">
+    @{
+        var foods = new[] {
+        new { Id = 1, Name = "Cơm Gà Xối Mỡ", Description = "Thơm ngon, giòn rụm. Món ăn được yêu thích nhất!", Price = 35000, Rating = "4.5", Image = "Cơm+Gà" },
+        new { Id = 2, Name = "Bún Bò Huế", Description = "Đậm đà, cay nhẹ, hương vị đặc trưng miền Trung", Price = 40000, Rating = "4.3", Image = "Bún+Bò" },
+        new { Id = 3, Name = "Mì Ý Sốt Kem", Description = "Phong cách châu Âu, hợp khẩu vị người Việt", Price = 45000, Rating = "4.7", Image = "Mì+Ý" },
+        new { Id = 4, Name = "Phở Bò Tái", Description = "Nước dùng trong, thịt bò tươi ngon", Price = 38000, Rating = "4.4", Image = "Phở+Bò" },
+        new { Id = 5, Name = "Bánh Mì Thịt Nướng", Description = "Bánh mì giòn, thịt nướng thơm lừng", Price = 25000, Rating = "4.2", Image = "Bánh+Mì" },
+        new { Id = 6, Name = "Cháo Sườn", Description = "Cháo mềm, sườn ngọt, bổ dưỡng", Price = 32000, Rating = "4.1", Image = "Cháo+Sườn" },
+        new { Id = 7, Name = "Gỏi Cuốn Tôm", Description = "Tươi mát, ăn kèm nước chấm đặc biệt", Price = 30000, Rating = "4.6", Image = "Gỏi+Cuốn" },
+        new { Id = 8, Name = "Chè Đậu Đỏ", Description = "Ngọt mát, giải nhiệt sau bữa ăn", Price = 15000, Rating = "4.0", Image = "Chè+Đậu" }
+        };
+    }
+
+    @foreach (var food in foods)
+    {
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 border-orange shadow-sm">
+                <div class="position-relative">
+                    <img src="https://via.placeholder.com/250x150/ff9800/ffffff?text=@food.Image"
+                         class="card-img-top" alt="@food.Name" style="height: 180px; object-fit: cover;">
+
+                    <!-- Badge đánh giá -->
+                    <span class="badge bg-orange position-absolute" style="top: 10px; right: 10px;">
+                        ⭐ @food.Rating
+                    </span>
+                </div>
+
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title text-orange font-weight-bold">@food.Name</h5>
+                    <p class="card-text flex-grow-1 text-muted">@food.Description</p>
+
+                    <div class="mt-auto">
+                        <!-- Giá tiền -->
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-orange font-weight-bold h5 mb-0">
+                                @food.Price.ToString("N0")đ
+                            </span>
+                            <small class="text-success">✅ Còn hàng</small>
+                        </div>
+
+                        <!-- Nút hành động -->
+                        <div class="btn-group-vertical w-100">
+                            <!-- Nút xem chi tiết -->
+                            <a href="/Order/Detail/@food.Id" class="btn btn-outline-orange btn-sm mb-2">
+                                <!-- icons8 info icon --> 📋 Xem chi tiết
+                            </a>
+
+                            <!-- Nút thêm vào giỏ -->
+                            <button class="btn btn-orange btn-sm" onclick="addToCart(@food.Id, '@food.Name', @food.Price)">
+                                <!-- icons8 cart plus icon --> 🛒 Thêm vào giỏ
+                            </button>
+                        </div>
+
+                        <!-- Tùy chọn số lượng nhanh -->
+                        <div class="d-flex align-items-center mt-2">
+                            <label class="small mr-2 mb-0">SL:</label>
+                            <input type="number" class="form-control form-control-sm"
+                                   id="quantity-@food.Id" value="1" min="1" max="10"
+                                   style="width: 60px; height: 28px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Phân trang -->
+<div class="text-center mt-4">
+    <nav>
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link text-orange" href="#">‹ Trước</a></li>
+            <li class="page-item active"><a class="page-link bg-orange border-orange" href="#">1</a></li>
+            <li class="page-item"><a class="page-link text-orange" href="#">2</a></li>
+            <li class="page-item"><a class="page-link text-orange" href="#">3</a></li>
+            <li class="page-item"><a class="page-link text-orange" href="#">Sau ›</a></li>
+        </ul>
+    </nav>
+</div>
+
+<!-- Modal thông báo thêm vào giỏ thành công -->
+<div class="modal fade" id="addToCartModal" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header bg-orange">
+                <h6 class="modal-title">✅ Thành công</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body text-center">
+                <p id="modalMessage">Đã thêm món vào giỏ hàng!</p>
+                <div class="mt-3">
+                    <button class="btn btn-outline-orange btn-sm" data-dismiss="modal">Tiếp tục mua</button>
+                    <a href="/Cart" class="btn btn-orange btn-sm">Xem giỏ hàng</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // JavaScript để xử lý thêm vào giỏ hàng
+    function addToCart(foodId, foodName, price) {
+        var quantity = document.getElementById('quantity-' + foodId).value;
+
+        // Hiển thị thông báo thành công
+        document.getElementById('modalMessage').innerHTML =
+            '<strong>' + foodName + '</strong><br>' +
+            'Số lượng: ' + quantity + '<br>' +
+            'Đã thêm vào giỏ hàng!';
+
+        $('#addToCartModal').modal('show');
+
+        // TODO: Gửi AJAX request đến server để thêm vào giỏ hàng thực tế
+        console.log('Thêm vào giỏ:', {
+            id: foodId,
+            name: foodName,
+            price: price,
+            quantity: quantity
+        });
+    }
+
+    // Cập nhật số lượng khi thay đổi
+    document.addEventListener('DOMContentLoaded', function() {
+        var quantityInputs = document.querySelectorAll('input[type="number"]');
+        quantityInputs.forEach(function(input) {
+            input.addEventListener('change', function() {
+                if (this.value < 1) this.value = 1;
+                if (this.value > 10) this.value = 10;
+            });
+        });
+    });
+</script>

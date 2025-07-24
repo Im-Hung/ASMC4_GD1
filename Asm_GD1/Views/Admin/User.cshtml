@@ -1,0 +1,333 @@
+﻿@{
+    ViewBag.Title = "Quản lý người dùng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Navigation tabs cho admin -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-orange p-0">
+                <ul class="nav nav-tabs card-header-tabs" id="adminTabs">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/Admin/Menu">
+                            🍽️ Quản lý thực đơn
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/Admin/Order">
+                            📋 Quản lý đơn hàng
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/Admin/Promotion">
+                            🎁 Quản lý khuyến mãi
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active text-white" href="/Admin/User">
+                            👥 Quản lý người dùng
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/Admin/Report">
+                            📊 Báo cáo thống kê
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Header và nút thêm user -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-orange mb-0">👥 Quản lý người dùng</h2>
+    <div>
+        <button class="btn btn-outline-orange mr-2" data-toggle="modal" data-target="#importUserModal">
+            📥 Import Excel
+        </button>
+        <button class="btn btn-orange" data-toggle="modal" data-target="#addUserModal">
+            ➕ Thêm người dùng
+        </button>
+    </div>
+</div>
+
+<!-- Bộ lọc và tìm kiếm -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form class="form-inline">
+            <input type="text" class="form-control mr-2" placeholder="Tìm theo tên, email..." style="width: 250px;">
+            <select class="form-control mr-2" style="width: 140px;">
+                <option>-- Vai trò --</option>
+                <option>Admin</option>
+                <option>Employee</option>
+                <option>User</option>
+                <option>Guest</option>
+            </select>
+            <select class="form-control mr-2" style="width: 120px;">
+                <option>-- Trạng thái --</option>
+                <option>Hoạt động</option>
+                <option>Tạm khóa</option>
+                <option>Đã xóa</option>
+            </select>
+            <input type="date" class="form-control mr-2" placeholder="Ngày đăng ký">
+            <button type="submit" class="btn btn-orange">🔍 Lọc</button>
+            <button type="button" class="btn btn-outline-orange ml-2">🔄 Làm mới</button>
+        </form>
+    </div>
+</div>
+
+<!-- Bảng quản lý người dùng -->
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="bg-orange">
+                    <tr>
+                        <th><input type="checkbox" id="selectAll"></th>
+                        <th>Avatar</th>
+                        <th>Thông tin</th>
+                        <th>Vai trò</th>
+                        <th>Ngày đăng ký</th>
+                        <th>Đơn hàng</th>
+                        <th>Trạng thái</th>
+                        <th>Hoạt động cuối</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var users = new[] {
+                                        new { Id = 1, Name = "Nguyễn Văn Admin", Email = "admin@company.com", Phone = "0901234567", Role = "Admin", RoleClass = "danger", RegisterDate = "15/06/2025", Orders = 0, Status = "Hoạt động", StatusClass = "success", LastActive = "2 giờ trước", Avatar = "A" },
+                                        new { Id = 2, Name = "Trần Thị Bảo", Email = "bao.tran@company.com", Phone = "0907654321", Role = "Employee", RoleClass = "warning", RegisterDate = "20/06/2025", Orders = 25, Status = "Hoạt động", StatusClass = "success", LastActive = "5 phút trước", Avatar = "B" },
+                                        new { Id = 3, Name = "Lê Văn Cường", Email = "cuong.le@company.com", Phone = "0912345678", Role = "User", RoleClass = "info", RegisterDate = "22/06/2025", Orders = 12, Status = "Hoạt động", StatusClass = "success", LastActive = "1 ngày trước", Avatar = "C" },
+                                        new { Id = 4, Name = "Phạm Thị Dung", Email = "dung.pham@company.com", Phone = "0923456789", Role = "User", RoleClass = "info", RegisterDate = "25/06/2025", Orders = 8, Status = "Tạm khóa", StatusClass = "warning", LastActive = "3 ngày trước", Avatar = "D" },
+                                        new { Id = 5, Name = "Hoàng Văn Em", Email = "em.hoang@company.com", Phone = "0934567890", Role = "User", RoleClass = "info", RegisterDate = "01/07/2025", Orders = 3, Status = "Hoạt động", StatusClass = "success", LastActive = "30 phút trước", Avatar = "E" },
+                                        new { Id = 6, Name = "Vũ Thị Fang", Email = "fang.vu@company.com", Phone = "0945678901", Role = "Guest", RoleClass = "secondary", RegisterDate = "10/07/2025", Orders = 1, Status = "Hoạt động", StatusClass = "success", LastActive = "1 giờ trước", Avatar = "F" }
+                                        };
+                    }
+
+                    @foreach (var user in users)
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="selectedUsers" value="@user.Id">
+                            </td>
+                            <td>
+                                <div class="bg-orange text-white rounded-circle d-flex align-items-center justify-content-center"
+                                     style="width: 40px; height: 40px; font-weight: bold;">
+                                    @user.Avatar
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <strong class="text-orange">@user.Name</strong><br>
+                                    <small class="text-muted">📧 @user.Email</small><br>
+                                    <small class="text-muted">📞 @user.Phone</small>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge badge-@user.RoleClass">@user.Role</span>
+                            </td>
+                            <td>
+                                <small>@user.RegisterDate</small>
+                            </td>
+                            <td>
+                                <span class="text-orange font-weight-bold">@user.Orders</span> đơn
+                            </td>
+                            <td>
+                                <span class="badge badge-@user.StatusClass">@user.Status</span>
+                            </td>
+                            <td>
+                                <small>@user.LastActive</small>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-sm btn-outline-orange" title="Xem chi tiết">
+                                        👁️
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-info" title="Sửa thông tin">
+                                        ✏️
+                                    </button>
+                                    @if (user.Status == "Hoạt động")
+                                    {
+                                        <button class="btn btn-sm btn-warning" title="Tạm khóa">
+                                            🔒
+                                        </button>
+                                    }
+                                    else if (user.Status == "Tạm khóa")
+                                    {
+                                        <button class="btn btn-sm btn-success" title="Kích hoạt">
+                                            🔓
+                                        </button>
+                                    }
+                                    <button class="btn btn-sm btn-secondary" title="Reset mật khẩu">
+                                        🔑
+                                    </button>
+                                    <button class="btn btn-sm btn-danger" title="Xóa">
+                                        🗑️
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Thao tác hàng loạt và phân trang -->
+        <div class="d-flex justify-content-between align-items-center mt-3">
+            <div>
+                <button class="btn btn-outline-orange" disabled id="bulkActions">
+                    Thao tác hàng loạt (0 người được chọn)
+                </button>
+            </div>
+
+            <nav>
+                <ul class="pagination pagination-sm mb-0">
+                    <li class="page-item"><a class="page-link text-orange" href="#">‹</a></li>
+                    <li class="page-item active"><a class="page-link bg-orange border-orange" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link text-orange" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link text-orange" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link text-orange" href="#">›</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- Thống kê người dùng -->
+<div class="row mt-4">
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body text-center">
+                <h3>1,245</h3>
+                <p class="mb-0">Tổng người dùng</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body text-center">
+                <h3>1,186</h3>
+                <p class="mb-0">Đang hoạt động</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-white">
+            <div class="card-body text-center">
+                <h3>59</h3>
+                <p class="mb-0">Tạm khóa</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-orange text-white">
+            <div class="card-body text-center">
+                <h3>156</h3>
+                <p class="mb-0">Đăng ký tháng này</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal thêm người dùng mới -->
+<div class="modal fade" id="addUserModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-orange">
+                <h5 class="modal-title">➕ Thêm người dùng mới</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Họ và tên:</label>
+                                <input type="text" class="form-control" placeholder="Nguyễn Văn A" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Email:</label>
+                                <input type="email" class="form-control" placeholder="user@company.com" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Số điện thoại:</label>
+                                <input type="tel" class="form-control" placeholder="0901234567" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Vai trò:</label>
+                                <select class="form-control" required>
+                                    <option>User</option>
+                                    <option>Employee</option>
+                                    <option>Admin</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Mật khẩu:</label>
+                                <input type="password" class="form-control" placeholder="••••••••" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Xác nhận mật khẩu:</label>
+                                <input type="password" class="form-control" placeholder="••••••••" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ghi chú:</label>
+                        <textarea class="form-control" rows="3" placeholder="Thông tin bổ sung về người dùng..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-orange" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-orange">💾 Lưu người dùng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Xử lý select all checkbox
+        const selectAllCheckbox = document.getElementById('selectAll');
+        const itemCheckboxes = document.querySelectorAll('input[name="selectedUsers"]');
+        const bulkActionsBtn = document.getElementById('bulkActions');
+
+        selectAllCheckbox.addEventListener('change', function() {
+            itemCheckboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+            updateBulkActions();
+        });
+
+        itemCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', updateBulkActions);
+        });
+
+        function updateBulkActions() {
+            const checkedCount = document.querySelectorAll('input[name="selectedUsers"]:checked').length;
+            bulkActionsBtn.textContent = `Thao tác hàng loạt (${checkedCount} người được chọn)`;
+            bulkActionsBtn.disabled = checkedCount === 0;
+        }
+    });
+</script>

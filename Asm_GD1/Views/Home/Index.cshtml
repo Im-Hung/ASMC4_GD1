@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron bg-orange text-white text-center">
+    <h1 class="display-4">🍽️ Chào mừng đến hệ thống đặt đồ ăn</h1>
+    <p class="lead">Đặt món nhanh chóng, tiện lợi cho nhân viên công ty</p>
+    <a class="btn btn-light btn-lg text-orange" href="/Order">
+        Bắt đầu đặt món →
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card border-orange shadow h-100">
+            <img src="https://via.placeholder.com/300x200/ff9800/ffffff?text=Cơm+Gà" class="card-img-top" alt="Cơm gà">
+            <div class="card-body">
+                <h5 class="card-title text-orange">Cơm Gà Xối Mỡ</h5>
+                <p class="card-text">Thơm ngon, giòn rụm. Món ăn được yêu thích nhất hôm nay!</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-orange font-weight-bold">35.000đ</span>
+                    <a href="/Order/Detail/1" class="btn btn-outline-orange btn-sm">Chi tiết</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card border-orange shadow h-100">
+            <img src="https://via.placeholder.com/300x200/ff9800/ffffff?text=Bún+Bò" class="card-img-top" alt="Bún bò">
+            <div class="card-body">
+                <h5 class="card-title text-orange">Bún Bò Huế</h5>
+                <p class="card-text">Đậm đà, cay nhẹ, hương vị đặc trưng miền Trung</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-orange font-weight-bold">40.000đ</span>
+                    <a href="/Order/Detail/2" class="btn btn-outline-orange btn-sm">Chi tiết</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card border-orange shadow h-100">
+            <img src="https://via.placeholder.com/300x200/ff9800/ffffff?text=Mì+Ý" class="card-img-top" alt="Mì Ý">
+            <div class="card-body">
+                <h5 class="card-title text-orange">Mì Ý Sốt Kem</h5>
+                <p class="card-text">Phong cách châu Âu, hợp khẩu vị người Việt</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-orange font-weight-bold">45.000đ</span>
+                    <a href="/Order/Detail/3" class="btn btn-outline-orange btn-sm">Chi tiết</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-5">
+    <h3 class="text-orange">Tại sao chọn chúng tôi?</h3>
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <h5>🚀 Nhanh chóng</h5>
+            <p>Đặt hàng online, giao tận nơi trong 30 phút</p>
+        </div>
+        <div class="col-md-4">
+            <h5>🏢 Nội bộ</h5>
+            <p>Dành riêng cho nhân viên công ty, ưu đãi đặc biệt</p>
+        </div>
+        <div class="col-md-4">
+            <h5>💯 Chất lượng</h5>
+            <p>Thực phẩm tươi ngon, đảm bảo vệ sinh an toàn</p>
+        </div>
+    </div>
+</div>

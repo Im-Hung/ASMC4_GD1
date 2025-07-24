@@ -1,0 +1,326 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|c:\\users\\hungvu\\source\\repos\\asm_c4\\asm_gd1\\views\\content\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|solutionrelative:asm_gd1\\views\\content\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|c:\\users\\hungvu\\source\\repos\\asm_c4\\asm_gd1\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|solutionrelative:asm_gd1\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|c:\\users\\hungvu\\source\\repos\\asm_c4\\asm_gd1\\views\\admin\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|solutionrelative:asm_gd1\\views\\admin\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|c:\\users\\hungvu\\source\\repos\\asm_c4\\asm_gd1\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|solutionrelative:asm_gd1\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|c:\\users\\hungvu\\source\\repos\\asm_c4\\asm_gd1\\views\\admin\\order.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|solutionrelative:asm_gd1\\views\\admin\\order.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|c:\\users\\hungvu\\source\\repos\\asm_c4\\asm_gd1\\views\\admin\\user.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|solutionrelative:asm_gd1\\views\\admin\\user.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|c:\\users\\hungvu\\source\\repos\\asm_c4\\asm_gd1\\views\\admin\\report.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|solutionrelative:asm_gd1\\views\\admin\\report.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|c:\\users\\hungvu\\source\\repos\\asm_c4\\asm_gd1\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|solutionrelative:asm_gd1\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|c:\\users\\hungvu\\source\\repos\\asm_c4\\asm_gd1\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|solutionrelative:asm_gd1\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|c:\\users\\hungvu\\source\\repos\\asm_c4\\asm_gd1\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|solutionrelative:asm_gd1\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|c:\\users\\hungvu\\source\\repos\\asm_c4\\asm_gd1\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|solutionrelative:asm_gd1\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|c:\\users\\hungvu\\source\\repos\\asm_c4\\asm_gd1\\views\\admin\\promotion.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|solutionrelative:asm_gd1\\views\\admin\\promotion.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|c:\\users\\hungvu\\source\\repos\\asm_c4\\asm_gd1\\views\\order\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|solutionrelative:asm_gd1\\views\\order\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|c:\\users\\hungvu\\source\\repos\\asm_c4\\asm_gd1\\views\\order\\detail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|solutionrelative:asm_gd1\\views\\order\\detail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|c:\\users\\hungvu\\source\\repos\\asm_c4\\asm_gd1\\views\\cart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|solutionrelative:asm_gd1\\views\\cart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|c:\\users\\hungvu\\source\\repos\\asm_c4\\asm_gd1\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|solutionrelative:asm_gd1\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|c:\\users\\hungvu\\source\\repos\\asm_c4\\asm_gd1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|solutionrelative:asm_gd1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|c:\\users\\hungvu\\source\\repos\\asm_c4\\asm_gd1\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C7646AB4-EE9E-44E8-BCD8-25FDD3A157B2}|Asm_GD1\\Asm_GD1.csproj|solutionrelative:asm_gd1\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 7,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Report.cshtml",
+              "DocumentMoniker": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Views\\Admin\\Report.cshtml",
+              "RelativeDocumentMoniker": "Asm_GD1\\Views\\Admin\\Report.cshtml",
+              "ToolTip": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Views\\Admin\\Report.cshtml",
+              "RelativeToolTip": "Asm_GD1\\Views\\Admin\\Report.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADQBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-24T03:04:21.82Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "User.cshtml",
+              "DocumentMoniker": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Views\\Admin\\User.cshtml",
+              "RelativeDocumentMoniker": "Asm_GD1\\Views\\Admin\\User.cshtml",
+              "ToolTip": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Views\\Admin\\User.cshtml",
+              "RelativeToolTip": "Asm_GD1\\Views\\Admin\\User.cshtml",
+              "ViewState": "AgIAACYBAAAAAAAAAAAcwE0BAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-24T03:03:53.03Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "Asm_GD1\\Controllers\\AccountController.cs",
+              "ToolTip": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "Asm_GD1\\Controllers\\AccountController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-24T02:27:02.864Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "CartController.cs",
+              "DocumentMoniker": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Controllers\\CartController.cs",
+              "RelativeDocumentMoniker": "Asm_GD1\\Controllers\\CartController.cs",
+              "ToolTip": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Controllers\\CartController.cs",
+              "RelativeToolTip": "Asm_GD1\\Controllers\\CartController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-24T02:26:48.667Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Order.cshtml",
+              "DocumentMoniker": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Views\\Admin\\Order.cshtml",
+              "RelativeDocumentMoniker": "Asm_GD1\\Views\\Admin\\Order.cshtml",
+              "ToolTip": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Views\\Admin\\Order.cshtml",
+              "RelativeToolTip": "Asm_GD1\\Views\\Admin\\Order.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAKgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-24T02:06:56.023Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "AdminController.cs",
+              "DocumentMoniker": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Controllers\\AdminController.cs",
+              "RelativeDocumentMoniker": "Asm_GD1\\Controllers\\AdminController.cs",
+              "ToolTip": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Controllers\\AdminController.cs",
+              "RelativeToolTip": "Asm_GD1\\Controllers\\AdminController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-24T02:27:18.595Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Views\\Admin\\Index.cshtml",
+              "RelativeDocumentMoniker": "Asm_GD1\\Views\\Admin\\Index.cshtml",
+              "ToolTip": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Views\\Admin\\Index.cshtml",
+              "RelativeToolTip": "Asm_GD1\\Views\\Admin\\Index.cshtml",
+              "ViewState": "AgIAAC8BAAAAAAAAAAAAAAMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-24T02:06:16.988Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "site.css",
+              "DocumentMoniker": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Views\\Content\\site.css",
+              "RelativeDocumentMoniker": "Asm_GD1\\Views\\Content\\site.css",
+              "ToolTip": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Views\\Content\\site.css",
+              "RelativeToolTip": "Asm_GD1\\Views\\Content\\site.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-07-24T02:13:39.894Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Asm_GD1\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Asm_GD1\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-24T02:26:04.068Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Asm_GD1\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Asm_GD1\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-24T01:54:11.981Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Asm_GD1\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Asm_GD1\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-24T01:54:13.479Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Views\\Order\\Index.cshtml",
+              "RelativeDocumentMoniker": "Asm_GD1\\Views\\Order\\Index.cshtml",
+              "ToolTip": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Views\\Order\\Index.cshtml",
+              "RelativeToolTip": "Asm_GD1\\Views\\Order\\Index.cshtml",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAAJ4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-24T01:58:36.638Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Detail.cshtml",
+              "DocumentMoniker": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Views\\Order\\Detail.cshtml",
+              "RelativeDocumentMoniker": "Asm_GD1\\Views\\Order\\Detail.cshtml",
+              "ToolTip": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Views\\Order\\Detail.cshtml",
+              "RelativeToolTip": "Asm_GD1\\Views\\Order\\Detail.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-24T02:39:26.133Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Views\\Cart\\Index.cshtml",
+              "RelativeDocumentMoniker": "Asm_GD1\\Views\\Cart\\Index.cshtml",
+              "ToolTip": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Views\\Cart\\Index.cshtml",
+              "RelativeToolTip": "Asm_GD1\\Views\\Cart\\Index.cshtml",
+              "ViewState": "AgIAACQAAAAAAAAAAAAiwEsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-24T01:59:19.855Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Promotion.cshtml",
+              "DocumentMoniker": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Views\\Admin\\Promotion.cshtml",
+              "RelativeDocumentMoniker": "Asm_GD1\\Views\\Admin\\Promotion.cshtml",
+              "ToolTip": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Views\\Admin\\Promotion.cshtml",
+              "RelativeToolTip": "Asm_GD1\\Views\\Admin\\Promotion.cshtml",
+              "ViewState": "AgIAANwAAAAAAAAAAAAcwAMBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-24T02:07:16.772Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "OrderController.cs",
+              "DocumentMoniker": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Controllers\\OrderController.cs",
+              "RelativeDocumentMoniker": "Asm_GD1\\Controllers\\OrderController.cs",
+              "ToolTip": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Controllers\\OrderController.cs",
+              "RelativeToolTip": "Asm_GD1\\Controllers\\OrderController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-24T02:26:24.809Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Program.cs",
+              "RelativeDocumentMoniker": "Asm_GD1\\Program.cs",
+              "ToolTip": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Program.cs",
+              "RelativeToolTip": "Asm_GD1\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-24T02:29:16.551Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Views\\Account\\Login.cshtml",
+              "RelativeDocumentMoniker": "Asm_GD1\\Views\\Account\\Login.cshtml",
+              "ToolTip": "C:\\Users\\HungVu\\source\\repos\\ASM_C4\\Asm_GD1\\Views\\Account\\Login.cshtml",
+              "RelativeToolTip": "Asm_GD1\\Views\\Account\\Login.cshtml",
+              "ViewState": "AgIAABsAAAAAAAAAAAAcwEIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-24T02:00:22.383Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
