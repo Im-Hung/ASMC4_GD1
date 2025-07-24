@@ -2,53 +2,280 @@
 <html lang="vi">
 <head>
     <meta charset="utf-8" />
-    <title>@ViewBag.Title - Đặt Đồ Ăn Công Ty</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/site.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Food Ordering</title>
+    <!-- CSS chung -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- CSS riêng cho từng trang -->
+    @RenderSection("Styles", required: false)
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-orange">
+    <!-- Top Bar -->
+    <div class="top-bar">
         <div class="container">
-            <a class="navbar-brand font-weight-bold" href="/">🍽️ Đặt Đồ Ăn</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="mainNavbar">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Trang chủ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Order">Đặt đồ ăn</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Cart">Giỏ hàng (0)</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Account/Login">Đăng nhập</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Admin/Index">Quản lý</a>
-                    </li>
-                </ul>
+            <div class="top-bar-left">
+                <span><i class="fas fa-phone"></i> 0123-456-789</span>
+                <span><i class="fas fa-envelope"></i> info@foodorder.com</span>
+            </div>
+            <div class="top-bar-right">
+                <span><i class="fas fa-clock"></i> Mở cửa: 6:00 - 22:00</span>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
             </div>
         </div>
-    </nav>
-
-    <div class="container my-4">
-        @RenderBody()
     </div>
 
-    <footer class="bg-orange text-center py-4 mt-5">
-        <div class="container">
-            <span>© 2025 Hệ thống đặt đồ ăn công ty. All rights reserved.</span>
+    <!-- Main Navigation -->
+    <header class="header-nav">
+        <nav class="navbar">
+            <div class="container">
+                <!-- Logo -->
+                <a asp-controller="Home" asp-action="Index" class="logo">
+                    <img src="~/Images/Food-logo.jpg" alt="Food Ordering" />
+                    <div class="logo-text">
+                        <span class="brand-name">FoodOrder</span>
+                        <span class="brand-tagline">Ngon - Nhanh - Rẻ</span>
+                    </div>
+                </a>
+
+                <!-- Navigation Menu -->
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a asp-controller="Home" asp-action="Index" class="nav-link">
+                            <i class="fas fa-home"></i>
+                            <span>Trang chủ</span>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle">
+                            <i class="fas fa-info-circle"></i>
+                            <span>Giới thiệu</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a asp-controller="About" asp-action="Story">Câu chuyện thương hiệu</a></li>
+                            <li><a asp-controller="About" asp-action="Team">Đội ngũ</a></li>
+                            <li><a asp-controller="About" asp-action="Values">Giá trị cốt lõi</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a asp-controller="Food" asp-action="Order" class="nav-link dropdown-toggle">
+                            <i class="fas fa-utensils"></i>
+                            <span>Thực đơn</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Cơm</a></li>
+                            <li><a href="#">Phở</a></li>
+                            <li><a href="#">Bánh mì</a></li>
+                            <li><a href="#">Đồ uống</a></li>
+                            <li class="divider"></li>
+                            <li><a asp-controller="Food" asp-action="Order">Xem tất cả</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="News" asp-action="Index" class="nav-link">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Tin tức</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Contact" asp-action="Index" class="nav-link">
+                            <i class="fas fa-phone-alt"></i>
+                            <span>Liên hệ</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Right Actions -->
+                <div class="nav-actions">
+                    <a asp-controller="Cart" asp-action="Index" class="cart-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">2</span>
+                        <span class="cart-text">Giỏ hàng</span>
+                    </a>
+
+                    @{
+                        var isLoggedIn = Context.Session.GetString("IsLoggedIn") == "true";
+                        var username = Context.Session.GetString("Username");
+                        var userRole = Context.Session.GetString("UserRole");
+                        var userAvatar = Context.Session.GetString("UserAvatar");
+                    }
+
+                    @if (isLoggedIn)
+                    {
+                        <!-- User Dropdown khi đã đăng nhập -->
+                        <div class="user-dropdown">
+                            <button class="user-dropdown-toggle">
+                                <img src="@userAvatar" alt="Avatar" class="user-avatar">
+                                <div class="user-info">
+                                    <span class="user-name">@username</span>
+                                    <span class="user-role">@userRole</span>
+                                </div>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+
+                            <div class="user-dropdown-menu">
+                                <div class="dropdown-header">
+                                    <img src="@userAvatar" alt="Avatar">
+                                    <div>
+                                        <strong>@username</strong>
+                                        <span>@userRole</span>
+                                    </div>
+                                </div>
+
+                                <div class="dropdown-divider"></div>
+
+                                <a asp-controller="Account" asp-action="Profile" class="dropdown-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>Hồ sơ cá nhân</span>
+                                </a>
+
+                                <a asp-controller="Account" asp-action="Orders" class="dropdown-item">
+                                    <i class="fas fa-shopping-bag"></i>
+                                    <span>Đơn hàng của tôi</span>
+                                </a>
+
+                                <a href="#" class="dropdown-item">
+                                    <i class="fas fa-heart"></i>
+                                    <span>Món yêu thích</span>
+                                </a>
+
+                                <a href="#" class="dropdown-item">
+                                    <i class="fas fa-cog"></i>
+                                    <span>Cài đặt</span>
+                                </a>
+
+                                <div class="dropdown-divider"></div>
+
+                                <a asp-controller="Account" asp-action="Logout" class="dropdown-item logout-item">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span>Đăng xuất</span>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <!-- Auth buttons khi chưa đăng nhập -->
+                        <div class="auth-buttons">
+                            <a asp-controller="Account" asp-action="Login" class="btn-login">
+                                <i class="fas fa-sign-in-alt"></i>
+                                Đăng nhập
+                            </a>
+                            <a asp-controller="Account" asp-action="Register" class="btn-register">
+                                <i class="fas fa-user-plus"></i>
+                                Đăng ký
+                            </a>
+                        </div>
+                    }
+
+                    <!-- Mobile Menu Toggle -->
+                    <button class="mobile-menu-toggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        @RenderBody()
+    </main>
+
+    <!-- Enhanced Footer -->
+    <footer class="site-footer">
+        <div class="footer-main">
+            <div class="container">
+                <div class="footer-grid">
+                    <!-- Company Info -->
+                    <div class="footer-section">
+                        <div class="footer-logo">
+                            <img src="~/Images/Food-logo.jpg" alt="FoodOrder">
+                            <h3>FoodOrder</h3>
+                        </div>
+                        <p>Mang đến cho bạn những món ăn ngon nhất với chất lượng tốt nhất.</p>
+                        <div class="footer-social">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                            <a href="#"><i class="fab fa-tiktok"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="footer-section">
+                        <h4>Liên kết nhanh</h4>
+                        <ul class="footer-links">
+                            <li><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                            <li><a asp-controller="Food" asp-action="Order">Thực đơn</a></li>
+                            <li><a href="#">Giới thiệu</a></li>
+                            <li><a href="#">Liên hệ</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Support -->
+                    <div class="footer-section">
+                        <h4>Hỗ trợ khách hàng</h4>
+                        <ul class="footer-links">
+                            <li><a href="#">Chính sách giao hàng</a></li>
+                            <li><a href="#">Chính sách đổi trả</a></li>
+                            <li><a href="#">Câu hỏi thường gặp</a></li>
+                            <li><a href="#">Hướng dẫn đặt hàng</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Contact Info -->
+                    <div class="footer-section">
+                        <h4>Thông tin liên hệ</h4>
+                        <div class="contact-info">
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>123 Đường ABC, Quận 1, TP.HCM</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <span>0123-456-789</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span>info@foodorder.com</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-clock"></i>
+                                <span>6:00 - 22:00 (Tất cả các ngày)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-content">
+                    <p>&copy; 2025 FoodOrder Co. All rights reserved.</p>
+                    <div class="footer-bottom-links">
+                        <a href="#">Điều khoản sử dụng</a>
+                        <a href="#">Chính sách bảo mật</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

@@ -28,52 +28,100 @@ build_property._RazorSourceGeneratorDebug =
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
+[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/About/Story.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWJvdXRcU3RvcnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/About/Team.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWJvdXRcVGVhbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/About/Values.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWJvdXRcVmFsdWVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/Admin/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXguY3NodG1s
+[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/Account/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxQcm9maWxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/Admin/Order.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cT3JkZXIuY3NodG1s
+[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/Account/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/Admin/Promotion.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUHJvbW90aW9uLmNzaHRtbA==
+[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/Checkout/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hlY2tvdXRcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/Admin/Report.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUmVwb3J0LmNzaHRtbA==
+[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/Contact/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udGFjdFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/Admin/User.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVXNlci5jc2h0bWw=
+[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/FoodAdmin/CategoryManagement.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9vZEFkbWluXENhdGVnb3J5TWFuYWdlbWVudC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/Cart/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxJbmRleC5jc2h0bWw=
+[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/FoodAdmin/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9vZEFkbWluXERhc2hib2FyZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/FoodAdmin/MenuManagement.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9vZEFkbWluXE1lbnVNYW5hZ2VtZW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/FoodAdmin/PromotionManagement.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9vZEFkbWluXFByb21vdGlvbk1hbmFnZW1lbnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/FoodAdmin/Reports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9vZEFkbWluXFJlcG9ydHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/Food/Detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9vZFxEZXRhaWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/Order/Detail.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJcRGV0YWlsLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/Order/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJcSW5kZXguY3NodG1s
+[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/News/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/Shared/_AdminLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9BZG1pbkxheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/UserAdmin/CustomerReviews.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlckFkbWluXEN1c3RvbWVyUmV2aWV3cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/UserAdmin/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlckFkbWluXERhc2hib2FyZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/UserAdmin/OrderManagement.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlckFkbWluXE9yZGVyTWFuYWdlbWVudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/UserAdmin/Reports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlckFkbWluXFJlcG9ydHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/UserAdmin/UserManagement.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlckFkbWluXFVzZXJNYW5hZ2VtZW50LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/_ViewImports.cshtml]
@@ -83,6 +131,10 @@ build_metadata.AdditionalFiles.CssScope =
 [C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/Cart/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = b-bewwd5srd0
 
 [C:/Users/HungVu/source/repos/ASM_C4/Asm_GD1/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s

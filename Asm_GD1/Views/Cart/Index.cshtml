@@ -1,74 +1,253 @@
 ﻿@{
-    ViewBag.Title = "Giỏ hàng";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Giỏ hàng";
 }
 
-<h2 class="text-orange mb-4">🛒 Giỏ hàng của bạn</h2>
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/cart.css" />
+}
 
-<div class="card">
-    <div class="card-body">
-        <table class="table table-hover">
-            <thead class="bg-orange">
-                <tr>
-                    <th>Món ăn</th>
-                    <th>Đơn giá</th>
-                    <th>Số lượng</th>
-                    <th>Thành tiền</th>
-                    <th>Thao tác</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <strong class="text-orange">Cơm gà xối mỡ</strong><br>
-                        <small class="text-muted">Ghi chú: Không cay</small>
-                    </td>
-                    <td>35.000đ</td>
-                    <td>
-                        <input type="number" value="1" min="1" class="form-control form-control-sm" style="width:70px">
-                    </td>
-                    <td class="font-weight-bold">35.000đ</td>
-                    <td>
-                        <button class="btn btn-link text-danger">Xóa</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <strong class="text-orange">Bún bò Huế</strong><br>
-                        <small class="text-muted">Ghi chú: Thêm tôm</small>
-                    </td>
-                    <td>40.000đ</td>
-                    <td>
-                        <input type="number" value="2" min="1" class="form-control form-control-sm" style="width:70px">
-                    </td>
-                    <td class="font-weight-bold">80.000đ</td>
-                    <td>
-                        <button class="btn btn-link text-danger">Xóa</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+<div class="cart-page">
+    <div class="container">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb">
+            <a asp-controller="Home" asp-action="Index">Trang chủ</a>
+            <span class="separator">></span>
+            <a asp-controller="Food" asp-action="Order">Thực đơn</a>
+            <span class="separator">></span>
+            <span class="current">Giỏ hàng</span>
+        </nav>
 
-        <div class="row">
-            <div class="col-md-8">
-                <div class="form-group">
-                    <label>Ghi chú đơn hàng:</label>
-                    <textarea class="form-control" rows="2" placeholder="Yêu cầu đặc biệt..."></textarea>
+        <h1 class="page-title">
+            <i class="fas fa-shopping-cart"></i>
+            Giỏ hàng của bạn
+        </h1>
+
+        <div class="cart-content">
+            <!-- Cart Items -->
+            <div class="cart-items-section">
+                <div class="cart-header">
+                    <h2>Danh sách món ăn (3 món)</h2>
+                    <button class="btn-clear-cart" onclick="clearCart()">
+                        <i class="fas fa-trash"></i>
+                        Xóa tất cả
+                    </button>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card bg-light">
-                    <div class="card-body">
-                        <h6>Tổng cộng:</h6>
-                        <h4 class="text-orange">115.000đ</h4>
-                        <button class="btn btn-orange btn-block mt-3">
-                            Đặt hàng ngay →
-                        </button>
-                        <a href="/Order" class="btn btn-outline-orange btn-block">
-                            ← Tiếp tục mua
-                        </a>
+
+                <div class="cart-items" id="cartItemsList">
+                    <!-- Cart Item 1 -->
+                    <div class="cart-item" data-id="1">
+                        <div class="item-image">
+                            <img src="~/Images/com-tam.jpg" alt="Cơm tấm sườn nướng">
+                        </div>
+                        
+                        <div class="item-details">
+                            <h3 class="item-name">Cơm tấm sườn nướng</h3>
+                            <div class="item-options">
+                                <span class="size">Kích thước: Lớn</span>
+                                <span class="toppings">Topping: Thêm trứng, Thêm chả</span>
+                                <span class="note">Ghi chú: Ít cay</span>
+                            </div>
+                            <div class="item-price">
+                                <span class="unit-price">58,000 VNĐ/món</span>
+                            </div>
+                        </div>
+
+                        <div class="item-controls">
+                            <div class="quantity-controls">
+                                <button class="qty-btn minus" onclick="updateQuantity(1, -1)">-</button>
+                                <input type="number" class="quantity" value="2" min="1" max="10" onchange="updateQuantityInput(1, this.value)">
+                                <button class="qty-btn plus" onclick="updateQuantity(1, 1)">+</button>
+                            </div>
+                            
+                            <div class="item-total">
+                                <span class="total-price">116,000 VNĐ</span>
+                            </div>
+                            
+                            <button class="btn-remove" onclick="removeItem(1)" title="Xóa món">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Cart Item 2 -->
+                    <div class="cart-item" data-id="2">
+                        <div class="item-image">
+                            <img src="~/Images/pho-bo.jpg" alt="Phở bò tái">
+                        </div>
+                        
+                        <div class="item-details">
+                            <h3 class="item-name">Phở bò tái</h3>
+                            <div class="item-options">
+                                <span class="size">Kích thước: Bình thường</span>
+                                <span class="note">Không ghi chú</span>
+                            </div>
+                            <div class="item-price">
+                                <span class="unit-price">65,000 VNĐ/món</span>
+                            </div>
+                        </div>
+
+                        <div class="item-controls">
+                            <div class="quantity-controls">
+                                <button class="qty-btn minus" onclick="updateQuantity(2, -1)">-</button>
+                                <input type="number" class="quantity" value="1" min="1" max="10" onchange="updateQuantityInput(2, this.value)">
+                                <button class="qty-btn plus" onclick="updateQuantity(2, 1)">+</button>
+                            </div>
+                            
+                            <div class="item-total">
+                                <span class="total-price">65,000 VNĐ</span>
+                            </div>
+                            
+                            <button class="btn-remove" onclick="removeItem(2)" title="Xóa món">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Cart Item 3 -->
+                    <div class="cart-item" data-id="3">
+                        <div class="item-image">
+                            <img src="~/Images/banh-mi-thit-nuong.jpg" alt="Bánh mì thịt nướng">
+                        </div>
+                        
+                        <div class="item-details">
+                            <h3 class="item-name">Bánh mì thịt nướng</h3>
+                            <div class="item-options">
+                                <span class="size">Kích thước: Bình thường</span>
+                                <span class="toppings">Topping: Thêm pate</span>
+                                <span class="note">Ghi chú: Nhiều rau</span>
+                            </div>
+                            <div class="item-price">
+                                <span class="unit-price">30,000 VNĐ/món</span>
+                            </div>
+                        </div>
+
+                        <div class="item-controls">
+                            <div class="quantity-controls">
+                                <button class="qty-btn minus" onclick="updateQuantity(3, -1)">-</button>
+                                <input type="number" class="quantity" value="3" min="1" max="10" onchange="updateQuantityInput(3, this.value)">
+                                <button class="qty-btn plus" onclick="updateQuantity(3, 1)">+</button>
+                            </div>
+                            
+                            <div class="item-total">
+                                <span class="total-price">90,000 VNĐ</span>
+                            </div>
+                            
+                            <button class="btn-remove" onclick="removeItem(3)" title="Xóa món">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Continue Shopping -->
+                <div class="continue-shopping">
+                    <a asp-controller="Home" asp-action="Index" class="btn-continue">
+                        <i class="fas fa-arrow-left"></i>
+                        Tiếp tục mua sắm
+                    </a>
+                </div>
+            </div>
+
+            <!-- Cart Summary & Checkout -->
+            <div class="cart-summary-section">
+                <div class="cart-summary">
+                    <h3>Tóm tắt đơn hàng</h3>
+                    
+                    <div class="summary-details">
+                        <div class="summary-row">
+                            <span>Tạm tính (6 món):</span>
+                            <span id="subtotal">271,000 VNĐ</span>
+                        </div>
+                        
+                        <div class="summary-row">
+                            <span>Phí giao hàng:</span>
+                            <span id="shippingFee">15,000 VNĐ</span>
+                        </div>
+                        
+                        <div class="summary-row discount-section">
+                            <div class="coupon-input-group">
+                                <input type="text" class="coupon-input" placeholder="Nhập mã giảm giá" id="couponCode">
+                                <button class="btn-apply-coupon" onclick="applyCoupon()">Áp dụng</button>
+                            </div>
+                        </div>
+                        
+                        <div class="summary-row discount-applied" id="discountRow" style="display: none;">
+                            <span>Giảm giá:</span>
+                            <span class="discount-amount" id="discountAmount">-27,100 VNĐ</span>
+                        </div>
+                        
+                        <div class="summary-row total">
+                            <span>Tổng cộng:</span>
+                            <span class="total-amount" id="totalAmount">286,000 VNĐ</span>
+                        </div>
+                    </div>
+
+                    <!-- Delivery Options -->
+                    <div class="delivery-options">
+                        <h4>Phương thức giao hàng</h4>
+                        <div class="delivery-methods">
+                            <label class="delivery-method">
+                                <input type="radio" name="delivery" value="standard" checked onchange="updateDeliveryFee()">
+                                <div class="method-info">
+                                    <strong>Giao hàng tiêu chuẩn</strong>
+                                    <span>30-45 phút • 15,000 VNĐ</span>
+                                </div>
+                            </label>
+                            
+                            <label class="delivery-method">
+                                <input type="radio" name="delivery" value="express" onchange="updateDeliveryFee()">
+                                <div class="method-info">
+                                    <strong>Giao hàng nhanh</strong>
+                                    <span>15-20 phút • 25,000 VNĐ</span>
+                                </div>
+                            </label>
+                            
+                            <label class="delivery-method">
+                                <input type="radio" name="delivery" value="pickup" onchange="updateDeliveryFee()">
+                                <div class="method-info">
+                                    <strong>Tự đến lấy</strong>
+                                    <span>10-15 phút • Miễn phí</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Checkout Button -->
+                    <button class="btn-checkout" onclick="proceedToCheckout()">
+                        <i class="fas fa-credit-card"></i>
+                        Tiến hành thanh toán
+                        <span class="checkout-amount">286,000 VNĐ</span>
+                    </button>
+                </div>
+
+                <!-- Trust Badges -->
+                <div class="trust-badges">
+                    <div class="trust-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Thanh toán an toàn</span>
+                    </div>
+                    <div class="trust-item">
+                        <i class="fas fa-truck"></i>
+                        <span>Giao hàng nhanh</span>
+                    </div>
+                    <div class="trust-item">
+                        <i class="fas fa-phone"></i>
+                        <span>Hỗ trợ 24/7</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty Cart State (hidden by default) -->
+        <div class="empty-cart" id="emptyCart" style="display: none;">
+            <div class="empty-cart-content">
+                <i class="fas fa-shopping-cart"></i>
+                <h2>Giỏ hàng của bạn đang trống</h2>
+                <p>Hãy thêm một số món ăn ngon vào giỏ hàng nhé!</p>
+                <a asp-controller="Food" asp-action="Order" class="btn-shop-now">
+                    <i class="fas fa-utensils"></i>
+                    Đặt món ngay
+                </a>
             </div>
         </div>
     </div>

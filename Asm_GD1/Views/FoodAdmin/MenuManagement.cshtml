@@ -1,0 +1,417 @@
+﻿@{
+    ViewData["Title"] = "Quản lý Thực đơn";
+    Layout = "_AdminLayout";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/food-menu-management.css" />
+}
+
+<div class="menu-management">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="header-content">
+            <div class="header-text">
+                <h1>Quản lý Thực đơn</h1>
+                <p>Quản lý tất cả món ăn và thức uống</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn-import" onclick="importMenu()">
+                    <i class="fas fa-upload"></i>
+                    Import Excel
+                </button>
+                <button class="btn-export" onclick="exportMenu()">
+                    <i class="fas fa-download"></i>
+                    Xuất Excel
+                </button>
+                <button class="btn-add-item" onclick="showAddItemModal()">
+                    <i class="fas fa-plus"></i>
+                    Thêm món mới
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters & Search -->
+    <div class="filters-section">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Tìm kiếm món ăn..." id="menuSearchInput">
+        </div>
+
+        <div class="filters">
+            <select id="categoryFilter" onchange="filterMenu()">
+                <option value="">Tất cả danh mục</option>
+                <option value="rice">Cơm</option>
+                <option value="noodle">Phở</option>
+                <option value="sandwich">Bánh mì</option>
+                <option value="drink">Thức uống</option>
+                <option value="dessert">Tráng miệng</option>
+            </select>
+
+            <select id="statusFilter" onchange="filterMenu()">
+                <option value="">Tất cả trạng thái</option>
+                <option value="available">Đang bán</option>
+                <option value="unavailable">Tạm dừng</option>
+                <option value="out_of_stock">Hết hàng</option>
+            </select>
+
+            <select id="priceFilter" onchange="filterMenu()">
+                <option value="">Tất cả mức giá</option>
+                <option value="under_50k">Dưới 50k</option>
+                <option value="50k_100k">50k - 100k</option>
+                <option value="over_100k">Trên 100k</option>
+            </select>
+
+            <button class="btn-reset-filter" onclick="resetMenuFilters()">
+                <i class="fas fa-times"></i>
+                Xóa lọc
+            </button>
+        </div>
+
+        <div class="view-toggle">
+            <button class="view-btn active" onclick="switchView('grid')" data-view="grid">
+                <i class="fas fa-th"></i>
+            </button>
+            <button class="view-btn" onclick="switchView('list')" data-view="list">
+                <i class="fas fa-list"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Menu Items Grid View -->
+    <div class="menu-grid-view active" id="gridView">
+        <div class="menu-grid">
+            <div class="menu-item-card" data-category="rice" data-status="available">
+                <div class="item-image">
+                    <img src="~/Images/com-tam.jpg" alt="Cơm tấm">
+                    <div class="item-status available">Đang bán</div>
+                    <div class="item-actions">
+                        <button class="btn-action edit" onclick="editMenuItem(1)" title="Chỉnh sửa">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-action copy" onclick="copyMenuItem(1)" title="Sao chép">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <button class="btn-action delete" onclick="deleteMenuItem(1)" title="Xóa">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="item-content">
+                    <div class="item-header">
+                        <h3 class="item-name">Cơm tấm sườn nướng</h3>
+                        <div class="item-price">45,000₫</div>
+                    </div>
+                    <div class="item-details">
+                        <div class="item-category">Cơm</div>
+                        <div class="item-rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="rating-score">4.8 (247)</span>
+                        </div>
+                    </div>
+                    <div class="item-description">
+                        Cơm tấm thơm ngon với sườn nướng bbq, chả trứng, bì và nước mắm chua ngọt
+                    </div>
+                    <div class="item-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>247 đã bán</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-clock"></i>
+                            <span>15-20 phút</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-item-card" data-category="noodle" data-status="available">
+                <div class="item-image">
+                    <img src="~/Images/pho-bo.jpg" alt="Phở bò">
+                    <div class="item-status available">Đang bán</div>
+                    <div class="item-actions">
+                        <button class="btn-action edit" onclick="editMenuItem(2)">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-action copy" onclick="copyMenuItem(2)">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <button class="btn-action delete" onclick="deleteMenuItem(2)">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="item-content">
+                    <div class="item-header">
+                        <h3 class="item-name">Phở bò tái</h3>
+                        <div class="item-price">65,000₫</div>
+                    </div>
+                    <div class="item-details">
+                        <div class="item-category">Phở</div>
+                        <div class="item-rating">
+                            <span class="stars">★★★★☆</span>
+                            <span class="rating-score">4.5 (198)</span>
+                        </div>
+                    </div>
+                    <div class="item-description">
+                        Phở bò tái truyền thống với nước dùng trong, thịt bò tái mềm
+                    </div>
+                    <div class="item-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>198 đã bán</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-clock"></i>
+                            <span>10-15 phút</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-item-card" data-category="sandwich" data-status="unavailable">
+                <div class="item-image">
+                    <img src="~/Images/banh-mi-thit-nuong.jpg" alt="Bánh mì">
+                    <div class="item-status unavailable">Tạm dừng</div>
+                    <div class="item-actions">
+                        <button class="btn-action edit" onclick="editMenuItem(3)">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-action copy" onclick="copyMenuItem(3)">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <button class="btn-action delete" onclick="deleteMenuItem(3)">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="item-content">
+                    <div class="item-header">
+                        <h3 class="item-name">Bánh mì thịt nướng</h3>
+                        <div class="item-price">30,000₫</div>
+                    </div>
+                    <div class="item-details">
+                        <div class="item-category">Bánh mì</div>
+                        <div class="item-rating">
+                            <span class="stars">★★★★☆</span>
+                            <span class="rating-score">4.3 (156)</span>
+                        </div>
+                    </div>
+                    <div class="item-description">
+                        Bánh mì thịt nướng với pate, rau sống và nước sốt đặc biệt
+                    </div>
+                    <div class="item-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>156 đã bán</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-clock"></i>
+                            <span>5-10 phút</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Items List View -->
+    <div class="menu-list-view" id="listView">
+        <div class="menu-table-container">
+            <table class="menu-table">
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" id="selectAllMenu" onchange="toggleSelectAllMenu()">
+                        </th>
+                        <th>Món ăn</th>
+                        <th>Danh mục</th>
+                        <th>Giá</th>
+                        <th>Trạng thái</th>
+                        <th>Đánh giá</th>
+                        <th>Đã bán</th>
+                        <th>Cập nhật</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="checkbox" class="menu-checkbox" value="1"></td>
+                        <td>
+                            <div class="menu-item-info">
+                                <img src="~/Images/food/com-tam.jpg" alt="Cơm tấm" class="item-thumb">
+                                <div class="item-details">
+                                    <div class="item-name">Cơm tấm sườn nướng</div>
+                                    <div class="item-desc">Cơm tấm thơm ngon với sườn nướng bbq...</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="category-tag rice">Cơm</span></td>
+                        <td><span class="price">45,000₫</span></td>
+                        <td><span class="status-badge available">Đang bán</span></td>
+                        <td>
+                            <div class="rating-info">
+                                <span class="stars">★★★★★</span>
+                                <span class="score">4.8</span>
+                            </div>
+                        </td>
+                        <td><span class="sold-count">247</span></td>
+                        <td><span class="update-date">2 giờ trước</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn-table-action edit" onclick="editMenuItem(1)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn-table-action copy" onclick="copyMenuItem(1)">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <button class="btn-table-action delete" onclick="deleteMenuItem(1)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- More table rows... -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination-section">
+        <div class="pagination-info">
+            Hiển thị 1-20 của 156 món ăn
+        </div>
+        <div class="pagination">
+            <button class="page-btn prev" disabled>
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <span class="page-dots">...</span>
+            <button class="page-btn">8</button>
+            <button class="page-btn next">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Add/Edit Menu Item Modal -->
+<div class="modal" id="menuItemModal">
+    <div class="modal-content large">
+        <div class="modal-header">
+            <h3 id="menuItemModalTitle">Thêm món mới</h3>
+            <button class="modal-close" onclick="closeMenuItemModal()">×</button>
+        </div>
+        <div class="modal-body">
+            <form id="menuItemForm" class="menu-item-form">
+                <div class="form-grid">
+                    <div class="form-section">
+                        <h4>Thông tin cơ bản</h4>
+                        <div class="form-group">
+                            <label for="itemName">Tên món ăn *</label>
+                            <input type="text" id="itemName" name="itemName" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="itemCategory">Danh mục *</label>
+                                <select id="itemCategory" name="itemCategory" required>
+                                    <option value="">Chọn danh mục</option>
+                                    <option value="rice">Cơm</option>
+                                    <option value="noodle">Phở</option>
+                                    <option value="sandwich">Bánh mì</option>
+                                    <option value="drink">Thức uống</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="itemPrice">Giá bán *</label>
+                                <input type="number" id="itemPrice" name="itemPrice" required min="0">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="prepTime">Thời gian chuẩn bị</label>
+                                <input type="number" id="prepTime" name="prepTime" min="0" placeholder="Phút">
+                            </div>
+                            <div class="form-group">
+                                <label for="itemStatus">Trạng thái</label>
+                                <select id="itemStatus" name="itemStatus">
+                                    <option value="available">Đang bán</option>
+                                    <option value="unavailable">Tạm dừng</option>
+                                    <option value="out_of_stock">Hết hàng</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="itemDescription">Mô tả món ăn</label>
+                            <textarea id="itemDescription" name="itemDescription" rows="4" placeholder="Mô tả chi tiết về món ăn..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Hình ảnh</h4>
+                        <div class="image-upload-area">
+                            <div class="upload-box" onclick="triggerImageUpload()">
+                                <i class="fas fa-camera"></i>
+                                <span>Chọn hình ảnh</span>
+                                <input type="file" id="itemImage" accept="image/*" style="display: none;" onchange="previewImage()">
+                            </div>
+                            <div class="image-preview" id="imagePreview" style="display: none;">
+                                <img id="previewImg" src="" alt="Preview">
+                                <button type="button" class="btn-remove-image" onclick="removeImage()">×</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h4>Thông tin bổ sung</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="isSpicy" name="isSpicy">
+                                Món cay
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="isVegetarian" name="isVegetarian">
+                                Món chay
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="isSpecial" name="isSpecial">
+                                Món đặc biệt
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ingredients">Nguyên liệu chính</label>
+                        <input type="text" id="ingredients" name="ingredients" placeholder="VD: Thịt bò, bánh phở, hành lá...">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="allergens">Cảnh báo dị ứng</label>
+                        <input type="text" id="allergens" name="allergens" placeholder="VD: Gluten, hải sản, đậu phộng...">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn-secondary" onclick="closeMenuItemModal()">Hủy</button>
+            <button type="button" class="btn-primary" onclick="saveMenuItem()">Lưu món ăn</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/menu-management.js"></script>
+}

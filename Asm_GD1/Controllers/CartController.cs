@@ -4,10 +4,9 @@ namespace Asm_GD1.Controllers
 {
     public class CartController : Controller
     {
-        public ActionResult Index()
-        {
-            return View();
-        }
+        public IActionResult Index() => View();
+        public IActionResult Success() => View();
+        public IActionResult Failed() => View();
     }
 }
 

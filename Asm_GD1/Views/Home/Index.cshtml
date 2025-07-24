@@ -1,74 +1,162 @@
 ﻿@{
-    ViewBag.Title = "Trang chủ";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Trang chủ";
 }
 
-<div class="jumbotron bg-orange text-white text-center">
-    <h1 class="display-4">🍽️ Chào mừng đến hệ thống đặt đồ ăn</h1>
-    <p class="lead">Đặt món nhanh chóng, tiện lợi cho nhân viên công ty</p>
-    <a class="btn btn-light btn-lg text-orange" href="/Order">
-        Bắt đầu đặt món →
-    </a>
-</div>
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/home.css" />
+}
 
-<div class="row">
-    <div class="col-md-4 mb-4">
-        <div class="card border-orange shadow h-100">
-            <img src="https://via.placeholder.com/300x200/ff9800/ffffff?text=Cơm+Gà" class="card-img-top" alt="Cơm gà">
-            <div class="card-body">
-                <h5 class="card-title text-orange">Cơm Gà Xối Mỡ</h5>
-                <p class="card-text">Thơm ngon, giòn rụm. Món ăn được yêu thích nhất hôm nay!</p>
-                <div class="d-flex justify-content-between align-items-center">
-                    <span class="text-orange font-weight-bold">35.000đ</span>
-                    <a href="/Order/Detail/1" class="btn btn-outline-orange btn-sm">Chi tiết</a>
+<section class="hero">
+    <img src="~/Images/banner1.jpg" alt="Banner khuyến mãi" />
+    <div class="hero-content">
+        <h1>Đặt đồ ăn ngon - Giao hàng nhanh</h1>
+        <p>Thưởng thức những món ăn tuyệt vời từ chúng tôi</p>
+    </div>
+</section>
+
+<section class="highlights">
+    <div class="container">
+        <h2>Món nổi bật</h2>
+        <div class="food-grid">
+            <!-- Món 1 -->
+            <div class="food-card">
+                <div class="food-image">
+                    <img src="~/Images/com-tam.jpg" alt="Cơm tấm sườn nướng">
+                    <div class="discount-badge">-15%</div>
+                </div>
+                <div class="food-info">
+                    <h3>Cơm tấm sườn nướng</h3>
+                    <p>Cơm tấm thơm ngon với sườn nướng BBQ, chả trứng và bì</p>
+                    <div class="rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="rating-text">(4.8)</span>
+                    </div>
+                    <div class="price-section">
+                        <span class="old-price">55,000 VNĐ</span>
+                        <span class="price">45,000 VNĐ</span>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-detail" onclick="viewDetail(1)">Xem chi tiết</button>
+                        <button class="btn-order" onclick="addToCart(1)">Đặt món</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Món 2 -->
+            <div class="food-card">
+                <div class="food-image">
+                    <img src="~/Images/pho-bo.jpg" alt="Phở bò tái">
+                    <div class="hot-badge">HOT</div>
+                </div>
+                <div class="food-info">
+                    <h3>Phở bò tái</h3>
+                    <p>Phở bò truyền thống với thịt tái tươi ngon, nước dùng đậm đà</p>
+                    <div class="rating">
+                        <span class="stars">★★★★☆</span>
+                        <span class="rating-text">(4.5)</span>
+                    </div>
+                    <div class="price-section">
+                        <span class="price">65,000 VNĐ</span>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-detail" onclick="viewDetail(2)">Xem chi tiết</button>
+                        <button class="btn-order" onclick="addToCart(2)">Đặt món</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Món 3 -->
+            <div class="food-card">
+                <div class="food-image">
+                    <img src="~/Images/banh-mi-thit-nuong.jpg" alt="Bánh mì thịt nướng">
+                    <div class="new-badge">MỚI</div>
+                </div>
+                <div class="food-info">
+                    <h3>Bánh mì thịt nướng</h3>
+                    <p>Bánh mì Việt Nam với thịt nướng thơm lừng, rau thơm tươi</p>
+                    <div class="rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="rating-text">(4.7)</span>
+                    </div>
+                    <div class="price-section">
+                        <span class="price">25,000 VNĐ</span>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-detail" onclick="viewDetail(3)">Xem chi tiết</button>
+                        <button class="btn-order" onclick="addToCart(3)">Đặt món</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Món 4 -->
+            <div class="food-card">
+                <div class="food-image">
+                    <img src="~/Images/bun-bo.jpg" alt="Bún bò Huế">
+                </div>
+                <div class="food-info">
+                    <h3>Bún bò Huế</h3>
+                    <p>Bún bò Huế cay nồng đặc trưng, chả cua, giò heo</p>
+                    <div class="rating">
+                        <span class="stars">★★★★☆</span>
+                        <span class="rating-text">(4.3)</span>
+                    </div>
+                    <div class="price-section">
+                        <span class="price">58,000 VNĐ</span>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-detail" onclick="viewDetail(4)">Xem chi tiết</button>
+                        <button class="btn-order" onclick="addToCart(4)">Đặt món</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Món 5 -->
+            <div class="food-card">
+                <div class="food-image">
+                    <img src="~/Images/com-ga.jpg" alt="Cơm gà nướng">
+                </div>
+                <div class="food-info">
+                    <h3>Cơm gà nướng</h3>
+                    <p>Cơm gà nướng mật ong thơm phức, kèm rau củ tươi ngon</p>
+                    <div class="rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="rating-text">(4.6)</span>
+                    </div>
+                    <div class="price-section">
+                        <span class="price">52,000 VNĐ</span>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-detail" onclick="viewDetail(5)">Xem chi tiết</button>
+                        <button class="btn-order" onclick="addToCart(5)">Đặt món</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Món 6 -->
+            <div class="food-card">
+                <div class="food-image">
+                    <img src="~/Images/hu-tieu-nam-vang.jpg" alt="Hủ tiếu Nam Vang">
+                </div>
+                <div class="food-info">
+                    <h3>Hủ tiếu Nam Vang</h3>
+                    <p>Hủ tiếu Nam Vang truyền thống với tôm, thịt, gan, tim</p>
+                    <div class="rating">
+                        <span class="stars">★★★★☆</span>
+                        <span class="rating-text">(4.4)</span>
+                    </div>
+                    <div class="price-section">
+                        <span class="price">48,000 VNĐ</span>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-detail" onclick="viewDetail(6)">Xem chi tiết</button>
+                        <button class="btn-order" onclick="addToCart(6)">Đặt món</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-md-4 mb-4">
-        <div class="card border-orange shadow h-100">
-            <img src="https://via.placeholder.com/300x200/ff9800/ffffff?text=Bún+Bò" class="card-img-top" alt="Bún bò">
-            <div class="card-body">
-                <h5 class="card-title text-orange">Bún Bò Huế</h5>
-                <p class="card-text">Đậm đà, cay nhẹ, hương vị đặc trưng miền Trung</p>
-                <div class="d-flex justify-content-between align-items-center">
-                    <span class="text-orange font-weight-bold">40.000đ</span>
-                    <a href="/Order/Detail/2" class="btn btn-outline-orange btn-sm">Chi tiết</a>
-                </div>
-            </div>
+        <div class="view-all">
+            <a asp-controller="Food" asp-action="Order" class="btn-view-all">Xem tất cả món ăn</a>
         </div>
     </div>
-
-    <div class="col-md-4 mb-4">
-        <div class="card border-orange shadow h-100">
-            <img src="https://via.placeholder.com/300x200/ff9800/ffffff?text=Mì+Ý" class="card-img-top" alt="Mì Ý">
-            <div class="card-body">
-                <h5 class="card-title text-orange">Mì Ý Sốt Kem</h5>
-                <p class="card-text">Phong cách châu Âu, hợp khẩu vị người Việt</p>
-                <div class="d-flex justify-content-between align-items-center">
-                    <span class="text-orange font-weight-bold">45.000đ</span>
-                    <a href="/Order/Detail/3" class="btn btn-outline-orange btn-sm">Chi tiết</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="text-center mt-5">
-    <h3 class="text-orange">Tại sao chọn chúng tôi?</h3>
-    <div class="row mt-4">
-        <div class="col-md-4">
-            <h5>🚀 Nhanh chóng</h5>
-            <p>Đặt hàng online, giao tận nơi trong 30 phút</p>
-        </div>
-        <div class="col-md-4">
-            <h5>🏢 Nội bộ</h5>
-            <p>Dành riêng cho nhân viên công ty, ưu đãi đặc biệt</p>
-        </div>
-        <div class="col-md-4">
-            <h5>💯 Chất lượng</h5>
-            <p>Thực phẩm tươi ngon, đảm bảo vệ sinh an toàn</p>
-        </div>
-    </div>
-</div>
+</section>

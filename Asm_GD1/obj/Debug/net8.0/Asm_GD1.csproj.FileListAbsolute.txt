@@ -228,3 +228,5 @@ C:\Users\HungVu\source\repos\ASM_C4\Asm_GD1\obj\Debug\net8.0\refint\Asm_GD1.dll
 C:\Users\HungVu\source\repos\ASM_C4\Asm_GD1\obj\Debug\net8.0\Asm_GD1.pdb
 C:\Users\HungVu\source\repos\ASM_C4\Asm_GD1\obj\Debug\net8.0\Asm_GD1.genruntimeconfig.cache
 C:\Users\HungVu\source\repos\ASM_C4\Asm_GD1\obj\Debug\net8.0\ref\Asm_GD1.dll
+C:\Users\HungVu\source\repos\ASM_C4\Asm_GD1\obj\Debug\net8.0\Asm_GD1.sourcelink.json
+C:\Users\HungVu\source\repos\ASM_C4\Asm_GD1\obj\Debug\net8.0\scopedcss\Views\Cart\Index.cshtml.rz.scp.css
