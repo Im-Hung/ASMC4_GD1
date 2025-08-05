@@ -22,6 +22,7 @@ wwwroot\css\pages\Register.css
 wwwroot\css\pages\sales-dashboard.css
 wwwroot\css\pages\user-management.css
 wwwroot\css\pages\user-profile.css
+wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\Images\admin.jpg
 wwwroot\Images\admin1.jpg
@@ -137,4 +138,3 @@ wwwroot\lib\jquery\dist\jquery.js
 wwwroot\lib\jquery\dist\jquery.min.js
 wwwroot\lib\jquery\dist\jquery.min.map
 wwwroot\lib\jquery\LICENSE.txt
-wwwroot\css\site.css
