@@ -45,7 +45,7 @@
                     </div>
                 </a>
 
-                <!-- Navigation Menu -->
+                <!-- Desktop Navigation Menu -->
                 <ul class="nav-menu">
                     <li class="nav-item">
                         <a asp-controller="Home" asp-action="Index" class="nav-link">
@@ -69,7 +69,16 @@
                         <a asp-controller="Food" asp-action="Order" class="nav-link dropdown-toggle">
                             <i class="fas fa-utensils"></i>
                             <span>Thực đơn</span>
+                            <i class="fas fa-chevron-down"></i>
                         </a>
+                        <ul class="dropdown-menu">
+                            <li><a asp-controller="Food" asp-action="Order" asp-route-category="com">Cơm</a></li>
+                            <li><a asp-controller="Food" asp-action="Order" asp-route-category="pho">Phở</a></li>
+                            <li><a asp-controller="Food" asp-action="Order" asp-route-category="banh-mi">Bánh mì</a></li>
+                            <li><a asp-controller="Food" asp-action="Order" asp-route-category="do-uong">Đồ uống</a></li>
+                            <li class="divider"></li>
+                            <li><a asp-controller="Food" asp-action="Order">Xem tất cả</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a asp-controller="News" asp-action="Index" class="nav-link">
@@ -87,6 +96,7 @@
 
                 <!-- Right Actions -->
                 <div class="nav-actions">
+                    <!-- Cart Button -->
                     <a asp-controller="Cart" asp-action="Index" class="cart-btn">
                         <i class="fas fa-shopping-cart"></i>
                         <span class="cart-count">6</span>
@@ -100,76 +110,79 @@
                         var userAvatar = Context.Session.GetString("UserAvatar");
                     }
 
-                    @if (isLoggedIn)
-                    {
-                        <!-- User Dropdown khi đã đăng nhập -->
-                        <div class="user-dropdown">
-                            <button class="user-dropdown-toggle">
-                                <img src="@userAvatar" alt="Avatar" class="user-avatar">
-                                <div class="user-info">
-                                    <span class="user-name">@username</span>
-                                    <span class="user-role">@userRole</span>
-                                </div>
-                                <i class="fas fa-chevron-down"></i>
-                            </button>
-
-                            <div class="user-dropdown-menu">
-                                <div class="dropdown-header">
-                                    <img src="@userAvatar" alt="Avatar">
-                                    <div>
-                                        <strong>@username</strong>
-                                        <span>@userRole</span>
+                    <!-- Desktop Auth Section -->
+                    <div class="desktop-auth">
+                        @if (isLoggedIn)
+                        {
+                            <!-- User Dropdown khi đã đăng nhập -->
+                            <div class="user-dropdown">
+                                <button class="user-dropdown-toggle">
+                                    <img src="@userAvatar" alt="Avatar" class="user-avatar">
+                                    <div class="user-info">
+                                        <span class="user-name">@username</span>
+                                        <span class="user-role">@userRole</span>
                                     </div>
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+
+                                <div class="user-dropdown-menu">
+                                    <div class="dropdown-header">
+                                        <img src="@userAvatar" alt="Avatar">
+                                        <div>
+                                            <strong>@username</strong>
+                                            <span>@userRole</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="dropdown-divider"></div>
+
+                                    <a asp-controller="Account" asp-action="Profile" class="dropdown-item">
+                                        <i class="fas fa-user"></i>
+                                        <span>Hồ sơ cá nhân</span>
+                                    </a>
+
+                                    <a asp-controller="Account" asp-action="Orders" class="dropdown-item">
+                                        <i class="fas fa-shopping-bag"></i>
+                                        <span>Đơn hàng của tôi</span>
+                                    </a>
+
+                                    <a href="#" class="dropdown-item">
+                                        <i class="fas fa-heart"></i>
+                                        <span>Món yêu thích</span>
+                                    </a>
+
+                                    <a href="#" class="dropdown-item">
+                                        <i class="fas fa-cog"></i>
+                                        <span>Cài đặt</span>
+                                    </a>
+
+                                    <div class="dropdown-divider"></div>
+
+                                    <a asp-controller="Account" asp-action="Logout" class="dropdown-item logout-item">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        <span>Đăng xuất</span>
+                                    </a>
                                 </div>
-
-                                <div class="dropdown-divider"></div>
-
-                                <a asp-controller="Account" asp-action="Profile" class="dropdown-item">
-                                    <i class="fas fa-user"></i>
-                                    <span>Hồ sơ cá nhân</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <!-- Auth buttons khi chưa đăng nhập -->
+                            <div class="auth-buttons">
+                                <a asp-controller="Account" asp-action="Login" class="btn-login">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    <span>Đăng nhập</span>
                                 </a>
-
-                                <a asp-controller="Account" asp-action="Orders" class="dropdown-item">
-                                    <i class="fas fa-shopping-bag"></i>
-                                    <span>Đơn hàng của tôi</span>
-                                </a>
-
-                                <a href="#" class="dropdown-item">
-                                    <i class="fas fa-heart"></i>
-                                    <span>Món yêu thích</span>
-                                </a>
-
-                                <a href="#" class="dropdown-item">
-                                    <i class="fas fa-cog"></i>
-                                    <span>Cài đặt</span>
-                                </a>
-
-                                <div class="dropdown-divider"></div>
-
-                                <a asp-controller="Account" asp-action="Logout" class="dropdown-item logout-item">
-                                    <i class="fas fa-sign-out-alt"></i>
-                                    <span>Đăng xuất</span>
+                                <a asp-controller="Account" asp-action="Register" class="btn-register">
+                                    <i class="fas fa-user-plus"></i>
+                                    <span>Đăng ký</span>
                                 </a>
                             </div>
-                        </div>
-                    }
-                    else
-                    {
-                        <!-- Auth buttons khi chưa đăng nhập -->
-                        <div class="auth-buttons">
-                            <a asp-controller="Account" asp-action="Login" class="btn-login">
-                                <i class="fas fa-sign-in-alt"></i>
-                                Đăng nhập
-                            </a>
-                            <a asp-controller="Account" asp-action="Register" class="btn-register">
-                                <i class="fas fa-user-plus"></i>
-                                Đăng ký
-                            </a>
-                        </div>
-                    }
+                        }
+                    </div>
 
                     <!-- Mobile Menu Toggle -->
-                    <button class="mobile-menu-toggle">
+                    <button class="mobile-menu-toggle" id="mobileMenuToggle">
                         <span></span>
                         <span></span>
                         <span></span>
@@ -178,6 +191,170 @@
             </div>
         </nav>
     </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-content">
+            <!-- Mobile User/Auth Section -->
+            @if (isLoggedIn)
+            {
+                <!-- Khi đã đăng nhập - hiển thị thông tin user -->
+                <div class="mobile-user-section">
+                    <div class="mobile-user-info">
+                        <img src="@userAvatar" alt="Avatar" class="mobile-user-avatar">
+                        <div class="mobile-user-details">
+                            <div class="mobile-user-name">@username</div>
+                            <div class="mobile-user-role">@userRole</div>
+                        </div>
+                    </div>
+
+                    <div class="mobile-user-actions">
+                        <a asp-controller="Account" asp-action="Profile" class="mobile-user-btn">
+                            <i class="fas fa-user"></i>
+                            <span>Hồ sơ</span>
+                        </a>
+                        <a asp-controller="Account" asp-action="Logout" class="mobile-user-btn logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Đăng xuất</span>
+                        </a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <!-- Khi chưa đăng nhập - hiển thị form auth -->
+                <div class="mobile-auth-section">
+                    <div class="mobile-user-info">
+                        <div class="mobile-user-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="mobile-user-text">
+                            <div class="mobile-greeting">Xin chào!</div>
+                            <div class="mobile-auth-prompt">Đăng nhập để trải nghiệm tốt hơn</div>
+                        </div>
+                    </div>
+
+                    <div class="mobile-auth-buttons">
+                        <a asp-controller="Account" asp-action="Login" class="mobile-btn-login">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Đăng nhập</span>
+                        </a>
+                        <a asp-controller="Account" asp-action="Register" class="mobile-btn-register">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Đăng ký</span>
+                        </a>
+                    </div>
+                </div>
+            }
+
+            <!-- Divider -->
+            <div class="mobile-menu-divider"></div>
+
+            <!-- Mobile Navigation Menu -->
+            <ul class="mobile-nav-menu">
+                <li class="mobile-nav-item">
+                    <a asp-controller="Home" asp-action="Index" class="mobile-nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>Trang chủ</span>
+                    </a>
+                </li>
+
+                <li class="mobile-nav-item">
+                    <button class="mobile-dropdown-toggle">
+                        <div class="mobile-link-content">
+                            <i class="fas fa-info-circle"></i>
+                            <span>Giới thiệu</span>
+                        </div>
+                        <i class="fas fa-chevron-down mobile-chevron"></i>
+                    </button>
+                    <ul class="mobile-dropdown-menu">
+                        <li><a asp-controller="About" asp-action="Story">Câu chuyện thương hiệu</a></li>
+                        <li><a asp-controller="About" asp-action="Team">Đội ngũ</a></li>
+                        <li><a asp-controller="About" asp-action="Values">Giá trị cốt lõi</a></li>
+                    </ul>
+                </li>
+
+                <li class="mobile-nav-item">
+                    <button class="mobile-dropdown-toggle">
+                        <div class="mobile-link-content">
+                            <i class="fas fa-utensils"></i>
+                            <span>Thực đơn</span>
+                        </div>
+                        <i class="fas fa-chevron-down mobile-chevron"></i>
+                    </button>
+                    <ul class="mobile-dropdown-menu">
+                        <li><a asp-controller="Food" asp-action="Order" asp-route-category="com">Cơm</a></li>
+                        <li><a asp-controller="Food" asp-action="Order" asp-route-category="pho">Phở</a></li>
+                        <li><a asp-controller="Food" asp-action="Order" asp-route-category="banh-mi">Bánh mì</a></li>
+                        <li><a asp-controller="Food" asp-action="Order" asp-route-category="do-uong">Đồ uống</a></li>
+                        <li class="mobile-divider"></li>
+                        <li><a asp-controller="Food" asp-action="Order">Xem tất cả</a></li>
+                    </ul>
+                </li>
+
+                <li class="mobile-nav-item">
+                    <a asp-controller="News" asp-action="Index" class="mobile-nav-link">
+                        <i class="fas fa-newspaper"></i>
+                        <span>Tin tức</span>
+                    </a>
+                </li>
+
+                <li class="mobile-nav-item">
+                    <a asp-controller="Contact" asp-action="Index" class="mobile-nav-link">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>Liên hệ</span>
+                    </a>
+                </li>
+
+                <li class="mobile-nav-item">
+                    <a asp-controller="Cart" asp-action="Index" class="mobile-nav-link mobile-cart-link">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Đơn hàng</span>
+                        <span class="mobile-cart-count">6</span>
+                    </a>
+                </li>
+
+                <!-- Hiển thị thêm menu khi đã đăng nhập -->
+                @if (isLoggedIn)
+                {
+                    <li class="mobile-nav-item">
+                        <a asp-controller="Account" asp-action="Orders" class="mobile-nav-link">
+                            <i class="fas fa-shopping-bag"></i>
+                            <span>Đơn hàng của tôi</span>
+                        </a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="#" class="mobile-nav-link">
+                            <i class="fas fa-heart"></i>
+                            <span>Món yêu thích</span>
+                        </a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="#" class="mobile-nav-link">
+                            <i class="fas fa-cog"></i>
+                            <span>Cài đặt</span>
+                        </a>
+                    </li>
+                }
+            </ul>
+
+            <!-- Mobile Contact Info -->
+            <div class="mobile-contact-info">
+                <div class="mobile-contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>0123-456-789</span>
+                </div>
+                <div class="mobile-contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>info@foodorder.com</span>
+                </div>
+                <div class="mobile-contact-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Mở cửa: 6:00 - 22:00</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Main Content -->
     <main>
@@ -265,7 +442,10 @@
         </div>
     </footer>
 
+    <!-- Scripts -->
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/mobile-menu.js" asp-append-version="true"></script>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>

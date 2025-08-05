@@ -22,7 +22,6 @@ wwwroot\css\pages\Register.css
 wwwroot\css\pages\sales-dashboard.css
 wwwroot\css\pages\user-management.css
 wwwroot\css\pages\user-profile.css
-wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\Images\admin.jpg
 wwwroot\Images\admin1.jpg
@@ -78,6 +77,7 @@ wwwroot\js\admin.js
 wwwroot\js\create-order.js
 wwwroot\js\food-dashboard.js
 wwwroot\js\menu-page.js
+wwwroot\js\mobile-menu.js
 wwwroot\js\sales-dashboard.js
 wwwroot\js\site.js
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
@@ -137,3 +137,4 @@ wwwroot\lib\jquery\dist\jquery.js
 wwwroot\lib\jquery\dist\jquery.min.js
 wwwroot\lib\jquery\dist\jquery.min.map
 wwwroot\lib\jquery\LICENSE.txt
+wwwroot\css\site.css
