@@ -644,3 +644,84 @@
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     }
 }
+
+
+.ingredients-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Tăng min-width để chứa đủ nội dung */
+    gap: 16px; /* Tăng gap để thoáng hơn */
+    padding: 0;
+    margin: 0;
+}
+
+    .ingredients-list li {
+        display: flex;
+        align-items: center;
+        gap: 12px; /* Tăng gap giữa icon và text */
+        padding: 12px 16px; /* Tăng padding */
+        background: #f8f9fa;
+        border-radius: 8px;
+        border-left: 4px solid #28a745;
+        transition: all 0.2s ease;
+        min-height: 50px; /* Đảm bảo chiều cao tối thiểu */
+    }
+
+        .ingredients-list li:hover {
+            background: #e9ecef;
+            transform: translateX(4px);
+        }
+
+    .ingredients-list i {
+        color: #28a745;
+        font-size: 14px;
+        flex-shrink: 0; /* Không cho icon bị co lại */
+        width: 16px; /* Đặt width cố định cho icon */
+    }
+
+.ingredient-name {
+    flex: 1; /* Chiếm phần lớn không gian */
+    font-weight: 500;
+    color: #333;
+    line-height: 1.4;
+}
+
+.ingredient-weight {
+    font-weight: 600;
+    color: #e74c3c;
+    font-size: 14px;
+    background: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid #e9ecef;
+    white-space: nowrap; /* Không cho xuống dòng */
+    flex-shrink: 0; /* Không cho co lại */
+}
+
+/* Responsive cho ingredients list */
+@media (max-width: 768px) {
+    .ingredients-list {
+        grid-template-columns: 1fr; /* 1 cột trên mobile */
+        gap: 12px;
+    }
+
+        .ingredients-list li {
+            padding: 10px 14px;
+            gap: 10px;
+        }
+
+    .ingredient-weight {
+        font-size: 13px;
+        padding: 3px 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ingredients-list li {
+        flex-wrap: wrap; /* Cho phép xuống dòng trên màn hình rất nhỏ */
+    }
+
+    .ingredient-weight {
+        margin-left: 28px; /* Căn với text, không với icon */
+    }
+}

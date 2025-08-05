@@ -227,18 +227,20 @@
         margin-bottom: 50px;
     }
 
+/* Team Grid - Updated for 4 columns */
 .team-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(4, minmax(200px, 1fr));
+    gap: 20px;
 }
-
 .team-member {
     background: white;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     transition: transform 0.3s ease;
+    min-width: 0;
+    width: 100%; /* Đảm bảo full width */
 }
 
     .team-member:hover {
@@ -248,12 +250,14 @@
 .member-image {
     position: relative;
     overflow: hidden;
+    width: 100%;
 }
 
     .member-image img {
         width: 100%;
-        height: 250px;
+        height: 180px; /* Giảm thêm chiều cao */
         object-fit: cover;
+        display: block; /* Loại bỏ space dưới img */
     }
 
 .member-overlay {
@@ -276,12 +280,12 @@
 
 .social-links {
     display: flex;
-    gap: 15px;
+    gap: 8px; /* Giảm gap giữa social links */
 }
 
     .social-links a {
-        width: 40px;
-        height: 40px;
+        width: 32px;
+        height: 32px;
         background: white;
         border-radius: 50%;
         display: flex;
@@ -289,6 +293,7 @@
         justify-content: center;
         color: #e74c3c;
         transition: transform 0.2s ease;
+        font-size: 12px;
     }
 
         .social-links a:hover {
@@ -296,27 +301,112 @@
         }
 
 .member-info {
-    padding: 24px;
+    padding: 15px;
     text-align: center;
 }
-
     .member-info h3 {
         color: #333;
-        margin-bottom: 8px;
+        margin-bottom: 6px;
         font-weight: 600;
+        font-size: 1rem;
+        line-height: 1.2;
     }
 
 .position {
     color: #e74c3c;
     font-weight: 500;
-    margin-bottom: 16px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
 }
 
 .description {
     color: #666;
-    line-height: 1.6;
-    font-size: 14px;
+    line-height: 1.4;
+    font-size: 12px;
+    margin: 0;
 }
+
+
+/* Specific responsive breakpoints */
+@media (max-width: 1200px) {
+    .team-grid {
+        max-width: 1200px;
+        gap: 12px;
+    }
+
+    .member-image img {
+        height: 160px;
+    }
+
+    .member-info {
+        padding: 12px;
+    }
+
+    .description {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        max-width: 800px;
+    }
+
+    .member-image img {
+        height: 200px;
+    }
+
+    .member-info {
+        padding: 20px;
+    }
+
+        .member-info h3 {
+            font-size: 1.1rem;
+        }
+
+    .description {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 768px) {
+    .team-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        max-width: 400px;
+    }
+
+    .member-image img {
+        height: 240px;
+    }
+
+    .member-info {
+        padding: 24px;
+    }
+
+        .member-info h3 {
+            font-size: 1.2rem;
+        }
+
+    .description {
+        font-size: 14px;
+    }
+}
+
+/* Leadership section container */
+.leadership-section {
+    margin-bottom: 80px;
+    overflow-x: auto; /* Thêm scroll ngang nếu cần trên màn hình nhỏ */
+}
+
+    .leadership-section h2 {
+        text-align: center;
+        font-size: 2rem;
+        color: #333;
+        margin-bottom: 50px;
+    }
 
 /* Departments */
 .departments-grid {

@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
     <!-- CSS riêng cho từng trang -->
     @RenderSection("Styles", required: false)
 </head>
@@ -70,16 +69,7 @@
                         <a asp-controller="Food" asp-action="Order" class="nav-link dropdown-toggle">
                             <i class="fas fa-utensils"></i>
                             <span>Thực đơn</span>
-                            <i class="fas fa-chevron-down"></i>
                         </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Cơm</a></li>
-                            <li><a href="#">Phở</a></li>
-                            <li><a href="#">Bánh mì</a></li>
-                            <li><a href="#">Đồ uống</a></li>
-                            <li class="divider"></li>
-                            <li><a asp-controller="Food" asp-action="Order">Xem tất cả</a></li>
-                        </ul>
                     </li>
                     <li class="nav-item">
                         <a asp-controller="News" asp-action="Index" class="nav-link">
@@ -99,8 +89,8 @@
                 <div class="nav-actions">
                     <a asp-controller="Cart" asp-action="Index" class="cart-btn">
                         <i class="fas fa-shopping-cart"></i>
-                        <span class="cart-count">2</span>
-                        <span class="cart-text">Giỏ hàng</span>
+                        <span class="cart-count">6</span>
+                        <span class="cart-text">Đơn hàng</span>
                     </a>
 
                     @{
@@ -220,8 +210,8 @@
                         <ul class="footer-links">
                             <li><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
                             <li><a asp-controller="Food" asp-action="Order">Thực đơn</a></li>
-                            <li><a href="#">Giới thiệu</a></li>
-                            <li><a href="#">Liên hệ</a></li>
+                            <li><a asp-controller="About" asp-action="Story">Giới thiệu</a></li>
+                            <li><a asp-controller="Contact" asp-action="Index">Liên hệ</a></li>
                         </ul>
                     </div>
 

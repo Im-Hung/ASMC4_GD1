@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var userRole = Context.Session.GetString("UserRole");
+    var userName = Context.Session.GetString("Username");
+    var userAvatar = Context.Session.GetString("UserAvatar") ?? "~/Images/default-avatar.png";
+}
+
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="utf-8" />
@@ -18,7 +24,7 @@
         <div class="sidebar-header">
             <div class="admin-logo">
                 <img src="~/Images/Food-logo.jpg" alt="Logo">
-                <span>Admin Panel</span>
+                <span>Manage Panel</span>
             </div>
             <button class="sidebar-toggle" onclick="toggleSidebar()">
                 <i class="fas fa-bars"></i>
@@ -26,14 +32,17 @@
         </div>
 
         <nav class="sidebar-nav">
-            <!-- User Admin Menu -->
-            @if (Context.Request.Path.ToString().Contains("UserAdmin"))
+            <!-- User Admin Menu - Hiển thị cho Admin User và Admin IT -->
+            @if (userRole == "Admin User" || userRole == "Admin IT")
             {
                 <div class="nav-section">
-                    <span class="section-title">Quản lý User</span>
+                    <span class="section-title">
+                        <i class="fas fa-users"></i>
+                        Quản lý User
+                    </span>
                     <a asp-controller="UserAdmin" asp-action="Dashboard" class="nav-item">
                         <i class="fas fa-tachometer-alt"></i>
-                        <span>Dashboard</span>
+                        <span>Dashboard User</span>
                     </a>
                     <a asp-controller="UserAdmin" asp-action="UserManagement" class="nav-item">
                         <i class="fas fa-users"></i>
@@ -49,19 +58,22 @@
                     </a>
                     <a asp-controller="UserAdmin" asp-action="Reports" class="nav-item">
                         <i class="fas fa-chart-bar"></i>
-                        <span>Báo cáo</span>
+                        <span>Báo cáo User</span>
                     </a>
                 </div>
             }
 
-            <!-- Food Admin Menu -->
-            @if (Context.Request.Path.ToString().Contains("FoodAdmin"))
+            <!-- Food Admin Menu - Hiển thị cho Admin Food và Admin IT -->
+            @if (userRole == "Admin Food" || userRole == "Admin IT")
             {
                 <div class="nav-section">
-                    <span class="section-title">Quản lý Món ăn</span>
+                    <span class="section-title">
+                        <i class="fas fa-utensils"></i>
+                        Quản lý Món ăn
+                    </span>
                     <a asp-controller="FoodAdmin" asp-action="Dashboard" class="nav-item">
                         <i class="fas fa-tachometer-alt"></i>
-                        <span>Dashboard</span>
+                        <span>Dashboard Food</span>
                     </a>
                     <a asp-controller="FoodAdmin" asp-action="MenuManagement" class="nav-item">
                         <i class="fas fa-utensils"></i>
@@ -77,7 +89,22 @@
                     </a>
                     <a asp-controller="FoodAdmin" asp-action="Reports" class="nav-item">
                         <i class="fas fa-chart-line"></i>
-                        <span>Báo cáo bán hàng</span>
+                        <span>Báo cáo Food</span>
+                    </a>
+                </div>
+            }
+
+            <!-- Common Admin Functions - Hiển thị cho tất cả admin -->
+            @if (userRole == "Admin User" || userRole == "Admin Food" || userRole == "Admin IT")
+            {
+                <div class="nav-section">
+                    <span class="section-title">
+                        <i class="fas fa-cog"></i>
+                        Hệ thống
+                    </span>
+                    <a asp-controller="Home" asp-action="Index" class="nav-item">
+                        <i class="fas fa-home"></i>
+                        <span>Trang chủ</span>
                     </a>
                 </div>
             }
@@ -85,10 +112,10 @@
 
         <div class="sidebar-footer">
             <div class="admin-profile">
-                <img src="~/Images/admin1.jpg" alt="Admin">
+                <img src="@userAvatar" alt="Admin Avatar">
                 <div class="profile-info">
-                    <span class="admin-name">Admin</span>
-                    <span class="admin-role">Quản trị viên</span>
+                    <span class="admin-name">@userName</span>
+                    <span class="admin-role">@userRole</span>
                 </div>
             </div>
         </div>
@@ -115,8 +142,8 @@
 
                 <div class="admin-dropdown">
                     <button class="dropdown-toggle">
-                        <img src="~/Images/admin1.jpg" alt="Admin">
-                        <span>Admin</span>
+                        <img src="@userAvatar" alt="Admin Avatar">
+                        <span>@userName</span>
                         <i class="fas fa-chevron-down"></i>
                     </button>
                     <div class="dropdown-menu">
@@ -133,7 +160,7 @@
                             <i class="fas fa-home"></i>
                             Về trang chủ
                         </a>
-                        <a asp-controller="Account" asp-action="Login" class="dropdown-item">
+                        <a asp-controller="Account" asp-action="Logout" class="dropdown-item">
                             <i class="fas fa-sign-out-alt"></i>
                             Đăng xuất
                         </a>

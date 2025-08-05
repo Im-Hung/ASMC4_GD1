@@ -11,7 +11,7 @@ namespace Asm_GD1.Controllers
         public IActionResult Reviews() => View();
         public IActionResult Settings() => View();
 
-        // Dữ liệu mâu cho đăng nhập
+        // Dữ liệu mẫu cho đăng nhập
         [HttpPost]
         public IActionResult Login(string username, string password, bool rememberMe = false)
         {
@@ -25,16 +25,27 @@ namespace Asm_GD1.Controllers
             // Phân quyền dựa trên username
             switch (username.ToLower())
             {
+                case "adminit":
+                    if (password == "adminit")
+                    {
+                        HttpContext.Session.SetString("IsLoggedIn", "true");
+                        HttpContext.Session.SetString("Username", username);
+                        HttpContext.Session.SetString("UserRole", "Admin IT");
+                        HttpContext.Session.SetString("UserAvatar", "/Images/adminit.png");
+                        ViewBag.SuccessMessage = "Đăng nhập thành công với quyền Admin IT";
+                        ViewBag.RedirectUrl = Url.Action("Dashboard", "UserAdmin");
+                        return View();
+                    }
+                    break;
+
                 case "admin":
                     if (password == "admin")
                     {
-                        // Set session cho user đã đăng nhập
                         HttpContext.Session.SetString("IsLoggedIn", "true");
                         HttpContext.Session.SetString("Username", username);
                         HttpContext.Session.SetString("UserRole", "Admin User");
                         HttpContext.Session.SetString("UserAvatar", "/Images/admin.jpg");
-
-                        ViewBag.SuccessMessage = "Đăng nhập thành công với quyền Admin User";
+                        ViewBag.SuccessMessage = "Đăng nhập thành công với quyền quản lý người dùng";
                         ViewBag.RedirectUrl = Url.Action("Dashboard", "UserAdmin");
                         return View();
                     }
@@ -47,9 +58,48 @@ namespace Asm_GD1.Controllers
                         HttpContext.Session.SetString("Username", username);
                         HttpContext.Session.SetString("UserRole", "Admin Food");
                         HttpContext.Session.SetString("UserAvatar", "/Images/admin1.jpg");
-
-                        ViewBag.SuccessMessage = "Đăng nhập thành công với quyền Admin Food";
+                        ViewBag.SuccessMessage = "Đăng nhập thành công với quyền quản lý đồ ăn";
                         ViewBag.RedirectUrl = Url.Action("Dashboard", "FoodAdmin");
+                        return View();
+                    }
+                    break;
+
+                // Thêm quyền nhân viên bán hàng
+                case "staff":
+                    if (password == "staff")
+                    {
+                        HttpContext.Session.SetString("IsLoggedIn", "true");
+                        HttpContext.Session.SetString("Username", username);
+                        HttpContext.Session.SetString("UserRole", "Nhân viên bán hàng");
+                        HttpContext.Session.SetString("UserAvatar", "/Images/admin1.jpg");
+                        ViewBag.SuccessMessage = "Đăng nhập thành công với quyền nhân viên bán hàng";
+                        ViewBag.RedirectUrl = Url.Action("Dashboard", "SalesStaff");
+                        return View();
+                    }
+                    break;
+
+                case "employee1":
+                    if (password == "123456")
+                    {
+                        HttpContext.Session.SetString("IsLoggedIn", "true");
+                        HttpContext.Session.SetString("Username", username);
+                        HttpContext.Session.SetString("UserRole", "Nhân viên bán hàng");
+                        HttpContext.Session.SetString("UserAvatar", "/Images/admin1.jpg");
+                        ViewBag.SuccessMessage = "Đăng nhập thành công - Nguyễn Văn A";
+                        ViewBag.RedirectUrl = Url.Action("Dashboard", "SalesStaff");
+                        return View();
+                    }
+                    break;
+
+                case "employee2":
+                    if (password == "123456")
+                    {
+                        HttpContext.Session.SetString("IsLoggedIn", "true");
+                        HttpContext.Session.SetString("Username", username);
+                        HttpContext.Session.SetString("UserRole", "Nhân viên bán hàng");
+                        HttpContext.Session.SetString("UserAvatar", "/Images/admin.jpg");
+                        ViewBag.SuccessMessage = "Đăng nhập thành công - Trần Thị B";
+                        ViewBag.RedirectUrl = Url.Action("Dashboard", "SalesStaff");
                         return View();
                     }
                     break;
@@ -61,7 +111,6 @@ namespace Asm_GD1.Controllers
                         HttpContext.Session.SetString("Username", username);
                         HttpContext.Session.SetString("UserRole", "Khách hàng");
                         HttpContext.Session.SetString("UserAvatar", "/Images/user.jpg");
-
                         ViewBag.SuccessMessage = $"Chào mừng {username} đến với FoodOrder!";
                         ViewBag.RedirectUrl = Url.Action("Profile", "Account");
                         return View();
@@ -74,8 +123,7 @@ namespace Asm_GD1.Controllers
                         HttpContext.Session.SetString("IsLoggedIn", "true");
                         HttpContext.Session.SetString("Username", username);
                         HttpContext.Session.SetString("UserRole", "Khách hàng");
-                        HttpContext.Session.SetString("UserAvatar", "/Images/default-avatar.png");
-
+                        HttpContext.Session.SetString("UserAvatar", "/Images/user.jpg");
                         ViewBag.SuccessMessage = $"Chào mừng {username} đến với FoodOrder!";
                         ViewBag.RedirectUrl = Url.Action("Profile", "Account");
                         return View();
@@ -92,10 +140,8 @@ namespace Asm_GD1.Controllers
         {
             // Clear session
             HttpContext.Session.Clear();
-
             TempData["LogoutSuccess"] = "Đã đăng xuất thành công";
             return RedirectToAction("Index", "Home");
         }
-
     }
 }
