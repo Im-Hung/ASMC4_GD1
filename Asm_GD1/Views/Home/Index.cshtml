@@ -1,0 +1,205 @@
+﻿@{
+    ViewData["Title"] = "Trang chủ";
+}
+@model Asm_GD1.Models.ProductViewModel
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/home.css" />
+}
+
+<section class="hero">
+    <img src="~/Images/banner1.jpg" alt="Banner khuyến mãi" />
+    <div class="hero-content">
+        <h1>Đặt đồ ăn ngon - Giao hàng nhanh</h1>
+        <p>Thưởng thức những món ăn tuyệt vời từ chúng tôi</p>
+    </div>
+</section>
+
+<section class="highlights">
+    <div class="container">
+        <h2>Món nổi bật</h2>
+        <div class="food-grid">
+            @foreach (var product in Model.Product)
+            {
+                <div class="food-card">
+                    <div class="food-image">
+                        <img src="@Url.Content(product.ImageUrl)" alt="@product.Name">
+                        @if (product.DiscountPercent > 0)
+                        {
+                            <div class="discount-badge">-@product.DiscountPercent%</div>
+                        }
+                    </div>
+                    <div class="food-info">
+                        <h3>@product.Name</h3>
+                        <p>@product.Description</p>
+                        <div class="rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="rating-text">(4.8)</span>
+                        </div>
+                        <div class="price-section">
+                            @if (product.DiscountPrice > 0)
+                            {
+                                <span class="old-price">@product.BasePrice.ToString("N0") VNĐ</span>
+                                <span class="price">
+                                    @((product.BasePrice * (100 - product.DiscountPercent) / 100).ToString("N0")) VNĐ
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="price">@product.BasePrice.ToString("N0") VNĐ</span>
+                            }
+                        </div>
+                        <div class="card-actions">
+                            <button type="button" class="btn-detail" onclick="viewDetail(@product.ProductID)">
+                                Xem chi tiết
+                            </button>
+
+                            <form asp-controller="Food" asp-action="Detail" method="get" asp-route-id="@product?.ProductID">
+                                <button type="submit" class="btn-order">Đặt món</button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            }
+            <!-- Món 1 -->
+            <div class="food-card">
+                <div class="food-image">
+                    <img src="~/Images/com-tam.jpg" alt="Cơm tấm sườn nướng">
+                    <div class="discount-badge">-15%</div>
+                </div>
+                <div class="food-info">
+                    <h3>Cơm tấm sườn nướng</h3>
+                    <p>Cơm tấm thơm ngon với sườn nướng BBQ, chả trứng và bì</p>
+                    <div class="rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="rating-text">(4.8)</span>
+                    </div>
+                    <div class="price-section">
+                        <span class="old-price">55,000 VNĐ</span>
+                        <span class="price">45,000 VNĐ</span>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-detail" onclick="viewDetail(1)">Xem chi tiết</button>
+                        <button class="btn-order" onclick="addToCart(1)">Đặt món</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Món 2 -->
+            <div class="food-card">
+                <div class="food-image">
+                    <img src="~/Images/pho-bo.jpg" alt="Phở bò tái">
+                    <div class="hot-badge">HOT</div>
+                </div>
+                <div class="food-info">
+                    <h3>Phở bò tái</h3>
+                    <p>Phở bò truyền thống với thịt tái tươi ngon, nước dùng đậm đà</p>
+                    <div class="rating">
+                        <span class="stars">★★★★☆</span>
+                        <span class="rating-text">(4.5)</span>
+                    </div>
+                    <div class="price-section">
+                        <span class="price">65,000 VNĐ</span>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-detail" onclick="viewDetail(2)">Xem chi tiết</button>
+                        <button class="btn-order" onclick="addToCart(2)">Đặt món</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Món 3 -->
+            <div class="food-card">
+                <div class="food-image">
+                    <img src="~/Images/banh-mi-thit-nuong.jpg" alt="Bánh mì thịt nướng">
+                    <div class="new-badge">MỚI</div>
+                </div>
+                <div class="food-info">
+                    <h3>Bánh mì thịt nướng</h3>
+                    <p>Bánh mì Việt Nam với thịt nướng thơm lừng, rau thơm tươi</p>
+                    <div class="rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="rating-text">(4.7)</span>
+                    </div>
+                    <div class="price-section">
+                        <span class="price">25,000 VNĐ</span>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-detail" onclick="viewDetail(3)">Xem chi tiết</button>
+                        <button class="btn-order" onclick="addToCart(3)">Đặt món</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Món 4 -->
+            <div class="food-card">
+                <div class="food-image">
+                    <img src="~/Images/bun-bo.jpg" alt="Bún bò Huế">
+                </div>
+                <div class="food-info">
+                    <h3>Bún bò Huế</h3>
+                    <p>Bún bò Huế cay nồng đặc trưng, chả cua, giò heo</p>
+                    <div class="rating">
+                        <span class="stars">★★★★☆</span>
+                        <span class="rating-text">(4.3)</span>
+                    </div>
+                    <div class="price-section">
+                        <span class="price">58,000 VNĐ</span>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-detail" onclick="viewDetail(4)">Xem chi tiết</button>
+                        <button class="btn-order" onclick="addToCart(4)">Đặt món</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Món 5 -->
+            <div class="food-card">
+                <div class="food-image">
+                    <img src="~/Images/com-ga.jpg" alt="Cơm gà nướng">
+                </div>
+                <div class="food-info">
+                    <h3>Cơm gà nướng</h3>
+                    <p>Cơm gà nướng mật ong thơm phức, kèm rau củ tươi ngon</p>
+                    <div class="rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="rating-text">(4.6)</span>
+                    </div>
+                    <div class="price-section">
+                        <span class="price">52,000 VNĐ</span>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-detail" onclick="viewDetail(5)">Xem chi tiết</button>
+                        <button class="btn-order" onclick="addToCart(5)">Đặt món</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Món 6 -->
+            <div class="food-card">
+                <div class="food-image">
+                    <img src="~/Images/hu-tieu-nam-vang.jpg" alt="Hủ tiếu Nam Vang">
+                </div>
+                <div class="food-info">
+                    <h3>Hủ tiếu Nam Vang</h3>
+                    <p>Hủ tiếu Nam Vang truyền thống với tôm, thịt, gan, tim</p>
+                    <div class="rating">
+                        <span class="stars">★★★★☆</span>
+                        <span class="rating-text">(4.4)</span>
+                    </div>
+                    <div class="price-section">
+                        <span class="price">48,000 VNĐ</span>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-detail" onclick="viewDetail(6)">Xem chi tiết</button>
+                        <button class="btn-order" onclick="addToCart(6)">Đặt món</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="view-all">
+            <a asp-controller="Food" asp-action="Order" class="btn-view-all">Xem tất cả món ăn</a>
+        </div>
+    </div>
+</section>
