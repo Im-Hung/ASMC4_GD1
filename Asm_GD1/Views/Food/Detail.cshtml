@@ -9,6 +9,9 @@
             ? product.BasePrice * (100 - product.DiscountPercent) / 100
             : product.BasePrice);
 
+    var defaultSize = Model.Sizes.FirstOrDefault(s => s.ExtraPrice == 0) ?? Model.Sizes.First();
+    var defaultSizeId = defaultSize.SizeID;
+
     var defaultSizeExtra = Model.Sizes.FirstOrDefault(s => s.ExtraPrice == 0)?.ExtraPrice ?? 0;
     var defaultToppingExtra = 0;
     var defaultQty = 1;
@@ -82,21 +85,17 @@
                         <div class="food-options">
                             <div class="option-group">
                                 <h4>Kích thước</h4>
+                                <input type="hidden" name="sizeId" id="sizeId" value="@defaultSizeId" />
                                 <div class="option-buttons">
                                     @foreach (var s in Model.Sizes)
                                     {
-                                        var isDefault = s.ExtraPrice == 0;
-                                        var sid = $"size-{s.SizeID}";
-                                        <input type="radio"
-                                               id="@sid"
-                                               name="sizeId"
-                                               value="@s.SizeID"
-                                               data-extra="@s.ExtraPrice"
-                                               data-price="@(product?.BasePrice + s.ExtraPrice)"
-                                               hidden />
-                                        <label for="@sid" class="option-btn" @(isDefault ? "active" : "") data-extra="@s.ExtraPrice">
+                                        var isActive = s.SizeID == defaultSizeId ? "active" : "";
+                                        <button type="button"
+                                                class="option-btn @isActive"
+                                                data-size-id="@s.SizeID"
+                                                data-extra="@s.ExtraPrice">
                                             @s.SizeName @($"(+{s.ExtraPrice:N0} VNĐ)")
-                                        </label>
+                                        </button>
                                     }
                                 </div>
                             </div>
@@ -271,11 +270,11 @@
 </div>
 
 <script>
-    const basePrice = @basePrice; // Giá cơ bản từ Razor
+    const basePrice = @basePrice;
 
     function updateTotalPrice() {
         // Lấy giá extra của size
-        const selectedSize = document.querySelector('input[name="sizeId"]:checked');
+        const selectedSize = document.querySelector('.option-buttons .option-btn.active');
         const sizeExtra = selectedSize ? parseInt(selectedSize.dataset.extra) : 0;
 
         // Lấy giá extra của tất cả topping đã chọn

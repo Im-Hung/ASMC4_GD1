@@ -517,4 +517,5 @@ C:\Users\PC\Documents\Tin Học\NET1041\Bài Lab\SD21203\ASMC4_GD1-main\Asm_GD1\
 C:\Users\PC\Documents\Tin Học\NET1041\Bài Lab\SD21203\ASMC4_GD1-main\Asm_GD1\obj\Debug\net8.0\Asm_GD1.pdb
 C:\Users\PC\Documents\Tin Học\NET1041\Bài Lab\SD21203\ASMC4_GD1-main\Asm_GD1\obj\Debug\net8.0\Asm_GD1.genruntimeconfig.cache
 C:\Users\PC\Documents\Tin Học\NET1041\Bài Lab\SD21203\ASMC4_GD1-main\Asm_GD1\obj\Debug\net8.0\ref\Asm_GD1.dll
+C:\Users\PC\Documents\Tin Học\NET1041\Bài Lab\SD21203\ASMC4_GD1-main\Asm_GD1\obj\Debug\net8.0\Asm_GD1.sourcelink.json
 C:\Users\PC\Documents\Tin Học\NET1041\Bài Lab\SD21203\ASMC4_GD1-main\Asm_GD1\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
