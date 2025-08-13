@@ -6,30 +6,42 @@ using Newtonsoft.Json;
 
 namespace Asm_GD1.Controllers
 {
-    public class CartController : Controller
+    public class CartController : BaseController
     {
-        private readonly AppDbContext _context;
-        private const string CART_KEY = "cart";
-        public CartController(AppDbContext context)
+
+        public CartController(AppDbContext context) : base(context)
         {
-            _context = context;
+
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var cart = GetCart();
-            return View(cart);
-        }
+            if (!User.Identity?.IsAuthenticated ?? true)
+            {
+                TempData["ErrorMessage"] = "Bạn cần đăng nhập để xem giỏ hàng.";
+                return RedirectToAction("Login", "Account");
+            }
 
+            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+            var cart = await GetCartAsync(userId);
+            return View(cart.CartItems);
+        }
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddToCart(
+        public async Task<IActionResult> AddToCart(
         int id,
         int? sizeId,
         [FromForm] int[]? toppingIds,
         int quantity,
         string? note = null)
         {
+            if (!User.Identity?.IsAuthenticated ?? true)
+            {
+                TempData["ErrorMessage"] = "Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng.";
+                return RedirectToAction("Login", "Account");
+            }
+
             quantity = Math.Clamp(quantity, 1, 10);
 
             var product = _context.Products
@@ -57,9 +69,10 @@ namespace Asm_GD1.Controllers
             string toppingIdsCsv = toppings.Count > 0 ? string.Join(",", toppings.Select(t => t.ToppingID)) : "";
             string toppingNames = toppings.Count > 0 ? string.Join(", ", toppings.Select(t => t.ToppingName)) : "";
 
-            var cart = GetCart();
+            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+            var cart = await GetCartAsync(userId);
 
-            var sameItem = cart.FirstOrDefault(i =>
+            var sameItem = cart.CartItems.FirstOrDefault(i =>
                 i.ProductID == id
                 && i.SizeID == (size?.SizeID ?? 0)
                 && (i.ToppingID ?? 0) == toppingIdsCsv.FirstOrDefault()
@@ -84,7 +97,7 @@ namespace Asm_GD1.Controllers
                     Quantity = quantity,
                     TotalPrice = unitPrice * quantity
                 };
-                cart.Add(newItem);
+                cart.CartItems.Add(newItem);
             }
             else
             {
@@ -92,46 +105,52 @@ namespace Asm_GD1.Controllers
                 sameItem.TotalPrice = sameItem.UnitPrice * sameItem.Quantity;
             }
 
-            SaveCart(cart);
+            await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Home");
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult RemoveFromCart(int productId, int? sizeId, int? toppingId)
+        public async Task<IActionResult> RemoveFromCart(int productId, int? sizeId, int? toppingId)
         {
-            var cart = GetCart();
-            var item = cart.FirstOrDefault(i => i.ProductID == productId
+            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+            var cart = await GetCartAsync(userId);
+            var item = cart.CartItems.FirstOrDefault(i => i.ProductID == productId
                                              && i.SizeID == sizeId
                                              && i.ToppingID == toppingId);
             if (item != null)
             {
-                cart.Remove(item);
-                SaveCart(cart);
+                cart.CartItems.Remove(item);
+                await _context.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ClearCart()
+        public async Task<IActionResult> ClearCart()
         {
-            // Cách 1: xóa hẳn key trong session
-            HttpContext.Session.Remove(CART_KEY);
+            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+            var cart = await GetCartAsync(userId);
 
-            // Hoặc cách 2:
-            // SaveCart(new List<CartItem>());
+            if (cart.CartItems.Any())
+            {
+                _context.CartItems.RemoveRange(cart.CartItems);
+                cart.UpdatedAt = DateTime.UtcNow;
+                await _context.SaveChangesAsync();
+            }
 
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ChangeQuantity(int productId, int? sizeId, int? toppingId, int delta)
+        public async Task<IActionResult> ChangeQuantity(int productId, int? sizeId, int? toppingId, int delta)
         {
-            var cart = GetCart();
-            var item = cart.FirstOrDefault(i => i.ProductID == productId
+            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+            var cart = await GetCartAsync(userId);
+            var item = cart.CartItems.FirstOrDefault(i => i.ProductID == productId
                                              && i.SizeID == sizeId
                                              && i.ToppingID == toppingId);
             if (item == null) return NotFound();
@@ -139,22 +158,8 @@ namespace Asm_GD1.Controllers
             item.Quantity = Math.Clamp(item.Quantity + delta, 1, 10);
             item.TotalPrice = item.UnitPrice * item.Quantity;
 
-            SaveCart(cart);
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private List<CartItem> GetCart()
-        {
-            var sessionData = HttpContext.Session.GetString(CART_KEY);
-            if (string.IsNullOrEmpty(sessionData))
-                return new List<CartItem>();
-            return JsonConvert.DeserializeObject<List<CartItem>>(sessionData) ?? new List<CartItem>();
-        }
-
-        private void SaveCart(List<CartItem> cart)
-        {
-            var jsonData = JsonConvert.SerializeObject(cart);
-            HttpContext.Session.SetString(CART_KEY, jsonData);
         }
     }
 }

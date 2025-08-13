@@ -1,7 +1,9 @@
-﻿@{
+﻿@model Asm_GD1.Models.ProductViewModel
+@{
     ViewData["Title"] = "Trang chủ";
+    var defaultSize = Model.Sizes?.FirstOrDefault(s => s.ExtraPrice == 0) ?? Model.Sizes?.FirstOrDefault();
+    var defaultSizeId = defaultSize?.SizeID;
 }
-@model Asm_GD1.Models.ProductViewModel
 @section Styles {
     <link rel="stylesheet" href="~/css/pages/home.css" />
 }
@@ -53,7 +55,9 @@
                                 Xem chi tiết
                             </button>
 
-                            <form asp-controller="Food" asp-action="Detail" method="get" asp-route-id="@product?.ProductID">
+                            <form asp-controller="Cart" asp-action="AddToCart" method="post" asp-route-id="@product?.ProductID">
+                                <input type="hidden" name="sizeId" id="sizeId" value="@defaultSizeId" />
+                                <input type="hidden" name="quantity" value="1" min="1" max="10" />
                                 <button type="submit" class="btn-order">Đặt món</button>
                             </form>
                         </div>

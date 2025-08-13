@@ -9,13 +9,11 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Asm_GD1.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
-        private readonly AppDbContext _context;
-
-        public AccountController(AppDbContext context)
+        public AccountController(AppDbContext context) : base(context)
         {
-            _context = context;
+
         }
 
         public IActionResult Login() => View();
@@ -94,6 +92,9 @@ namespace Asm_GD1.Controllers
                         new ClaimsPrincipal(claimsIdentity),
                         authProperties);
 
+                    var cart = await GetOrCreateActiveCartAsync(account.Id);
+                    SetCartIdToSession(cart.CartID);
+
                     TempData["SuccessMessage"] = $"Đăng nhập thành công với quyền: {account.Role}";
 
                     switch ((account.Role?.ToLowerInvariant()) ?? "")
@@ -119,6 +120,7 @@ namespace Asm_GD1.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.Session.Remove(SessionCartIdKey);
             return RedirectToAction("Login");
         }
     }

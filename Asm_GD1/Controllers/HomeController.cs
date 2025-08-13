@@ -16,11 +16,13 @@ namespace Asm_GD1.Controllers
         }
         public IActionResult Index()
         {
-            var products = _context.Products.ToList();
-
+            var products = _context.Products.AsNoTracking().ToList();
+            var sizes = _context.ProductSizes.AsNoTracking().OrderBy(s => s.ExtraPrice).ToList();
+                
             var vm = new ProductViewModel
             {
-                Product = products
+                Product = products,
+                Sizes = sizes,
             };
 
             return View(vm);

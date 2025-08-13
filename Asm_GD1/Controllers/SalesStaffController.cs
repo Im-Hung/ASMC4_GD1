@@ -3,26 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Asm_GD1.Controllers
 {
-    //[Authorize(Roles = "staff,employee1,employee2")]
-    [Authorize]
+    [Authorize(Roles = "staff,employee1,employee2")]
     public class SalesStaffController : Controller
     {
-        // Kiểm tra quyền trước khi truy cập
-        private bool CheckStaffPermission()
-        {
-            var userRole = HttpContext.Session.GetString("UserRole");
-            return userRole == "Nhân viên bán hàng";
-        }
-
         // Dashboard chính của nhân viên bán hàng
         public IActionResult Dashboard()
         {
-            if (!CheckStaffPermission())
-            {
-                TempData["Error"] = "Bạn không có quyền truy cập trang này";
-                return RedirectToAction("Login", "Account");
-            }
-
             // Dữ liệu mẫu cho dashboard
             ViewBag.TodayOrders = 15;
             ViewBag.TodayRevenue = 2850000;
@@ -71,12 +57,6 @@ namespace Asm_GD1.Controllers
         // Trang tạo đơn hàng mới
         public IActionResult CreateOrder()
         {
-            if (!CheckStaffPermission())
-            {
-                TempData["Error"] = "Bạn không có quyền truy cập trang này";
-                return RedirectToAction("Login", "Account");
-            }
-
             // Menu items mẫu (như KFC)
             var menuItems = new List<dynamic>
     {
@@ -132,11 +112,6 @@ namespace Asm_GD1.Controllers
         [HttpPost]
         public IActionResult CreateOrder(string customerName, string customerPhone, string customerAddress, string orderItems, decimal totalAmount)
         {
-            if (!CheckStaffPermission())
-            {
-                return Json(new { success = false, message = "Không có quyền truy cập" });
-            }
-
             // Validate dữ liệu
             if (string.IsNullOrEmpty(customerName) || string.IsNullOrEmpty(customerPhone) || totalAmount <= 0)
             {
