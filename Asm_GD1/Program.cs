@@ -58,7 +58,7 @@ using (var scope = app.Services.CreateScope())
             CreatedAt = DateTime.Now,
             UpdatedAt = DateTime.Now
         };
-        adminit.Password = hasher.HashPassword(adminit, "adminit");
+        adminit.Password = hasher.HashPassword(adminit, "adminit@gmail.com");
 
         var admin = new Account
         {
@@ -68,7 +68,7 @@ using (var scope = app.Services.CreateScope())
             CreatedAt = DateTime.Now,
             UpdatedAt = DateTime.Now
         };
-        admin.Password = hasher.HashPassword(admin, "admin");
+        admin.Password = hasher.HashPassword(admin, "admin@gmail.com");
 
         var admin1 = new Account
         {
@@ -78,7 +78,7 @@ using (var scope = app.Services.CreateScope())
             CreatedAt = DateTime.Now,
             UpdatedAt = DateTime.Now
         };
-        admin1.Password = hasher.HashPassword(admin1, "admin1");
+        admin1.Password = hasher.HashPassword(admin1, "admin1@gmail.com");
 
         var staff = new Account
         {
@@ -88,7 +88,7 @@ using (var scope = app.Services.CreateScope())
             CreatedAt = DateTime.Now,
             UpdatedAt = DateTime.Now
         };
-        staff.Password = hasher.HashPassword(staff, "staff");
+        staff.Password = hasher.HashPassword(staff, "staff@gmail.com");
 
         var user = new Account
         {
@@ -98,7 +98,7 @@ using (var scope = app.Services.CreateScope())
             CreatedAt = DateTime.Now,
             UpdatedAt = DateTime.Now
         };
-        user.Password = hasher.HashPassword(user, "user");
+        user.Password = hasher.HashPassword(user, "user@gmail.com");
 
         context.Accounts.AddRange(adminit, admin, admin1, staff, user);
         context.SaveChanges();

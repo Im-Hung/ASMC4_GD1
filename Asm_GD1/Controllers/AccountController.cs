@@ -101,10 +101,11 @@ namespace Asm_GD1.Controllers
                         case "adminit":
                         case "admin":
                         case "admin1":
+                            return RedirectToAction("Dashboard", "FoodAdmin");
                         case "staff":
                         case "employee1":
                         case "employee2":
-                            return RedirectToAction("Dashboard", "FoodAdmin");
+                            return RedirectToAction("Dashboard", "SalesStaff");
                         default:
                             return RedirectToAction("Index", "Home");
                     }

@@ -272,26 +272,30 @@
 <script>
     const basePrice = @basePrice;
 
-    function updateTotalPrice() {
-        // Lấy giá extra của size
-        const selectedSize = document.querySelector('.option-buttons .option-btn.active');
-        const sizeExtra = selectedSize ? parseInt(selectedSize.dataset.extra) : 0;
+    const toInt = (v) => {
+        const n = parseInt(v, 10);
+        return Number.isNaN(n) ? 0 : n;
+    };
 
-        // Lấy giá extra của tất cả topping đã chọn
-        const selectedToppings = document.querySelectorAll('input[name="toppingIds"]:checked');
+    function updateTotalPrice() {
+        // Lấy nút size đang active
+        const activeSizeBtn = document.querySelector('.option-buttons .option-btn.active');
+        const sizeExtra = activeSizeBtn ? toInt(activeSizeBtn.dataset.extra) : 0;
+
+        // Cộng topping
         let toppingExtra = 0;
-        selectedToppings.forEach(t => {
-            toppingExtra += parseInt(t.dataset.extra);
+        document.querySelectorAll('input[name="toppingIds"]:checked').forEach(t => {
+            toppingExtra += toInt(t.dataset.extra);
         });
 
-        // Lấy số lượng
-        const qty = parseInt(document.getElementById('quantity').value) || 1;
+        // Số lượng
+        const qty = toInt(document.getElementById('quantity').value) || 1;
 
         // Tính tổng
         const total = (basePrice + sizeExtra + toppingExtra) * qty;
 
         // Cập nhật hiển thị
-        document.getElementById('totalPrice').textContent = total.toLocaleString('vi-VN') + " VNĐ";
+        document.getElementById('totalPrice').textContent = total.toLocaleString('vi-VN') + ' VNĐ';
     }
 
     function changeQuantity(change) {
@@ -310,9 +314,20 @@
     }
 
     // Lắng nghe sự kiện thay đổi size, topping
-    document.querySelectorAll('input[name="sizeId"]').forEach(radio => {
-        radio.addEventListener('change', updateTotalPrice);
+    document.querySelector('.option-buttons').addEventListener('click', (e) => {
+        const btn = e.target.closest('.option-btn');
+        if (!btn) return;
+
+        // Bỏ active cũ, set active mới
+        document.querySelectorAll('.option-buttons .option-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Set hidden để submit về server
+        document.getElementById('sizeId').value = btn.dataset.sizeId;
+
+        updateTotalPrice();
     });
+
     document.querySelectorAll('input[name="toppingIds"]').forEach(checkbox => {
         checkbox.addEventListener('change', updateTotalPrice);
     });
