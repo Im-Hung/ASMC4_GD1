@@ -1,5 +1,6 @@
 ﻿using Asm_GD1.Data;
 using Asm_GD1.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -21,6 +22,7 @@ namespace Asm_GD1.Controllers
             return View(cart);
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddToCart(

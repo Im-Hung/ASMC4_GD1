@@ -117,7 +117,15 @@ namespace Asm_GD1.Controllers
 
         public async Task<IActionResult> Logout()
         {
+            // Xóa session giỏ hàng
+            HttpContext.Session.Remove("cart"); // "cart" là CART_KEY bên CartController
+
+            // Xóa toàn bộ session (nếu muốn)
+            // HttpContext.Session.Clear();
+
+            // Đăng xuất người dùng
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
             return RedirectToAction("Login");
         }
     }
