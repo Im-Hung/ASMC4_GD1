@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Asm_GD1.Controllers
 {
+    //[Authorize(Roles = "staff,employee1,employee2")]
+    [Authorize]
     public class SalesStaffController : Controller
     {
         // Kiểm tra quyền trước khi truy cập
