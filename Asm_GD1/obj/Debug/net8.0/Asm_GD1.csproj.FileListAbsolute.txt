@@ -520,6 +520,7 @@ C:\Users\PC\Documents\Tin Học\NET1041\Bài Lab\SD21203\ASMC4_GD1-main\Asm_GD1\
 C:\Users\PC\Documents\Tin Học\NET1041\Bài Lab\SD21203\ASMC4_GD1-main\Asm_GD1\obj\Debug\net8.0\Asm_GD1.genruntimeconfig.cache
 C:\Users\PC\Documents\Tin Học\NET1041\Bài Lab\SD21203\ASMC4_GD1-main\Asm_GD1\obj\Debug\net8.0\ref\Asm_GD1.dll
 <<<<<<< HEAD
+<<<<<<< HEAD
 C:\Users\PC\Documents\Tin Học\NET1041\Bài Lab\SD21203\ASMC4_GD1-main\Asm_GD1\obj\Debug\net8.0\Asm_GD1.sourcelink.json
 C:\Users\PC\Documents\Tin Học\NET1041\Bài Lab\SD21203\ASMC4_GD1-main\Asm_GD1\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 D:\SUMMER2025\NET1041 - Lập trình C#4\Assignment\Source\Repos\ASMC4_GD1\Asm_GD1\bin\Debug\net8.0\appsettings.Development.json
@@ -811,5 +812,7 @@ D:\SUMMER2025\NET1041 - Lập trình C#4\Assignment\Source\Repos\ASMC4_GD1\Asm_G
 D:\SUMMER2025\NET1041 - Lập trình C#4\Assignment\Source\Repos\ASMC4_GD1\Asm_GD1\obj\Debug\net8.0\Asm_GD1.pdb
 D:\SUMMER2025\NET1041 - Lập trình C#4\Assignment\Source\Repos\ASMC4_GD1\Asm_GD1\obj\Debug\net8.0\Asm_GD1.genruntimeconfig.cache
 D:\SUMMER2025\NET1041 - Lập trình C#4\Assignment\Source\Repos\ASMC4_GD1\Asm_GD1\obj\Debug\net8.0\ref\Asm_GD1.dll
+=======
+>>>>>>> f8ab15c8e7d4b69d9a906cca36a028520888994f
 =======
 >>>>>>> f8ab15c8e7d4b69d9a906cca36a028520888994f
