@@ -588,3 +588,27 @@ document.addEventListener('keydown', function (e) {
         document.getElementById('menuSearchInput').focus();
     }
 });
+
+function addSize() {
+    const container = document.getElementById('size-list');
+    const div = document.createElement('div');
+    div.className = 'form-row mb-2';
+    div.innerHTML = `
+        <input type="text" name="sizes[]" placeholder="Tên kích thước" class="form-control mr-2" required>
+        <input type="number" name="sizePrices[]" placeholder="Giá" class="form-control mr-2" min="0">
+        <button type="button" class="btn btn-danger" onclick="this.parentElement.remove()">X</button>
+    `;
+    container.appendChild(div);
+}
+
+function addTopping() {
+    const container = document.getElementById('topping-list');
+    const div = document.createElement('div');
+    div.className = 'form-row mb-2';
+    div.innerHTML = `
+        <input type="text" name="toppings[]" placeholder="Tên topping" class="form-control mr-2" required>
+        <input type="number" name="toppingPrices[]" placeholder="Giá" class="form-control mr-2" min="0">
+        <button type="button" class="btn btn-danger" onclick="this.parentElement.remove()">X</button>
+    `;
+    container.appendChild(div);
+}

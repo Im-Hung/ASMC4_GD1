@@ -28,7 +28,7 @@ namespace Asm_GD1.Controllers
         }
 
         //THÊM MỚI: Method GetCartAsync
-        private async Task<Cart> GetCartAsync(int userId)
+        private new async Task<Cart> GetCartAsync(int userId)
         {
             var cart = await _context.Carts
                 .Include(c => c.CartItems)

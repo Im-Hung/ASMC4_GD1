@@ -1,3 +1,6 @@
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Asm_GD1.Models
 {
     public class Product
@@ -5,6 +8,9 @@ namespace Asm_GD1.Models
         public int ProductID { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
+        public string Slug { get; set; } = string.Empty;
+        [NotMapped]
+        public IFormFile? ImageFile { get; set; }
         public string ImageUrl { get; set; } = string.Empty;
         public decimal BasePrice { get; set; }
         public decimal DiscountPrice { get; set; }

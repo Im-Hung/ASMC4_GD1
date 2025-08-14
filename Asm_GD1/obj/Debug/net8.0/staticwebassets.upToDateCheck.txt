@@ -24,6 +24,7 @@ wwwroot\css\pages\user-management.css
 wwwroot\css\pages\user-profile.css
 wwwroot\css\site.css
 wwwroot\favicon.ico
+wwwroot\Images\7.png
 wwwroot\Images\admin.jpg
 wwwroot\Images\admin1.jpg
 wwwroot\Images\adminit.png
@@ -82,6 +83,7 @@ wwwroot\js\menu-page.js
 wwwroot\js\mobile-menu.js
 wwwroot\js\sales-dashboard.js
 wwwroot\js\site.js
+wwwroot\js\updateCartCount.js
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
