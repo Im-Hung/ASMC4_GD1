@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Asm_GD1.Controllers
 {
-    [Authorize(Roles = "admin, adminit, admin1")]
+    [Authorize(Roles = "adminit, admin1")]
     public class FoodAdminController : Controller
     {
         public IActionResult Dashboard()

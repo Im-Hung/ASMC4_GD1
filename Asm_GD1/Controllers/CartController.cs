@@ -26,7 +26,113 @@ namespace Asm_GD1.Controllers
             var cart = await GetCartAsync(userId);
             return View(cart.CartItems);
         }
-        
+
+        //THÊM MỚI: Method GetCartAsync
+        private async Task<Cart> GetCartAsync(int userId)
+        {
+            var cart = await _context.Carts
+                .Include(c => c.CartItems)
+                .FirstOrDefaultAsync(c => c.UserID == userId);
+
+            if (cart == null)
+            {
+                cart = new Cart
+                {
+                    UserID = userId,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                };
+                _context.Carts.Add(cart);
+                await _context.SaveChangesAsync();
+            }
+
+            return cart;
+        }
+
+        // THÊM MỚI: Action Checkout
+        public async Task<IActionResult> Checkout()
+        {
+            if (!User.Identity?.IsAuthenticated ?? true)
+            {
+                TempData["ErrorMessage"] = "Bạn cần đăng nhập để thanh toán.";
+                return RedirectToAction("Login", "Account");
+            }
+
+            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+            var cart = await GetCartAsync(userId);
+
+            if (!cart.CartItems.Any())
+            {
+                TempData["ErrorMessage"] = "Giỏ hàng của bạn đang trống.";
+                return RedirectToAction("Index");
+            }
+
+            return View(cart.CartItems);
+        }
+
+        //THÊM MỚI: Thanh toán thành công
+        public IActionResult Success()
+        {
+            if (TempData["OrderSuccess"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+
+        // THÊM MỚI: Xử lý đặt hàng
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PlaceOrder(string fullName, string phone, string email,
+    string address, string city, string district, string ward, string note,
+    string deliveryTime, string paymentMethod)
+        {
+            // THÊM DEBUG
+            Console.WriteLine("=== PlaceOrder method called ===");
+            Console.WriteLine($"FullName: {fullName}");
+            Console.WriteLine($"Phone: {phone}");
+            Console.WriteLine($"DeliveryTime: {deliveryTime}");
+
+            if (!User.Identity?.IsAuthenticated ?? true)
+            {
+                Console.WriteLine("User not authenticated");
+                return RedirectToAction("Login", "Account");
+            }
+
+            int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+            Console.WriteLine($"UserId: {userId}");
+
+            var cart = await GetCartAsync(userId);
+
+            if (!cart.CartItems.Any())
+            {
+                Console.WriteLine("Cart is empty");
+                TempData["ErrorMessage"] = "Giỏ hàng của bạn đang trống.";
+                return RedirectToAction("Index");
+            }
+
+            Console.WriteLine($"Cart has {cart.CartItems.Count} items");
+
+            // Xóa giỏ hàng sau khi đặt thành công
+            _context.CartItems.RemoveRange(cart.CartItems);
+            await _context.SaveChangesAsync();
+
+            Console.WriteLine("Cart cleared successfully");
+
+            // Truyền thông tin qua TempData
+            TempData["OrderSuccess"] = true;
+            TempData["CustomerName"] = fullName;
+            TempData["CustomerPhone"] = phone;
+            TempData["CustomerAddress"] = address + ", " + ward + ", " + district + ", " + city;
+            TempData["DeliveryType"] = deliveryTime == "now" ? "Tại chỗ" : "Giao hàng";
+            TempData["PaymentMethod"] = paymentMethod;
+
+            Console.WriteLine("TempData set, redirecting to Success");
+
+            return RedirectToAction("Success");
+        }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddToCart(

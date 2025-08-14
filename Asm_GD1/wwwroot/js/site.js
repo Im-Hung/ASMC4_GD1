@@ -997,52 +997,72 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Handle checkout form submission
 function handleCheckoutSubmission() {
-    // Validate required fields const requiredFields = ['fullName', 'phone', 'address', 'district', 'ward'];
+    // TRÁNH XUNG ĐỘT: Kiểm tra trang hiện tại
+    if (window.location.pathname.includes('/Cart/Checkout')) {
+        return true; // Để trang checkout tự xử lý
+    }
+
+    // SỬA LỖI SYNTAX: Tách dòng đúng cách
+    const requiredFields = ['fullName', 'phone', 'address', 'district', 'ward'];
     let isValid = true;
+
     requiredFields.forEach(fieldName => {
         const field = document.getElementById(fieldName);
-        if (!field.value.trim()) {
+        if (field && !field.value.trim()) {
             field.style.borderColor = '#dc3545';
             isValid = false;
-        } else {
+        } else if (field) {
             field.style.borderColor = '#ddd';
         }
     });
+
     if (!isValid) {
         showNotification('Vui lòng điền đầy đủ thông tin bắt buộc', 'error');
-        return;
+        return false;
     }
 
     // Get form data
     const formData = new FormData(document.getElementById('checkoutForm'));
     const orderData = Object.fromEntries(formData);
 
-    // Add cart data
-    orderData.items = cartData.items;
-    orderData.subtotal = cartData.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    orderData.shippingFee = cartData.shippingFee;
-    orderData.discount = cartData.discount;
-    orderData.total = orderData.subtotal + cartData.shippingFee - cartData.discount;
+    // Add cart data - KIỂM TRA CARTDATA TỒN TẠI
+    if (typeof cartData !== 'undefined') {
+        orderData.items = cartData.items;
+        orderData.subtotal = cartData.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        orderData.shippingFee = cartData.shippingFee;
+        orderData.discount = cartData.discount;
+        orderData.total = orderData.subtotal + cartData.shippingFee - cartData.discount;
+    }
 
     // Show loading state
     const submitBtn = document.querySelector('.btn-place-order');
-    const originalText = submitBtn.innerHTML;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
-    submitBtn.disabled = true;
+    if (submitBtn) {
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
+        submitBtn.disabled = true;
 
-    // Simulate order processing
-    setTimeout(() => {
-        // In real app, this would be an API call
-        console.log('Order data:', orderData);
+        // Simulate order processing
+        setTimeout(() => {
+            console.log('Order data:', orderData);
+            sessionStorage.removeItem('cartData');
+            window.location.href = '/Checkout/Success';
+        }, 2000);
+    }
 
-        // Clear cart
-        sessionStorage.removeItem('cartData');
-
-        // Redirect to success page
-        window.location.href = '/Checkout/Success';
-    }, 2000);
+    return true;
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+    // CHỈ BIND KHI KHÔNG PHẢI TRANG CHECKOUT
+    if (!window.location.pathname.includes('/Cart/Checkout')) {
+        const checkoutForm = document.getElementById('checkoutForm');
+        if (checkoutForm) {
+            checkoutForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                handleCheckoutSubmission();
+            });
+        }
+    }
 // Update cart count in navigation (enhanced version)
 function updateCartCount(change = 0, newTotal = null) {
     const cartCount = document.querySelector('.cart-count');

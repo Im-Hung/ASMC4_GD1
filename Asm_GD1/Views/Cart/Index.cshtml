@@ -4,11 +4,11 @@
     var totalItems = Model.Sum(x => x.Quantity);
     var subtotal = Model.Sum(x => x.UnitPrice * x.Quantity);
 }
-
 @section Styles {
     <link rel="stylesheet" href="~/css/pages/cart.css" />
 }
 
+<!-- GIỮ NGUYÊN: Tất cả HTML hiện tại, CHỈ thay đổi JavaScript -->
 <div class="cart-page">
     <div class="container">
         <!-- Breadcrumb -->
@@ -19,12 +19,10 @@
             <span class="separator">></span>
             <span class="current">Giỏ hàng</span>
         </nav>
-
         <h1 class="page-title">
             <i class="fas fa-shopping-cart"></i>
             Giỏ hàng của bạn
         </h1>
-
         @if (Model != null && Model.Any())
         {
             <div class="cart-content">
@@ -39,7 +37,6 @@
                             </button>
                         </form>
                     </div>
-
                     <div class="cart-items" id="cartItemsList">
                         @foreach (var item in Model)
                         {
@@ -47,7 +44,6 @@
                                 <div class="item-image">
                                     <img src="@Url.Content(item.ProductImage)" alt="@item.ProductName">
                                 </div>
-
                                 <div class="item-details">
                                     <h3 class="item-name">@item.ProductName</h3>
                                     <div class="item-options">
@@ -62,7 +58,6 @@
                                         <span class="unit-price">@item.UnitPrice.ToString("N0") VNĐ/món</span>
                                     </div>
                                 </div>
-
                                 <div class="item-controls">
                                     <div class="quantity-controls">
                                         <!-- Giảm 1 -->
@@ -76,10 +71,8 @@
                                             @Html.AntiForgeryToken()
                                             <button type="submit" class="qty-btn minus" aria-label="Giảm">-</button>
                                         </form>
-
                                         <!-- Đặt số lượng cụ thể (SetQuantity) -->
                                         <input type="number" class="quantity" value="@item.Quantity" min="1" max="10" readonly />
-
                                         <!-- Tăng 1 -->
                                         <form asp-controller="Cart"
                                               asp-action="ChangeQuantity"
@@ -92,11 +85,9 @@
                                             <button type="submit" class="qty-btn plus" aria-label="Tăng">+</button>
                                         </form>
                                     </div>
-
                                     <div class="item-total">
                                         <span class="total-price">@((item.UnitPrice * item.Quantity).ToString("N0")) VNĐ</span>
                                     </div>
-
                                     <form asp-controller="Cart"
                                           asp-action="RemoveFromCart"
                                           method="post"
@@ -113,36 +104,30 @@
                             </div>
                         }
                     </div>
-
                     <div class="continue-shopping">
                         <a asp-controller="Home" asp-action="Index" class="btn-continue">
                             <i class="fas fa-arrow-left"></i> Tiếp tục mua sắm
                         </a>
                     </div>
                 </div>
-
                 <!-- Cart Summary & Checkout -->
                 <div class="cart-summary-section">
                     <div class="cart-summary">
                         <h3>Tóm tắt đơn hàng</h3>
-
                         <div class="summary-details">
                             <div class="summary-row">
                                 <span>Tạm tính (@totalItems món):</span>
                                 <span>@subtotal.ToString("N0") VNĐ</span>
                             </div>
-
                             <div class="summary-row">
                                 <span>Phí giao hàng:</span>
                                 <span id="shippingFee">15,000 VNĐ</span>
                             </div>
-
                             <div class="summary-row total">
                                 <span>Tổng cộng:</span>
                                 <span class="total-amount">@((subtotal + 15000).ToString("N0")) VNĐ</span>
                             </div>
                         </div>
-
                         <button class="btn-checkout" onclick="proceedToCheckout()">
                             <i class="fas fa-credit-card"></i> Tiến hành thanh toán
                             <span class="checkout-amount">@((subtotal + 15000).ToString("N0")) VNĐ</span>
@@ -165,3 +150,12 @@
         }
     </div>
 </div>
+
+<!-- CẬP NHẬT: JavaScript để chuyển đến Checkout -->
+@section Scripts {
+    <script>
+        function proceedToCheckout() {
+            window.location.href = '@Url.Action("Checkout", "Cart")';
+        }
+    </script>
+}

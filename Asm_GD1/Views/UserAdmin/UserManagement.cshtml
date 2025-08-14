@@ -25,7 +25,7 @@
             </button>
         </div>
     </div>
-
+    
     <!-- Filters & Search -->
     <div class="filters-section">
         <div class="search-box">
@@ -247,7 +247,53 @@
         </div>
     </div>
 </div>
-
+<!-- Modal Thêm Người Dùng -->
+<div class="modal" id="addUserModal">
+    <div class="modal-content adduser-content">
+        <div class="modal-header">
+            <h3>Thêm người dùng mới</h3>
+            <button class="modal-close" onclick="closeAddUserModal()">&times;</button>
+        </div>
+        <form id="addUserForm" autocomplete="off" onsubmit="return validateAddUserForm();">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="addUserName">Tên người dùng:</label>
+                    <input type="text" id="addUserName" name="Username"
+                           required placeholder="Nhập tên người dùng">
+                </div>
+                <div class="form-group">
+                    <label for="addUserEmail">Email:</label>
+                    <input type="email" id="addUserEmail" name="Email"
+                           required placeholder="Nhập email">
+                </div>
+                <div class="form-group">
+                    <label for="addUserPhone">Số điện thoại:</label>
+                    <input type="tel" id="addUserPhone" name="PhoneNumber"
+                           required placeholder="Nhập số điện thoại">
+                </div>
+                <div class="form-group">
+                    <label for="addUserPassword">Mật khẩu:</label>
+                    <input type="password" id="addUserPassword" name="Password"
+                           required placeholder="Nhập mật khẩu">
+                </div>
+                <div class="form-group">
+                    <label for="addUserRole">Vai trò:</label>
+                    <select id="addUserRole" name="Role" required>
+                        <option value="" disabled selected>Chọn vai trò</option>
+                        <option value="customer">Khách hàng</option>
+                        <option value="salesstaff">Nhân viên bán hàng</option>
+                        <option value="useradmin">Quản lý người dùng</option>
+                        <option value="foodadmin">Quản lý đồ ăn</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeAddUserModal()">Đóng</button>
+                <button type="submit" class="btn-primary">Thêm</button>
+            </div>
+        </form>
+    </div>
+</div>
 <!-- User Details Modal -->
 <div class="modal" id="userDetailsModal">
     <div class="modal-content large">
@@ -313,3 +359,26 @@
         </div>
     </div>
 </div>
+<script>
+    function showAddUserModal() {
+        document.getElementById('addUserModal').style.display = 'flex';
+    }
+
+    function closeAddUserModal() {
+        document.getElementById('addUserModal').style.display = 'none';
+    }
+
+    function validateAddUserForm() {
+        var name = document.getElementById('addUserName').value.trim();
+        var email = document.getElementById('addUserEmail').value.trim();
+        var phone = document.getElementById('addUserPhone').value.trim();
+        var password = document.getElementById('addUserPassword').value.trim();
+        var role = document.getElementById('addUserRole').value;
+
+        if (!name || !email || !phone || !password || !role) {
+            alert("Vui lòng nhập đầy đủ thông tin tất cả các trường!");
+            return false;
+        }
+        return true;
+    }
+</script>
