@@ -28,7 +28,7 @@ namespace Asm_GD1.Controllers
         }
 
         //THÊM MỚI: Method GetCartAsync
-        private async Task<Cart> GetCartAsync(int userId)
+        private new async Task<Cart> GetCartAsync(int userId)
         {
             var cart = await _context.Carts
                 .Include(c => c.CartItems)
@@ -47,6 +47,24 @@ namespace Asm_GD1.Controllers
             }
 
             return cart;
+        }
+
+        [HttpGet]
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public async Task<IActionResult> CartCountValue()
+        {
+            if (!(User?.Identity?.IsAuthenticated ?? false))
+                return Content("0", "text/plain");
+
+            var claim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+            if (claim == null || !int.TryParse(claim.Value, out var userId))
+                return Content("0", "text/plain");
+
+            var count = await _context.CartItems
+                .Where(ci => ci.Cart != null && ci.Cart.UserID == userId)
+                .SumAsync(ci => (int?)ci.Quantity) ?? 0;
+
+            return Content(count.ToString(), "text/plain");
         }
 
         // THÊM MỚI: Action Checkout

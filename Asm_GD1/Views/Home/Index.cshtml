@@ -51,9 +51,9 @@
                             }
                         </div>
                         <div class="card-actions">
-                            <button type="button" class="btn-detail" onclick="viewDetail(@product.ProductID)">
-                                Xem chi tiết
-                            </button>
+                            <form asp-controller="Food" asp-action="Detail" asp-route-Slug="@product?.Slug">
+                                <button type="submit" class="btn-detail">Xem chi tiết</button>
+                            </form>
 
                             <form asp-controller="Cart" asp-action="AddToCart" method="post" asp-route-id="@product?.ProductID">
                                 <input type="hidden" name="sizeId" id="sizeId" value="@defaultSizeId" />

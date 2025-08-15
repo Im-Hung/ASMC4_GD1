@@ -24,6 +24,12 @@ wwwroot\css\pages\user-management.css
 wwwroot\css\pages\user-profile.css
 wwwroot\css\site.css
 wwwroot\favicon.ico
+<<<<<<< HEAD
+=======
+wwwroot\Images\1.png
+wwwroot\Images\3.png
+wwwroot\Images\7.png
+>>>>>>> 1fa40fc (ImComplete-CartCount_Slug)
 wwwroot\Images\admin.jpg
 wwwroot\Images\admin1.jpg
 wwwroot\Images\adminit.png
@@ -56,6 +62,11 @@ wwwroot\Images\google-icon.png
 wwwroot\Images\hu-tieu-nam-vang.jpg
 wwwroot\Images\hu-tiu-go.jpg
 wwwroot\Images\kem-xoi.jpg
+<<<<<<< HEAD
+=======
+wwwroot\Images\mattoi2.png
+wwwroot\Images\mattoi3.png
+>>>>>>> 1fa40fc (ImComplete-CartCount_Slug)
 wwwroot\Images\momo-logo.jpg
 wwwroot\Images\news-ai.jpg
 wwwroot\Images\news1.jpg
@@ -73,6 +84,10 @@ wwwroot\Images\story-hero.jpg
 wwwroot\Images\tra-sua.jpg
 wwwroot\Images\user.jpg
 wwwroot\Images\vnpay-logo.jpg
+<<<<<<< HEAD
+=======
+wwwroot\Images\z6526602836098_51c8d2742c2b95ccf85f2282c8f18505.jpg
+>>>>>>> 1fa40fc (ImComplete-CartCount_Slug)
 wwwroot\Images\zalopay-logo.jpg
 wwwroot\js\admin.js
 wwwroot\js\create-order.js
@@ -82,6 +97,10 @@ wwwroot\js\menu-page.js
 wwwroot\js\mobile-menu.js
 wwwroot\js\sales-dashboard.js
 wwwroot\js\site.js
+<<<<<<< HEAD
+=======
+wwwroot\js\updateCartCount.js
+>>>>>>> 1fa40fc (ImComplete-CartCount_Slug)
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css

@@ -56,8 +56,8 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // Enhanced cart functions
-function viewDetail(foodId) {
-    window.location.href = `/Food/Detail/${foodId}`;
+function viewDetail(slug) {
+    window.location.href = `/Food/Detail/${slug}`;
 }
 
 function addToCart(foodId) {
@@ -1063,49 +1063,49 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     }
-// Update cart count in navigation (enhanced version)
-function updateCartCount(change = 0, newTotal = null) {
-    const cartCount = document.querySelector('.cart-count');
-    if (cartCount) {
-        if (newTotal !== null) {
-            cartCount.textContent = newTotal;
-        }
+    // Update cart count in navigation (enhanced version)
+    function updateCartCount(change = 0, newTotal = null) {
+        const cartCount = document.querySelector('.cart-count');
+        if (cartCount) {
+            if (newTotal !== null) {
+                cartCount.textContent = newTotal;
+            }
 
-        else {
-            let currentCount = parseInt(cartCount.textContent) || 0;
-            cartCount.textContent = Math.max(0, currentCount + change);
-        }
+            else {
+                let currentCount = parseInt(cartCount.textContent) || 0;
+                cartCount.textContent = Math.max(0, currentCount + change);
+            }
 
-        // Animation effect
-        cartCount.style.animation = 'bounce 0.5s ease';
-        setTimeout(() => {
-            cartCount.style.animation = '';
-        }, 500);
+            // Animation effect
+            cartCount.style.animation = 'bounce 0.5s ease';
+            setTimeout(() => {
+                cartCount.style.animation = '';
+            }, 500);
+        }
     }
-}
 
-// Format price helper
-function formatPrice(price) {
-    return new Intl.NumberFormat('vi-VN').format(price) + ' VNĐ';
-}
+    // Format price helper
+    function formatPrice(price) {
+        return new Intl.NumberFormat('vi-VN').format(price) + ' VNĐ';
+    }
 
-// Enhanced notification system (sửa lại)
-function showNotification(message, type = 'info') {
-    // Remove existing notifications first
-    const existingNotifications = document.querySelectorAll('.notification');
-    existingNotifications.forEach(notif => notif.remove());
+    // Enhanced notification system (sửa lại)
+    function showNotification(message, type = 'info') {
+        // Remove existing notifications first
+        const existingNotifications = document.querySelectorAll('.notification');
+        existingNotifications.forEach(notif => notif.remove());
 
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
 
-    const icons = {
-        'success': 'fas fa-check-circle',
-        'error': 'fas fa-exclamation-circle',
-        'warning': 'fas fa-exclamation-triangle',
-        'info': 'fas fa-info-circle'
-    };
+        const icons = {
+            'success': 'fas fa-check-circle',
+            'error': 'fas fa-exclamation-circle',
+            'warning': 'fas fa-exclamation-triangle',
+            'info': 'fas fa-info-circle'
+        };
 
-    notification.innerHTML = `
+        notification.innerHTML = `
         <div class="notification-content">
             <i class="${icons[type]} notification-icon"></i>
             <span class="notification-message">${message}</span>
@@ -1115,127 +1115,127 @@ function showNotification(message, type = 'info') {
         </div>
     `;
 
-    document.body.appendChild(notification);
+        document.body.appendChild(notification);
 
-    // Add show class for animation
-    setTimeout(() => {
-        notification.classList.add('notification-show');
-    }, 10);
-
-    // Auto remove after 4 seconds
-    setTimeout(() => {
-        closeNotification(notification.querySelector('.notification-close'));
-    }, 4000);
-}
-
-function closeNotification(closeBtn) {
-    const notification = closeBtn.closest('.notification');
-    if (notification) {
-        notification.classList.add('notification-hide');
+        // Add show class for animation
         setTimeout(() => {
-            if (notification.parentElement) {
-                notification.remove();
-            }
-        }, 300);
+            notification.classList.add('notification-show');
+        }, 10);
+
+        // Auto remove after 4 seconds
+        setTimeout(() => {
+            closeNotification(notification.querySelector('.notification-close'));
+        }, 4000);
     }
-}
 
-// News filter functionality
-document.addEventListener('DOMContentLoaded', function () {
-    // News filter buttons
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const newsItems = document.querySelectorAll('.news-item');
-
-    filterButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            const category = this.getAttribute('data-category');
-
-            // Update active button
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
-
-            // Filter news items
-            newsItems.forEach(item => {
-                if (category === 'all' || item.getAttribute('data-category') === category) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
+    function closeNotification(closeBtn) {
+        const notification = closeBtn.closest('.notification');
+        if (notification) {
+            notification.classList.add('notification-hide');
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
                 }
+            }, 300);
+        }
+    }
+
+    // News filter functionality
+    document.addEventListener('DOMContentLoaded', function () {
+        // News filter buttons
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const newsItems = document.querySelectorAll('.news-item');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const category = this.getAttribute('data-category');
+
+                // Update active button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+
+                // Filter news items
+                newsItems.forEach(item => {
+                    if (category === 'all' || item.getAttribute('data-category') === category) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
             });
         });
+
+        // Load more news
+        const loadMoreBtn = document.querySelector('.btn-load-more');
+        if (loadMoreBtn) {
+            loadMoreBtn.addEventListener('click', function () {
+                showNotification('Tính năng tải thêm tin tức sẽ được cập nhật', 'info');
+            });
+        }
     });
 
-    // Load more news
-    const loadMoreBtn = document.querySelector('.btn-load-more');
-    if (loadMoreBtn) {
-        loadMoreBtn.addEventListener('click', function () {
-            showNotification('Tính năng tải thêm tin tức sẽ được cập nhật', 'info');
+    // FAQ toggle functionality
+    function toggleFAQ(element) {
+        const faqItem = element.parentElement;
+        const isActive = faqItem.classList.contains('active');
+
+        // Close all FAQ items
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.classList.remove('active');
         });
+
+        // Toggle current item
+        if (!isActive) {
+            faqItem.classList.add('active');
+        }
     }
-});
 
-// FAQ toggle functionality
-function toggleFAQ(element) {
-    const faqItem = element.parentElement;
-    const isActive = faqItem.classList.contains('active');
+    // Contact form validation
+    document.addEventListener('DOMContentLoaded', function () {
+        const contactForm = document.querySelector('.contact-form');
 
-    // Close all FAQ items
-    document.querySelectorAll('.faq-item').forEach(item => {
-        item.classList.remove('active');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // Get form data
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const subject = document.getElementById('subject').value;
+                const message = document.getElementById('message').value.trim();
+
+                // Basic validation
+                if (!name || !email || !subject || !message) {
+                    showNotification('Vui lòng điền đầy đủ thông tin bắt buộc', 'warning');
+                    return;
+                }
+
+                if (!isValidEmail(email)) {
+                    showNotification('Email không hợp lệ', 'error');
+                    return;
+                }
+
+                // Show loading
+                const submitBtn = this.querySelector('.btn-submit');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang gửi...';
+                submitBtn.disabled = true;
+
+                // Simulate form submission
+                setTimeout(() => {
+                    showNotification('Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi trong 24h.', 'success');
+                    contactForm.reset();
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }, 2000);
+            });
+        }
     });
 
-    // Toggle current item
-    if (!isActive) {
-        faqItem.classList.add('active');
+    // Email validation helper
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
     }
-}
 
-// Contact form validation
-document.addEventListener('DOMContentLoaded', function () {
-    const contactForm = document.querySelector('.contact-form');
-
-    if (contactForm) {
-        contactForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            // Get form data
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const subject = document.getElementById('subject').value;
-            const message = document.getElementById('message').value.trim();
-
-            // Basic validation
-            if (!name || !email || !subject || !message) {
-                showNotification('Vui lòng điền đầy đủ thông tin bắt buộc', 'warning');
-                return;
-            }
-
-            if (!isValidEmail(email)) {
-                showNotification('Email không hợp lệ', 'error');
-                return;
-            }
-
-            // Show loading
-            const submitBtn = this.querySelector('.btn-submit');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang gửi...';
-            submitBtn.disabled = true;
-
-            // Simulate form submission
-            setTimeout(() => {
-                showNotification('Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi trong 24h.', 'success');
-                contactForm.reset();
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-            }, 2000);
-        });
-    }
 });
-
-// Email validation helper
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-
-

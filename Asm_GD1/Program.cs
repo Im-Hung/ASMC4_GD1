@@ -1,6 +1,8 @@
 ﻿using Asm_GD1.Data;
 using Asm_GD1.Models;
+using Asm_GD1.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 
@@ -33,6 +35,8 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+builder.Services.AddScoped<SlugGenerator>();
 
 var app = builder.Build();
 
@@ -136,6 +140,7 @@ using (var scope = app.Services.CreateScope())
         {
             Name = "Cơm tấm sườn nướng",
             Description = "Cơm tấm thơm ngon với sườn nướng và nước mắm đặc biệt",
+            Slug = "com-suon-bo",
             ImageUrl = "~/Images/com-tam.jpg",
             BasePrice = 45000,
             DiscountPrice = 40000,
@@ -172,6 +177,11 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 // Routing cho ASP.NET Core
+app.MapControllerRoute(
+    name: "productDetails",
+    pattern: "food/{Slug}",
+    defaults: new { controller = "Food", action = "Detail" });
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
