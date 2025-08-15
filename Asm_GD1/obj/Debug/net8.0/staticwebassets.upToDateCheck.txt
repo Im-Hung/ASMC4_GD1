@@ -24,6 +24,8 @@ wwwroot\css\pages\user-management.css
 wwwroot\css\pages\user-profile.css
 wwwroot\css\site.css
 wwwroot\favicon.ico
+wwwroot\Images\1.png
+wwwroot\Images\3.png
 wwwroot\Images\7.png
 wwwroot\Images\admin.jpg
 wwwroot\Images\admin1.jpg

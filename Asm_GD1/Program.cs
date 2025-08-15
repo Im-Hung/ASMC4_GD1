@@ -139,7 +139,7 @@ using (var scope = app.Services.CreateScope())
         {
             Name = "Cơm tấm sườn nướng",
             Description = "Cơm tấm thơm ngon với sườn nướng và nước mắm đặc biệt",
-            Slug = "1",
+            Slug = "com-tam-suon-nuong",
             ImageUrl = "~/Images/com-tam.jpg",
             BasePrice = 45000,
             DiscountPrice = 40000,
