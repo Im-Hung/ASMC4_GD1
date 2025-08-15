@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Asm_GD1.Models.Account
+@{
     ViewData["Title"] = "Quản lý Người dùng";
     Layout = "_AdminLayout";
 }
@@ -25,7 +26,7 @@
             </button>
         </div>
     </div>
-    
+
     <!-- Filters & Search -->
     <div class="filters-section">
         <div class="search-box">
@@ -254,37 +255,33 @@
             <h3>Thêm người dùng mới</h3>
             <button class="modal-close" onclick="closeAddUserModal()">&times;</button>
         </div>
-        <form id="addUserForm" autocomplete="off" onsubmit="return validateAddUserForm();">
+        <form asp-action="Create" asp-controller="UserAdmin" method="post" enctype="multipart/form-data">
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="addUserName">Tên người dùng:</label>
-                    <input type="text" id="addUserName" name="Username"
-                           required placeholder="Nhập tên người dùng">
+                    <label asp-for="Username">Tên người dùng:</label>
+                    <input asp-for="Username" class="form-control" placeholder="Nhập tên người dùng" required />
                 </div>
                 <div class="form-group">
-                    <label for="addUserEmail">Email:</label>
-                    <input type="email" id="addUserEmail" name="Email"
-                           required placeholder="Nhập email">
+                    <label asp-for="Email">Email:</label>
+                    <input type="email" asp-for="Email" class="form-control" placeholder="Nhập email" required>
                 </div>
                 <div class="form-group">
-                    <label for="addUserPhone">Số điện thoại:</label>
-                    <input type="tel" id="addUserPhone" name="PhoneNumber"
-                           required placeholder="Nhập số điện thoại">
+                    <label asp-for="PhoneNumber">Số điện thoại:</label>
+                    <input type="tel" asp-for="PhoneNumber" class="form-control" placeholder="Nhập số điện thoại" required>
                 </div>
                 <div class="form-group">
-                    <label for="addUserPassword">Mật khẩu:</label>
-                    <input type="password" id="addUserPassword" name="Password"
-                           required placeholder="Nhập mật khẩu">
+                    <label asp-for="Password">Mật khẩu:</label>
+                    <input type="password" asp-for="Password" class="form-control" placeholder="Nhập mật khẩu" required>
                 </div>
                 <div class="form-group">
-                    <label for="addUserRole">Vai trò:</label>
-                    <select id="addUserRole" name="Role" required>
+                    <select asp-for="Role" class="form-select" required>
                         <option value="" disabled selected>Chọn vai trò</option>
-                        <option value="customer">Khách hàng</option>
-                        <option value="salesstaff">Nhân viên bán hàng</option>
-                        <option value="useradmin">Quản lý người dùng</option>
-                        <option value="foodadmin">Quản lý đồ ăn</option>
+                        <option value="staff">Nhân viên</option>
+                        <option value="adminit">Admin</option>
+                        <option value="admin">Quản lý User</option>
+                        <option value="admin1">Quản lý Food</option>
                     </select>
+                    <span asp-validation-for="Role" class="text-danger"></span>
                 </div>
             </div>
             <div class="modal-footer">
