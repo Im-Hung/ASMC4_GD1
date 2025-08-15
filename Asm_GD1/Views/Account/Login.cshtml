@@ -27,7 +27,7 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="Password">Mật khẩu <span class="text-danger">*</span></label>
+                <label asp-for="Password">Mật khẩu <span style="color:orangered">*</span></label>
                 <input asp-for="Password" type="password" class="form-control" required />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
@@ -45,11 +45,17 @@
         </div>
 
         <div class="social-login">
-            <button class="btn-google">
-                <img src="~/Images/google-icon.png" alt="Google">
+            <button class="btn-google" onclick="loginWithGoogle()">
+                <img src="/Images/google-icon.png" alt="Google" style="width: 20px; height: 20px; margin-right: 5px;">
                 Đăng nhập với Google
             </button>
         </div>
+
+        <script>
+            function loginWithGoogle() {
+                window.open('https://accounts.google.com/v3/signin/identifier?flowName=GlifWebSignIn', '_blank');
+            }
+        </script>
 
         <!-- Demo Info -->
         <div class="demo-info">
