@@ -70,10 +70,25 @@
                     </div>
 
                     <div class="food-price">
-                        <span class="current-price">@product?.DiscountPrice.ToString("N0")</span>
-                        <span class="original-price">@product?.BasePrice.ToString("N0")</span>
-                        <span class="discount-percent">@product?.DiscountPercent%</span>
+                        @if (product?.DiscountPrice > 0)
+                        {
+                            <span class="current-price">@product.DiscountPrice.ToString("N0") VNĐ</span>
+                            <span class="original-price">@product.BasePrice.ToString("N0") VNĐ</span>
+                            <span class="discount-percent"> -@(Math.Round((1 - (product.DiscountPrice / product.BasePrice)) * 100))%</span>
+                        }
+                        else if (product?.DiscountPercent > 0)
+                        {
+                            var discountedPrice = product.BasePrice * (100 - product.DiscountPercent) / 100;
+                            <span class="current-price">@discountedPrice.ToString("N0") VNĐ</span>
+                            <span class="original-price">@product.BasePrice.ToString("N0") VNĐ</span>
+                            <span class="discount-percent">-@product.DiscountPercent%</span>
+                        }
+                        else
+                        {
+                            <span class="current-price">@product?.BasePrice.ToString("N0") VNĐ</span>
+                        }
                     </div>
+
 
                     <div class="food-description">
                         <h3>Mô tả món ăn</h3>

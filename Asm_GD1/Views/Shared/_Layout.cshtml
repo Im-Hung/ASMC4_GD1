@@ -107,7 +107,7 @@
                     <!-- Cart Button -->
                     <a asp-controller="Cart" asp-action="Index" class="cart-btn">
                         <i class="fas fa-shopping-cart"></i>
-                        <span class="cart-count">1</span>
+                        <span class="cart-count">0</span>
                         <span class="cart-text">Đơn hàng</span>
                     </a>
 
@@ -494,3 +494,15 @@
 </body>
 </html>
 
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const el = document.querySelector(".cart-count");
+      if (!el) return;
+
+      fetch('@Url.Action("CartCountValue", "Cart")', { cache: "no-store" })
+        .then(r => r.text())
+        .then(txt => el.textContent = txt)
+        .catch(console.error);
+    });
+</script>

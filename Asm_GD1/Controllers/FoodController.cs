@@ -68,9 +68,9 @@ namespace Asm_GD1.Controllers
             return View();
         }
 
-        public IActionResult Detail(int id)
+        public IActionResult Detail(string Slug)
         {
-            var product = _context.Products.AsNoTracking().FirstOrDefault(p => p.ProductID == id);
+            var product = _context.Products.AsNoTracking().FirstOrDefault(p => p.Slug == Slug);
             if (product == null) return NotFound();
 
             var sizes = _context.ProductSizes.AsNoTracking().OrderBy(s => s.ExtraPrice).ToList();

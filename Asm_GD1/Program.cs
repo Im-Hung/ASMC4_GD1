@@ -177,6 +177,11 @@ app.UseAuthorization();
 
 // Routing cho ASP.NET Core
 app.MapControllerRoute(
+    name: "productDetails",
+    pattern: "food/{Slug}",
+    defaults: new { controller = "Food", action = "Detail" });
+
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
