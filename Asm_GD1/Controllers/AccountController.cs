@@ -1,115 +1,127 @@
 ﻿using Asm_GD1.Data;
 using Asm_GD1.Models;
+using Asm_GD1.ViewModels;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Identity;
 
 namespace Asm_GD1.Controllers
 {
     public class AccountController : BaseController
     {
-        public AccountController(AppDbContext context) : base(context)
-        {
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
+        public AccountController(
+            AppDbContext context,
+            SignInManager<ApplicationUser> signInManager,
+            UserManager<ApplicationUser> userManager) : base(context)
+        {
+            _signInManager = signInManager;
+            _userManager = userManager;
         }
 
         public IActionResult Login() => View();
         public IActionResult Register() => View();
         public IActionResult Profile() => View();
         public IActionResult Orders() => View();
-        public IActionResult Reviews() => View();
-        public IActionResult Settings() => View();
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(Account model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid)
+                return View(model);
 
-            if (await _context.Accounts.AnyAsync(a => a.Email == model.Email))
+            var existingUser = await _userManager.FindByEmailAsync(model.Email);
+            if (existingUser != null)
             {
-                ModelState.AddModelError(nameof(model.Email), "Email đã tồn tại");
+                ModelState.AddModelError("Email", "Email này đã được sử dụng.");
                 return View(model);
             }
 
-            var hasher = new PasswordHasher<Account>();
-            var account = new Account
+            var user = new ApplicationUser
             {
-                Username = model.Username,
+                UserName = model.Email,
                 Email = model.Email,
-                PhoneNumber = model.PhoneNumber
+                FullName = model.FullName,
+                PhoneNumber = model.PhoneNumber,
+                EmailConfirmed = true,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             };
 
-            account.Password = hasher.HashPassword(account, model.Password);
+            var result = await _userManager.CreateAsync(user, model.Password);
 
-            _context.Accounts.Add(account);
-            await _context.SaveChangesAsync();
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, "Customer");
 
-            TempData["SuccessMessage"] = "Đăng ký thành công. Vui lòng đăng nhập.";
-            return RedirectToAction("Login");
+                await _signInManager.SignInAsync(user, isPersistent: false);
+
+                var cart = await GetOrCreateActiveCartAsync(user.Id);
+                SetCartIdToSession(cart.CartID);
+
+                TempData["SuccessMessage"] = "Đăng ký thành công!";
+                return RedirectToAction("Login", "Account");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(Account model)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Email == model.Email);
+            var result = await _signInManager.PasswordSignInAsync(
+                model.Email,
+                model.Password,
+                model.RememberMe,
+                lockoutOnFailure: false);
 
-            if (account != null)
+            if (result.Succeeded)
             {
-                var hasher = new PasswordHasher<Account>();
-                var verifyResult = hasher.VerifyHashedPassword(account, account.Password, model.Password);
-
-                if (verifyResult == PasswordVerificationResult.Success)
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user != null)
                 {
-                    var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.NameIdentifier, account.Id.ToString()),
-                        new Claim(ClaimTypes.Name, string.IsNullOrWhiteSpace(account.Username) ? account.Email : account.Username),
-                        new Claim(ClaimTypes.Email, account.Email),
-                        new Claim(ClaimTypes.Role, account.Role ?? string.Empty)
-                    };
-                    var avatarValue = !string.IsNullOrWhiteSpace(account.Avatar) ? account.Avatar : Url.Content("~/images/user.jpg");
-                    claims.Add(new Claim("Avatar", avatarValue));
-
-                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                    var authProperties = new AuthenticationProperties
-                    {
-                        IsPersistent = model.RememberMe,
-                    };
-
-                    await HttpContext.SignInAsync(
-                        CookieAuthenticationDefaults.AuthenticationScheme,
-                        new ClaimsPrincipal(claimsIdentity),
-                        authProperties);
-
-                    var cart = await GetOrCreateActiveCartAsync(account.Id);
+                    var cart = await GetOrCreateActiveCartAsync(user.Id);
                     SetCartIdToSession(cart.CartID);
 
-                    TempData["SuccessMessage"] = $"Đăng nhập thành công với quyền: {account.Role}";
+                    var roles = await _userManager.GetRolesAsync(user);
+                    var role = roles.FirstOrDefault()?.ToLower() ?? "customer";
 
-                    switch ((account.Role?.ToLowerInvariant()) ?? "")
+                    TempData["SuccessMessage"] = $"Chào mừng {user.FullName ?? user.Email}!";
+
+                    if (role == "admin")
                     {
-                        case "adminit":
-                        case "admin":
-                            return RedirectToAction("Dashboard", "UserAdmin");
-                        case "admin1":
-                            return RedirectToAction("Dashboard", "FoodAdmin");
-                        case "staff":
-                        case "employee1":
-                        case "employee2":
-                            return RedirectToAction("Dashboard", "SalesStaff");
-                        default:
-                            return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Dashboard", "FoodAdmin");
+                    }
+                    else if (role == "foodadmin")
+                    {
+                        return RedirectToAction("Dashboard", "FoodAdmin");
+                    }
+                    else if (role == "useradmin")
+                    {
+                        return RedirectToAction("Dashboard", "UserAdmin");
+                    }
+                    else if (role == "staff")
+                    {
+                        return RedirectToAction("Index", "POS");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
                     }
                 }
             }
@@ -118,10 +130,13 @@ namespace Asm_GD1.Controllers
             return View(model);
         }
 
+
+        [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await _signInManager.SignOutAsync();
             HttpContext.Session.Remove(SessionCartIdKey);
+            TempData["SuccessMessage"] = "Đăng xuất thành công.";
             return RedirectToAction("Login");
         }
     }

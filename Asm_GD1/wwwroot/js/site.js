@@ -980,15 +980,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Handle checkout form submission
-    const checkoutForm = document.getElementById('checkoutForm');
-    if (checkoutForm) {
-        checkoutForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-            handleCheckoutSubmission();
-        });
-    }
-
     // Initialize cart summary on page load
     if (window.location.pathname.includes('/Cart')) {
         updateCartSummary();

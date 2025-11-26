@@ -10,7 +10,7 @@
         userAvatar = Url.Content("~/images/user.jpg");
     }
     else if (avatarClaim.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
-    avatarClaim.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+             avatarClaim.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
     {
         userAvatar = avatarClaim;
     }
@@ -20,9 +20,12 @@
     }
     else
     {
-        // đảm bảo dẫn bắt đầu bằng / nếu không có ~
         userAvatar = Url.Content("~/" + avatarClaim.TrimStart('/'));
     }
+
+    // ✅ KIỂM TRA CLAIMS
+    var hasManageFood = User.HasClaim("CanManageFood", "true");
+    var hasManageUser = User.HasClaim("CanManageUser", "true");
 }
 
 <!DOCTYPE html>
@@ -53,19 +56,19 @@
         </div>
 
         <nav class="sidebar-nav">
-            <!-- User Admin Menu - Hiển thị cho admin và adminit -->
-            @if (userRole == "admin" || userRole == "adminit")
+            @* ✅ User Admin Menu - AdminIT hoặc UserAdmin *@
+            @if (hasManageUser)
             {
                 <div class="nav-section">
                     <span class="section-title">
                         <i class="fas fa-users"></i>
-                        Quản lý User
+                        QUẢN LÝ USER
                     </span>
                     <a asp-controller="UserAdmin" asp-action="Dashboard" class="nav-item">
                         <i class="fas fa-tachometer-alt"></i>
                         <span>Dashboard User</span>
                     </a>
-                    <a asp-controller="UserAdmin" asp-action="UserManagement" class="nav-item">
+                    <a asp-controller="UserAdmin" asp-action="Index" class="nav-item">
                         <i class="fas fa-users"></i>
                         <span>Quản lý người dùng</span>
                     </a>
@@ -84,13 +87,13 @@
                 </div>
             }
 
-            <!-- Food Admin Menu - Hiển thị cho admin1 và adminit -->
-            @if (userRole == "admin1" || userRole == "adminit")
+            @* ✅ Food Admin Menu - AdminIT hoặc FoodAdmin *@
+            @if (hasManageFood)
             {
                 <div class="nav-section">
                     <span class="section-title">
                         <i class="fas fa-utensils"></i>
-                        Quản lý Món ăn
+                        QUẢN LÝ MÓN ĂN
                     </span>
                     <a asp-controller="FoodAdmin" asp-action="Dashboard" class="nav-item">
                         <i class="fas fa-tachometer-alt"></i>
@@ -100,28 +103,28 @@
                         <i class="fas fa-utensils"></i>
                         <span>Quản lý thực đơn</span>
                     </a>
-                    <a asp-controller="FoodAdmin" asp-action="CategoryManagement" class="nav-item">
+                    <a asp-controller="CategoryAdmin" asp-action="Index" class="nav-item">
                         <i class="fas fa-list"></i>
                         <span>Quản lý danh mục</span>
                     </a>
-                    <a asp-controller="FoodAdmin" asp-action="PromotionManagement" class="nav-item">
+                    <a asp-controller="DiscountAdmin" asp-action="Index" class="nav-item">
                         <i class="fas fa-tags"></i>
                         <span>Mã giảm giá</span>
-                    </a>
-                    <a asp-controller="FoodAdmin" asp-action="Reports" class="nav-item">
+                    </a>    
+@*                     <a asp-controller="FoodAdmin" asp-action="Reports" class="nav-item">
                         <i class="fas fa-chart-line"></i>
                         <span>Báo cáo Food</span>
-                    </a>
+                    </a> *@
                 </div>
             }
 
-            <!-- Common Admin Functions - Hiển thị cho tất cả admin -->
-            @if (userRole == "admin" || userRole == "admin1" || userRole == "adminit")
+            @* ✅ Common Admin Functions *@
+            @if (hasManageUser || hasManageFood)
             {
                 <div class="nav-section">
                     <span class="section-title">
                         <i class="fas fa-cog"></i>
-                        Hệ thống
+                        HỆ THỐNG
                     </span>
                     <a asp-controller="Home" asp-action="Index" class="nav-item">
                         <i class="fas fa-home"></i>

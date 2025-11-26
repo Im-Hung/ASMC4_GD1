@@ -1,6 +1,7 @@
 ﻿using Asm_GD1.Data;
 using Asm_GD1.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 
 namespace Asm_GD1.Controllers
@@ -25,34 +26,48 @@ namespace Asm_GD1.Controllers
             HttpContext.Session.SetInt32(SessionCartIdKey, cartId);
         }
 
-        protected async Task<Cart> GetOrCreateActiveCartAsync(int userId)
+        protected async Task<Cart> GetOrCreateActiveCartAsync(string? userId)
         {
-            var cart = await _context.Carts
-                .Include(c => c.CartItems)
-                .FirstOrDefaultAsync(c => c.UserID == userId);
+            var cartIdString = HttpContext.Session.GetString("CartID");
+            int? cartId = null;
 
-            if (cart == null)
+            if (!string.IsNullOrEmpty(cartIdString) && int.TryParse(cartIdString, out int parsedCartId))
             {
-                cart = new Cart
+                cartId = parsedCartId;
+
+                var existingCart = await _context.Carts
+                    .Include(c => c.CartItems)
+                    .FirstOrDefaultAsync(c => c.CartID == cartId.Value);
+
+                if (existingCart != null)
                 {
-                    UserID = userId,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
-                };
-                _context.Carts.Add(cart);
-                await _context.SaveChangesAsync();
+                    return existingCart;
+                }
             }
 
-            return cart;
+            var newCart = new Cart
+            {
+                UserID = userId ?? User.Identity?.Name,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
+            };
+            _context.Carts.Add(newCart);
+            await _context.SaveChangesAsync();
+
+            HttpContext.Session.SetString("CartID", newCart.CartID.ToString());
+
+            return newCart;
         }
 
-        protected async Task<Cart> GetCartAsync(int userId)
+
+        protected async Task<Cart> GetCartAsync(string? userId)
         {
             var cartId = GetCartIdFromSession();
             if (cartId.HasValue)
             {
                 var cart = await _context.Carts
                     .Include(c => c.CartItems)
+                    .ThenInclude(ci => ci.Product)
                     .FirstOrDefaultAsync(c => c.CartID == cartId && c.UserID == userId);
 
                 if (cart != null) return cart;
@@ -61,6 +76,21 @@ namespace Asm_GD1.Controllers
             var newCart = await GetOrCreateActiveCartAsync(userId);
             SetCartIdToSession(newCart.CartID);
             return newCart;
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+
+            var cartIdString = HttpContext.Session.GetString("CartID");
+            ViewBag.CartItemCount = 0;
+
+            if (!string.IsNullOrEmpty(cartIdString) && int.TryParse(cartIdString, out int cartId))
+            {
+                ViewBag.CartItemCount = _context.CartItems
+                    .Where(ci => ci.CartID == cartId)
+                    .Sum(ci => (int?)ci.Quantity) ?? 0;
+            }
         }
     }
 }

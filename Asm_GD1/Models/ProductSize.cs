@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Asm_GD1.Models
 {
@@ -6,7 +7,18 @@ namespace Asm_GD1.Models
     {
         [Key]
         public int SizeID { get; set; }
-        public string SizeName { get; set; } = string.Empty;
+
+        [Required]
+        [StringLength(50)]
+        public string Name { get; set; } = string.Empty;
+
+        [NotMapped]
+        public string SizeName
+        {
+            get => Name;
+            set => Name = value;
+        }
+
         public decimal ExtraPrice { get; set; }
     }
 }

@@ -2,129 +2,96 @@
     ViewData["Title"] = "Đặt hàng thành công";
 }
 
-@section Styles {
-    <style>
-        .success-page {
-            padding: 60px 0;
-            text-align: center;
-            background: #f8f9fa;
-            min-height: 70vh;
-        }
+<div style="max-width: 800px; margin: 50px auto; padding: 40px; background: white; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); text-align: center;">
+    <div style="margin-bottom: 30px;">
+        <i class="fas fa-check-circle" style="font-size: 100px; color: #10b981;"></i>
+    </div>
 
-        .success-icon {
-            font-size: 80px;
-            color: #28a745;
-            margin-bottom: 30px;
-        }
+    <h1 style="font-size: 36px; color: #1f2937; margin-bottom: 15px;">🎉 Đặt hàng thành công!</h1>
+    <p style="font-size: 18px; color: #6b7280; margin-bottom: 40px;">
+        Cảm ơn bạn đã đặt hàng. Chúng tôi sẽ liên hệ với bạn sớm nhất.
+    </p>
 
-        .success-title {
-            color: #28a745;
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
+    <div style="background: #f9fafb; border-radius: 10px; padding: 30px; margin-bottom: 30px; text-align: left;">
+        <h2 style="font-size: 24px; color: #1f2937; margin-bottom: 20px; text-align: center;">Thông tin đơn hàng</h2>
 
-        .success-message {
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 40px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .order-info {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            margin: 30px auto;
-            text-align: left;
-            max-width: 600px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-        }
-
-            .order-info h3 {
-                color: #333;
-                margin-bottom: 20px;
-                border-bottom: 2px solid #28a745;
-                padding-bottom: 10px;
-            }
-
-            .order-info p {
-                margin: 12px 0;
-                color: #555;
-                font-size: 16px;
-            }
-
-            .order-info strong {
-                color: #333;
-                font-weight: 600;
-            }
-
-        .success-actions {
-            margin-top: 40px;
-        }
-
-        .btn-continue {
-            background: #007bff;
-            color: white;
-            padding: 14px 30px;
-            border-radius: 8px;
-            text-decoration: none;
-            display: inline-block;
-            margin: 10px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-            .btn-continue:hover {
-                background: #0056b3;
-                color: white;
-                text-decoration: none;
-                transform: translateY(-2px);
-            }
-
-            .btn-continue i {
-                margin-right: 8px;
-            }
-
-    </style>
-}
-
-<div class="success-page">
-    <div class="container">
-        <!-- SUCCESS ICON -->
-        <div class="success-icon">
-            <i class="fas fa-check-circle"></i>
+        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+            <strong>Họ và tên:</strong>
+            <span>@TempData["CustomerName"]</span>
         </div>
 
-        <!-- SUCCESS TITLE -->
-        <h1 class="success-title">Đặt hàng thành công!</h1>
-
-        <!-- SUCCESS MESSAGE -->
-        <p class="success-message">
-            Cảm ơn bạn đã đặt hàng tại FoodOrder. Chúng tôi hân hạnh được phục vụ bạn.
-        </p>
-
-        <!-- ORDER INFO từ TempData -->
-        <div class="order-info">
-            <h3><i class="fas fa-receipt"></i> Thông tin đơn hàng</h3>
-            <p><strong>Họ và tên:</strong> @TempData["CustomerName"]</p>
-            <p><strong>Số điện thoại:</strong> @TempData["CustomerPhone"]</p>
-            <p><strong>Địa chỉ giao hàng:</strong> @TempData["CustomerAddress"]</p>
-            <p><strong>Hình thức nhận hàng:</strong> @TempData["DeliveryType"]</p>
-            <p><strong>Phương thức thanh toán:</strong> @TempData["PaymentMethod"]</p>
-            <p><strong>Thời gian đặt:</strong> @DateTime.Now.ToString("dd/MM/yyyy HH:mm")</p>
+        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+            <strong>Số điện thoại:</strong>
+            <span>@TempData["CustomerPhone"]</span>
         </div>
 
-        <!-- ACTION BUTTONS -->
-        <div class="success-actions">
-            <a href="@Url.Action("Index", "Home")" class="btn-continue">
-                <i class="fas fa-home"></i> Về trang chủ
-            </a>
-            <a href="@Url.Action("Order", "Food")" class="btn-continue">
-                <i class="fas fa-utensils"></i> Đặt món khác
-            </a>
+        @if (!string.IsNullOrEmpty(TempData["CustomerEmail"]?.ToString()))
+        {
+            <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+                <strong>Email:</strong>
+                <span>@TempData["CustomerEmail"]</span>
+            </div>
+        }
+
+        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+            <strong>Địa chỉ:</strong>
+            <span>@TempData["CustomerAddress"]</span>
         </div>
+
+        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+            <strong>Hình thức:</strong>
+            <span>@TempData["DeliveryType"]</span>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+            <strong>Thanh toán:</strong>
+            <span>@TempData["PaymentMethod"]</span>
+        </div>
+
+        @if (!string.IsNullOrEmpty(TempData["Note"]?.ToString()))
+        {
+            <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+                <strong>Ghi chú:</strong>
+                <span>@TempData["Note"]</span>
+            </div>
+        }
+
+        @if (TempData["Subtotal"] != null)
+        {
+            <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+                <strong>Tạm tính:</strong>
+                <span>@TempData["Subtotal"]₫</span>
+            </div>
+        }
+
+        @if (TempData["ShippingFee"] != null)
+        {
+            <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+                <strong>Phí giao hàng:</strong>
+                <span>@TempData["ShippingFee"]₫</span>
+            </div>
+        }
+
+        @if (TempData["Total"] != null)
+        {
+            <div style="display: flex; justify-content: space-between; padding: 12px 0; font-size: 20px; color: #dc2626;">
+                <strong>Tổng cộng:</strong>
+                <strong>@TempData["Total"]₫</strong>
+            </div>
+        }
+
+        <div style="display: flex; justify-content: space-between; padding: 12px 0;">
+            <strong>Thời gian đặt:</strong>
+            <span>@DateTime.Now.ToString("dd/MM/yyyy HH:mm")</span>
+        </div>
+    </div>
+
+    <div style="display: flex; gap: 15px; justify-content: center;">
+        <a href="@Url.Action("Index", "Home")" style="padding: 15px 30px; background: #6b7280; color: white; text-decoration: none; border-radius: 10px; font-weight: 600;">
+            <i class="fas fa-home"></i> Về trang chủ
+        </a>
+        <a href="@Url.Action("Order", "Food")" style="padding: 15px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 10px; font-weight: 600;">
+            <i class="fas fa-utensils"></i> Tiếp tục đặt món
+        </a>
     </div>
 </div>

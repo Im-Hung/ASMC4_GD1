@@ -8,10 +8,8 @@
     <link rel="stylesheet" href="~/css/pages/cart.css" />
 }
 
-<!-- GIỮ NGUYÊN: Tất cả HTML hiện tại, CHỈ thay đổi JavaScript -->
 <div class="cart-page">
     <div class="container">
-        <!-- Breadcrumb -->
         <nav class="breadcrumb">
             <a asp-controller="Home" asp-action="Index">Trang chủ</a>
             <span class="separator">></span>
@@ -26,7 +24,6 @@
         @if (Model != null && Model.Any())
         {
             <div class="cart-content">
-                <!-- Cart Items -->
                 <div class="cart-items-section">
                     <div class="cart-header">
                         <h2>Danh sách món ăn (@totalItems món)</h2>
@@ -37,10 +34,10 @@
                             </button>
                         </form>
                     </div>
-                    <div class="cart-items" id="cartItemsList">
+                    <div class="cart-items">
                         @foreach (var item in Model)
                         {
-                            <div class="cart-item" data-id="@item.ProductID">
+                            <div class="cart-item">
                                 <div class="item-image">
                                     <img src="@Url.Content(item.ProductImage)" alt="@item.ProductName">
                                 </div>
@@ -60,29 +57,26 @@
                                 </div>
                                 <div class="item-controls">
                                     <div class="quantity-controls">
-                                        <!-- Giảm 1 -->
                                         <form asp-controller="Cart"
                                               asp-action="ChangeQuantity"
                                               asp-route-productId="@item.ProductID"
-                                              asp-route-sizeId="@(item.SizeID)"
-                                              asp-route-toppingId="@(item.ToppingID)"
+                                              asp-route-sizeId="@item.SizeID"
+                                              asp-route-toppingIds="@item.ToppingIDs"
                                               asp-route-delta="-1"
                                               method="post">
                                             @Html.AntiForgeryToken()
-                                            <button type="submit" class="qty-btn minus" aria-label="Giảm">-</button>
+                                            <button type="submit" class="qty-btn minus">-</button>
                                         </form>
-                                        <!-- Đặt số lượng cụ thể (SetQuantity) -->
-                                        <input type="number" class="quantity" value="@item.Quantity" min="1" max="10" readonly />
-                                        <!-- Tăng 1 -->
+                                        <input type="number" class="quantity" value="@item.Quantity" readonly />
                                         <form asp-controller="Cart"
                                               asp-action="ChangeQuantity"
                                               asp-route-productId="@item.ProductID"
-                                              asp-route-sizeId="@(item.SizeID)"
-                                              asp-route-toppingId="@(item.ToppingID)"
+                                              asp-route-sizeId="@item.SizeID"
+                                              asp-route-toppingIds="@item.ToppingIDs"
                                               asp-route-delta="1"
                                               method="post">
                                             @Html.AntiForgeryToken()
-                                            <button type="submit" class="qty-btn plus" aria-label="Tăng">+</button>
+                                            <button type="submit" class="qty-btn plus">+</button>
                                         </form>
                                     </div>
                                     <div class="item-total">
@@ -91,10 +85,9 @@
                                     <form asp-controller="Cart"
                                           asp-action="RemoveFromCart"
                                           method="post"
-                                          asp-antiforgery="true"
                                           asp-route-productId="@item.ProductID"
                                           asp-route-sizeId="@item.SizeID"
-                                          asp-route-toppingId="@item.ToppingID">
+                                          asp-route-toppingIds="@item.ToppingIDs">
                                         @Html.AntiForgeryToken()
                                         <button type="submit" class="btn-remove" title="Xóa món">
                                             <i class="fas fa-times"></i>
@@ -110,7 +103,6 @@
                         </a>
                     </div>
                 </div>
-                <!-- Cart Summary & Checkout -->
                 <div class="cart-summary-section">
                     <div class="cart-summary">
                         <h3>Tóm tắt đơn hàng</h3>
@@ -121,17 +113,17 @@
                             </div>
                             <div class="summary-row">
                                 <span>Phí giao hàng:</span>
-                                <span id="shippingFee">15,000 VNĐ</span>
+                                <span>15,000 VNĐ</span>
                             </div>
                             <div class="summary-row total">
                                 <span>Tổng cộng:</span>
                                 <span class="total-amount">@((subtotal + 15000).ToString("N0")) VNĐ</span>
                             </div>
                         </div>
-                        <button class="btn-checkout" onclick="proceedToCheckout()">
+                        <a asp-controller="Cart" asp-action="Checkout" class="btn-checkout">
                             <i class="fas fa-credit-card"></i> Tiến hành thanh toán
                             <span class="checkout-amount">@((subtotal + 15000).ToString("N0")) VNĐ</span>
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -150,12 +142,3 @@
         }
     </div>
 </div>
-
-<!-- CẬP NHẬT: JavaScript để chuyển đến Checkout -->
-@section Scripts {
-    <script>
-        function proceedToCheckout() {
-            window.location.href = '@Url.Action("Checkout", "Cart")';
-        }
-    </script>
-}

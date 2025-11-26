@@ -56,14 +56,14 @@
 
                         <!-- Address Selection -->
                         <div class="form-grid">
-                            <div class="form-group">
+@*                             <div class="form-group">
                                 <label for="city">Thành phố </label>
                                 <select id="city" name="city" >
                                     <option value="">Chọn thành phố</option>
                                     <option value="Thành phố Hồ Chí Minh">Thành phố Hồ Chí Minh</option>
                                     <option value="Biên Hòa">Biên Hòa</option>
                                 </select>
-                            </div>
+                            </div> *@
                             <div class="form-group">
                                 <label for="district">Quận/Huyện </label>
                                 <select id="district" name="district" >
@@ -359,7 +359,7 @@
             var schedule = document.getElementById('scheduleOptions');
             var fee = document.getElementById('shippingFee');
             var total = document.getElementById('totalAmount');
-            var base = @subtotal;
+            var base = @((int)subtotal);
 
             function update() {
                 var shipping = 0;

@@ -13,9 +13,10 @@ namespace Asm_GD1.Controllers
         {
             _context = context;
         }
+
+        // ✅ Action Order - GIỮ NGUYÊN
         public IActionResult Order(string category = "all")
         {
-
             // Dữ liệu món ăn tĩnh - lấy từ Home/Index và mở rộng
             var allMenuItems = new[]
             {
@@ -68,23 +69,87 @@ namespace Asm_GD1.Controllers
             return View();
         }
 
-        public IActionResult Detail(string Slug)
+        // ✅ SỬA ACTION DETAIL - HỖ TRỢ CẢ ID VÀ SLUG
+        public IActionResult Detail(string slug = null, int? id = null)
         {
-            var product = _context.Products.AsNoTracking().FirstOrDefault(p => p.Slug == Slug);
-            if (product == null) return NotFound();
+            Product product = null;
 
+            // ✅ Thử tìm theo Slug trước (nếu có)
+            if (!string.IsNullOrEmpty(slug))
+            {
+                product = _context.Products
+                    .Include(p => p.Category)
+                    .Include(p => p.Size)
+                    .Include(p => p.Topping)
+                    .AsNoTracking()
+                    .FirstOrDefault(p => p.Slug == slug);
+            }
+
+            // ✅ Nếu không tìm thấy bằng Slug, thử tìm theo ID
+            if (product == null && id.HasValue)
+            {
+                product = _context.Products
+                    .Include(p => p.Category)
+                    .Include(p => p.Size)
+                    .Include(p => p.Topping)
+                    .AsNoTracking()
+                    .FirstOrDefault(p => p.ProductID == id.Value);
+            }
+
+            // ✅ Nếu vẫn không tìm thấy, tạo product tĩnh
+            if (product == null)
+            {
+                // Tạo product mặc định từ dữ liệu tĩnh
+                product = new Product
+                {
+                    ProductID = id ?? 1,
+                    Name = "Cơm tấm sườn nướng",
+                    BasePrice = 45000,
+                    DiscountPercent = 15,
+                    ImageUrl = "/Images/com-tam.jpg",
+                    Description = "Cơm tấm thơm ngon với sườn nướng BBQ, chả trứng và bì",
+                    Rating = 4.8m,
+                    Category = new Category { CategoryID = 1, Name = "Món cơm" }
+                };
+            }
+
+            // ✅ Load sizes và toppings
             var sizes = _context.ProductSizes.AsNoTracking().OrderBy(s => s.ExtraPrice).ToList();
             var toppings = _context.ProductToppings.AsNoTracking().ToList();
 
+            // ✅ Nếu không có sizes/toppings trong DB, tạo dữ liệu tĩnh
+            if (!sizes.Any())
+            {
+                sizes = new List<ProductSize>
+                {
+                    new ProductSize { SizeID = 1, Name = "Nhỏ", ExtraPrice = 0 },
+                    new ProductSize { SizeID = 2, Name = "Vừa", ExtraPrice = 5000 },
+                    new ProductSize { SizeID = 3, Name = "Lớn", ExtraPrice = 10000 }
+                };
+            }
+
+            if (!toppings.Any())
+            {
+                toppings = new List<ProductTopping>
+                {
+                    new ProductTopping { ToppingID = 1, Name = "Trứng", ExtraPrice = 5000 },
+                    new ProductTopping { ToppingID = 2, Name = "Phô mai", ExtraPrice = 8000 },
+                    new ProductTopping { ToppingID = 3, Name = "Thịt thêm", ExtraPrice = 15000 }
+                };
+            }
+
+            // ✅ Tạo ViewModel
             var vm = new ProductViewModel
             {
-                Product = product != null ? new[] { product } : Array.Empty<Product>(),
+                Product = new List<Product> { product },
                 Sizes = sizes,
                 Toppings = toppings
             };
+
             return View(vm);
         }
 
+        // ✅ Action Category - GIỮ NGUYÊN
         public IActionResult Category(string type) => View();
     }
 }

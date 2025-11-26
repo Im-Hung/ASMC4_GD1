@@ -47,8 +47,10 @@
 
             <!-- Thông tin món ăn -->
             <div class="food-info">
-                <form asp-controller="Cart" asp-action="AddToCart" method="post" asp-route-id="@product?.ProductID" class="order-section">
+                <form asp-controller="Cart" asp-action="AddToCart" method="post">
                     @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@product?.ProductID" />
+                    <input type="hidden" name="sizeId" id="sizeId" />
                     <h1 class="food-title">@product?.Name</h1>
 
                     <div class="food-rating">
@@ -142,7 +144,7 @@
                         <label>Số lượng:</label>
                         <div class="quantity-controls">
                             <button type="button" class="qty-btn minus" onclick="changeQuantity(-1)">-</button>
-                            <input type="number" class="quantity" id="quantity" name="Quantity" value="@quantity" min="1" max="10" readonly>
+                            <input type="number" class="quantity" id="quantity" name="quantity" value="@quantity" min="1" max="10" readonly>
                             <button type="button" class="qty-btn plus" onclick="changeQuantity(1)">+</button>
                         </div>
                     </div>

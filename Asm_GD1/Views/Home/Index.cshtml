@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Trang chủ";
     var defaultSize = Model.Sizes?.FirstOrDefault(s => s.ExtraPrice == 0) ?? Model.Sizes?.FirstOrDefault();
-    var defaultSizeId = defaultSize?.SizeID;
+    var defaultSizeId = defaultSize?.SizeID ?? 0;
 }
 @section Styles {
     <link rel="stylesheet" href="~/css/pages/home.css" />
@@ -20,51 +20,59 @@
     <div class="container">
         <h2>Món nổi bật</h2>
         <div class="food-grid">
-            @foreach (var product in Model.Product)
+            
+            @* ✅ PHẦN 1: MÓN ĂN TỪ DATABASE *@
+            @if (Model?.Product != null && Model.Product.Any())
             {
-                <div class="food-card">
-                    <div class="food-image">
-                        <img src="@Url.Content(product.ImageUrl)" alt="@product.Name">
-                        @if (product.DiscountPercent > 0)
-                        {
-                            <div class="discount-badge">-@product.DiscountPercent%</div>
-                        }
-                    </div>
-                    <div class="food-info">
-                        <h3>@product.Name</h3>
-                        <p>@product.Description</p>
-                        <div class="rating">
-                            <span class="stars">★★★★★</span>
-                            <span class="rating-text">(4.8)</span>
-                        </div>
-                        <div class="price-section">
-                            @if (product.DiscountPrice > 0)
+                @foreach (var product in Model.Product)
+                {
+                    <div class="food-card">
+                        <div class="food-image">
+                            <img src="@Url.Content(product.ImageUrl ?? "~/Images/default-food.jpg")" alt="@product.Name">
+                            @if (product.DiscountPercent > 0)
                             {
-                                <span class="old-price">@product.BasePrice.ToString("N0") VNĐ</span>
-                                <span class="price">
-                                    @((product.BasePrice * (100 - product.DiscountPercent) / 100).ToString("N0")) VNĐ
-                                </span>
-                            }
-                            else
-                            {
-                                <span class="price">@product.BasePrice.ToString("N0") VNĐ</span>
+                                <div class="discount-badge">-@product.DiscountPercent%</div>
                             }
                         </div>
-                        <div class="card-actions">
-                            <form asp-controller="Food" asp-action="Detail" asp-route-Slug="@product?.Slug">
-                                <button type="submit" class="btn-detail">Xem chi tiết</button>
-                            </form>
+                        <div class="food-info">
+                            <h3>@product.Name</h3>
+                            <p>@product.Description</p>
+                            <div class="rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-text">(4.8)</span>
+                            </div>
+                            <div class="price-section">
+                                @if (product.DiscountPercent > 0)
+                                {
+                                    <span class="old-price">@product.BasePrice.ToString("N0") VNĐ</span>
+                                    <span class="price">
+                                        @((product.BasePrice * (100 - product.DiscountPercent) / 100).ToString("N0")) VNĐ
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="price">@product.BasePrice.ToString("N0") VNĐ</span>
+                                }
+                            </div>
+                            <div class="card-actions">
+                                @* ✅ FIX: Bỏ "?Id", chỉ giữ "Detail" *@
+                                <a asp-controller="Food" asp-action="Detail" asp-route-id="@product.ProductID" class="btn-detail">
+                                    Xem chi tiết
+                                </a>
 
-                            <form asp-controller="Cart" asp-action="AddToCart" method="post" asp-route-id="@product?.ProductID">
-                                <input type="hidden" name="sizeId" id="sizeId" value="@defaultSizeId" />
-                                <input type="hidden" name="quantity" value="1" min="1" max="10" />
-                                <button type="submit" class="btn-order">Đặt món</button>
-                            </form>
+                                <form asp-controller="Cart" asp-action="AddToCart" method="post" asp-route-id="@product.ProductID">
+                                    <input type="hidden" name="sizeId" value="@defaultSizeId" />
+                                    <input type="hidden" name="quantity" value="1" />
+                                    <button type="submit" class="btn-order">Đặt món</button>
+                                </form>
+                            </div>
                         </div>
-
                     </div>
-                </div>
+                }
             }
+
+            @* ✅ PHẦN 2: MÓN ĂN HARDCODE *@
+            
             <!-- Món 1 -->
             <div class="food-card">
                 <div class="food-image">
@@ -83,7 +91,8 @@
                         <span class="price">45,000 VNĐ</span>
                     </div>
                     <div class="card-actions">
-                        <button class="btn-detail" onclick="viewDetail(1)">Xem chi tiết</button>
+                        @* ✅ FIX: Đổi từ ?Id/1 thành ?id=1 *@
+                        <a href="/Food/Detail?id=1" class="btn-detail">Xem chi tiết</a>
                         <button class="btn-order" onclick="addToCart(1)">Đặt món</button>
                     </div>
                 </div>
@@ -106,8 +115,9 @@
                         <span class="price">65,000 VNĐ</span>
                     </div>
                     <div class="card-actions">
-                        <button class="btn-detail" onclick="viewDetail(2)">Xem chi tiết</button>
-                        <button class="btn-order" onclick="addToCart(2)">Đặt món</button>
+                        @* ✅ FIX: Đổi từ DetailById thành Detail?id= *@
+                        <a href="/Food/Detail?id=2" class="btn-detail">Xem chi tiết</a>
+                        <button class="btn-order" onclick="alert('Thêm vào giỏ hàng!')">Đặt món</button>
                     </div>
                 </div>
             </div>
@@ -129,8 +139,8 @@
                         <span class="price">25,000 VNĐ</span>
                     </div>
                     <div class="card-actions">
-                        <button class="btn-detail" onclick="viewDetail(3)">Xem chi tiết</button>
-                        <button class="btn-order" onclick="addToCart(3)">Đặt món</button>
+                        <a href="/Food/Detail?id=3" class="btn-detail">Xem chi tiết</a>
+                        <button class="btn-order" onclick="alert('Thêm vào giỏ hàng!')">Đặt món</button>
                     </div>
                 </div>
             </div>
@@ -151,8 +161,8 @@
                         <span class="price">58,000 VNĐ</span>
                     </div>
                     <div class="card-actions">
-                        <button class="btn-detail" onclick="viewDetail(4)">Xem chi tiết</button>
-                        <button class="btn-order" onclick="addToCart(4)">Đặt món</button>
+                        <a href="/Food/Detail?id=4" class="btn-detail">Xem chi tiết</a>
+                        <button class="btn-order" onclick="alert('Thêm vào giỏ hàng!')">Đặt món</button>
                     </div>
                 </div>
             </div>
@@ -173,8 +183,8 @@
                         <span class="price">52,000 VNĐ</span>
                     </div>
                     <div class="card-actions">
-                        <button class="btn-detail" onclick="viewDetail(5)">Xem chi tiết</button>
-                        <button class="btn-order" onclick="addToCart(5)">Đặt món</button>
+                        <a href="/Food/Detail?id=5" class="btn-detail">Xem chi tiết</a>
+                        <button class="btn-order" onclick="alert('Thêm vào giỏ hàng!')">Đặt món</button>
                     </div>
                 </div>
             </div>
@@ -195,8 +205,8 @@
                         <span class="price">48,000 VNĐ</span>
                     </div>
                     <div class="card-actions">
-                        <button class="btn-detail" onclick="viewDetail(6)">Xem chi tiết</button>
-                        <button class="btn-order" onclick="addToCart(6)">Đặt món</button>
+                        <a href="/Food/Detail?id=6" class="btn-detail">Xem chi tiết</a>
+                        <button class="btn-order" onclick="addToCart(4)">Đặt món</button>
                     </div>
                 </div>
             </div>

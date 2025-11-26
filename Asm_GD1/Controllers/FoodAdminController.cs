@@ -1,128 +1,195 @@
 ﻿using Asm_GD1.Data;
 using Asm_GD1.Models;
-using Asm_GD1.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Asm_GD1.Controllers
 {
-    [Authorize(Roles = "adminit, admin1")]
+    [Authorize(Policy = "CanManageFood")]
     public class FoodAdminController : Controller
     {
         private readonly AppDbContext _context;
-        private readonly SlugGenerator _slugGenerator;
-        public FoodAdminController(AppDbContext context, SlugGenerator slugGenerator)
+        private readonly IWebHostEnvironment _environment;
+
+        public FoodAdminController(AppDbContext context, IWebHostEnvironment environment)
         {
             _context = context;
-            _slugGenerator = slugGenerator;
+            _environment = environment;
         }
-        public IActionResult Dashboard()
+
+        // ✅ DASHBOARD
+        public async Task<IActionResult> Dashboard()
         {
+            ViewData["Title"] = "Dashboard - Quản lý Thực đơn";
+
+            var totalMenuItems = await _context.Products.CountAsync();
+            var totalCategories = await _context.Categories.CountAsync();
+            var activeDiscounts = await _context.Discounts
+                .Where(d => d.StartDate <= DateTime.Now && d.EndDate >= DateTime.Now)
+                .CountAsync();
+
+            ViewBag.TotalMenuItems = totalMenuItems;
+            ViewBag.TotalCategories = totalCategories;
+            ViewBag.ActiveDiscounts = activeDiscounts;
+
             return View();
         }
 
-        public IActionResult MenuManagement()
+        // ✅ MENU MANAGEMENT - INDEX
+        public async Task<IActionResult> MenuManagement()
         {
-            return View();
+            ViewData["Title"] = "Quản lý Thực đơn";
+            var products = await _context.Products
+                .Include(p => p.Category)
+                .OrderByDescending(p => p.CreatedAt)
+                .ToListAsync();
+
+            return View(products);
         }
 
-        public IActionResult CategoryManagement()
-        {
-            return View();
-        }
-
-        public IActionResult PromotionManagement()
-        {
-            return View();
-        }
-
-        public IActionResult Reports()
-        {
-            return View();
-        }
-
-        public IActionResult Settings()
-        {
-            return View();
-        }
-
-        [HttpGet]
+        // ✅ CREATE GET
         public IActionResult Create()
         {
-            ViewBag.ProductToppings = _context.ProductToppings.ToList();
-            ViewBag.ProductSizes = _context.ProductSizes.ToList();
-
-            // Lấy danh sách ảnh trong wwwroot/images
-            var images = Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images"))
-                                  .Select(Path.GetFileName)
-                                  .ToList();
-
-            ViewBag.Images = images;
-
+            ViewBag.Categories = _context.Categories.ToList();
             return View();
         }
 
+        // ✅ CREATE POST
         [HttpPost]
-        public async Task<IActionResult> Create(Product product)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Product product, IFormFile? ImageFile)
         {
             if (!ModelState.IsValid)
             {
-                // Load lại các dữ liệu cần thiết cho view khi trả về lỗi
-                ViewBag.ProductToppings = _context.ProductToppings.ToList();
-                ViewBag.ProductSizes = _context.ProductSizes.ToList();
-                var images = Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images"))
-                                      .Select(Path.GetFileName)
-                                      .ToList();
-                ViewBag.Images = images;
+                ViewBag.Categories = _context.Categories.ToList();
                 return View(product);
             }
 
-            var sizeId = _context.ProductSizes.First().SizeID;
-            var toppingId = _context.ProductToppings.First().ToppingID;
-
-            if (string.IsNullOrWhiteSpace(product.Slug))
+            // Upload hình ảnh
+            if (ImageFile != null && ImageFile.Length > 0)
             {
-            var slug = _slugGenerator.GenerateSlug(product.Name);
-            var baseSlug = slug;
-            int counter = 1;
+                var uploadsFolder = Path.Combine(_environment.WebRootPath, "Images");
+                var uniqueFileName = Guid.NewGuid().ToString() + "_" + ImageFile.FileName;
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-            while (await _context.Products.AnyAsync(p => p.Slug == slug))
-            {
-                slug = $"{baseSlug}-{counter}";
-                counter++;
-            }
-
-                product.Slug = slug;
-            }
-
-            if (product.ImageFile != null && product.ImageFile.Length > 0)
-            {
-                var fileName = Path.GetFileName(product.ImageFile.FileName);
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                    await product.ImageFile.CopyToAsync(stream);
+                    await ImageFile.CopyToAsync(fileStream);
                 }
 
-                product.ImageUrl = "~/Images/" + fileName;
+                product.ImageUrl = "/Images/" + uniqueFileName;
             }
-
-            product.IsHot = true;
-
-            product.SizeID = sizeId;
-            product.ToppingID = toppingId;
 
             product.CreatedAt = DateTime.Now;
             product.UpdatedAt = DateTime.Now;
+            product.IsAvailable = true;
 
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
-            TempData["success"] = "Thêm món thành công";
-            return RedirectToAction("MenuManagement");
+            TempData["Success"] = "Thêm món ăn thành công!";
+            return RedirectToAction(nameof(MenuManagement));
         }
 
+        // ✅ EDIT GET
+        public async Task<IActionResult> Edit(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null) return NotFound();
+
+            ViewBag.Categories = _context.Categories.ToList();
+            return View(product);
+        }
+
+        // ✅ EDIT POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Product product, IFormFile? ImageFile)
+        {
+            if (id != product.ProductID) return NotFound();
+
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Categories = _context.Categories.ToList();
+                return View(product);
+            }
+
+            var existingProduct = await _context.Products.FindAsync(id);
+            if (existingProduct == null) return NotFound();
+
+            // Upload hình ảnh mới nếu có
+            if (ImageFile != null && ImageFile.Length > 0)
+            {
+                var uploadsFolder = Path.Combine(_environment.WebRootPath, "Images");
+                var uniqueFileName = Guid.NewGuid().ToString() + "_" + ImageFile.FileName;
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await ImageFile.CopyToAsync(fileStream);
+                }
+
+                // Xóa ảnh cũ nếu có
+                if (!string.IsNullOrEmpty(existingProduct.ImageUrl))
+                {
+                    var oldImagePath = Path.Combine(_environment.WebRootPath, existingProduct.ImageUrl.TrimStart('/'));
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }
+                }
+
+                existingProduct.ImageUrl = "/Images/" + uniqueFileName;
+            }
+
+            existingProduct.Name = product.Name;
+            existingProduct.Description = product.Description;
+            existingProduct.BasePrice = product.BasePrice;
+            existingProduct.CategoryID = product.CategoryID;
+            existingProduct.UpdatedAt = DateTime.Now;
+
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Cập nhật món ăn thành công!";
+            return RedirectToAction(nameof(MenuManagement));
+        }
+
+        // ✅ DELETE GET
+        public async Task<IActionResult> Delete(int id)
+        {
+            var product = await _context.Products
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(p => p.ProductID == id);
+
+            if (product == null) return NotFound();
+
+            return View(product);
+        }
+
+        // ✅ DELETE POST
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null) return NotFound();
+
+            // Xóa ảnh
+            if (!string.IsNullOrEmpty(product.ImageUrl))
+            {
+                var imagePath = Path.Combine(_environment.WebRootPath, product.ImageUrl.TrimStart('/'));
+                if (System.IO.File.Exists(imagePath))
+                {
+                    System.IO.File.Delete(imagePath);
+                }
+            }
+
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Xóa món ăn thành công!";
+            return RedirectToAction(nameof(MenuManagement));
+        }
     }
 }
