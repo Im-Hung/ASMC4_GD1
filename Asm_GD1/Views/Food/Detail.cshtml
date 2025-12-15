@@ -47,10 +47,9 @@
 
             <!-- Thông tin món ăn -->
             <div class="food-info">
-                <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                <form id="addToCartForm" asp-controller="Cart" asp-action="AddToCart" method="post">
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="id" value="@product?.ProductID" />
-                    <input type="hidden" name="sizeId" id="sizeId" />
                     <h1 class="food-title">@product?.Name</h1>
 
                     <div class="food-rating">
@@ -144,10 +143,11 @@
                         <label>Số lượng:</label>
                         <div class="quantity-controls">
                             <button type="button" class="qty-btn minus" onclick="changeQuantity(-1)">-</button>
-                            <input type="number" class="quantity" id="quantity" name="quantity" value="@quantity" min="1" max="10" readonly>
+                            <input type="number" class="quantity" id="quantity" name="quantity" value="@quantity" min="1" max="10">
                             <button type="button" class="qty-btn plus" onclick="changeQuantity(1)">+</button>
                         </div>
                     </div>
+
 
                     <div class="total-price">
                         <span class="total-label">Tổng cộng:</span>
@@ -155,7 +155,7 @@
                     </div>
 
                     <div class="action-buttons">
-                        <button type="submit" class="btn-add-cart">Đặt món</button>
+                        <button type="submit" class="btn-add-cart" id="submitBtn">Đặt món</button>
                     </div>
                 </form>
             </div>
@@ -287,7 +287,8 @@
 </div>
 
 <script>
-    const basePrice = @basePrice;
+    // basePrice được tính từ C# code ở trên, không cần declare lại
+    const basePriceValue = @basePrice;
 
     const toInt = (v) => {
         const n = parseInt(v, 10);
@@ -309,7 +310,7 @@
         const qty = toInt(document.getElementById('quantity').value) || 1;
 
         // Tính tổng
-        const total = (basePrice + sizeExtra + toppingExtra) * qty;
+        const total = (basePriceValue + sizeExtra + toppingExtra) * qty;
 
         // Cập nhật hiển thị
         document.getElementById('totalPrice').textContent = total.toLocaleString('vi-VN') + ' VNĐ';
@@ -351,5 +352,78 @@
 
     // Khởi tạo tổng tiền khi load trang
     updateTotalPrice();
+
+    // ===== XỬ LÝ SUBMIT FORM ADDTOCART =====
+    const addToCartForm = document.getElementById('addToCartForm');
+    if (addToCartForm) {
+        addToCartForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Lấy tất cả dữ liệu từ form
+            const id = parseInt(document.querySelector('input[name="id"]').value);
+            const sizeId = parseInt(document.getElementById('sizeId').value) || null;
+            const quantity = parseInt(document.getElementById('quantity').value) || 1;
+            const note = document.querySelector('textarea[name="note"]').value || '';
+            
+            // Lấy tất cả toppingIds được checked
+            const toppingIds = Array.from(document.querySelectorAll('input[name="toppingIds"]:checked'))
+                .map(el => parseInt(el.value));
+            
+            console.log('📝 Sending AddToCart request:');
+            console.log(`  ProductID: ${id}`);
+            console.log(`  SizeID: ${sizeId}`);
+            console.log(`  ToppingIds: ${toppingIds.join(',')}`);
+            console.log(`  Quantity: ${quantity}`);
+            console.log(`  Note: ${note}`);
+
+            // Tạo JSON payload theo AddToCartDto
+            const payload = {
+                ProductID: id,
+                SizeID: sizeId,
+                ToppingIds: toppingIds.length > 0 ? toppingIds : null,
+                Quantity: quantity,
+                Note: note
+            };
+
+            console.log('📤 Posting to /api/cart/add:', JSON.stringify(payload));
+
+            // Gửi JSON request (không phải FormData)
+            fetch('/api/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Session-Id': localStorage.getItem('sessionId') || ''
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => {
+                console.log('📥 Response status:', response.status);
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        console.error('Response text:', text);
+                        throw new Error(`HTTP ${response.status}: ${text}`);
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('✅ Response:', data);
+                if (data.success || response.ok) {
+                    alert('Đã thêm sản phẩm vào giỏ hàng!');
+                    // Cập nhật số lượng giỏ hàng
+                    updateCartCount();
+                    // Reset form
+                    addToCartForm.reset();
+                    updateTotalPrice();
+                } else {
+                    alert('Có lỗi: ' + (data.message || 'Vui lòng thử lại'));
+                }
+            })
+            .catch(error => {
+                console.error('❌ Error:', error);
+                alert('Có lỗi xảy ra: ' + error.message);
+            });
+        });
+    }
 </script>
 

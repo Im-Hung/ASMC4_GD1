@@ -71,10 +71,10 @@
                         <p class="menu-item-description">@item.Description</p>
                         <div class="menu-item-footer">
                             <span class="menu-item-price">@String.Format("{0:#,##0}₫", item.Price)</span>
-                            <button class="btn-add-cart" onclick="addToCart('@item.Name', @item.Price)">
+                            <a href="@Url.Action("Detail", "Food", new { id = item.Id })" class="btn-add-cart">
                                 <i class="fas fa-cart-plus"></i>
                                 Thêm
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>

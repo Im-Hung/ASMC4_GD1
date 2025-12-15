@@ -186,18 +186,23 @@ namespace Asm_GD1.Controllers
         // ADD TO CART
         // ========================================
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddToCart(
             int id,
             int? sizeId,
             int[]? toppingIds,
             int quantity,
-            string note)
+            string? note)
         {
             try
             {
+                Console.WriteLine($"🛒 AddToCart called: id={id}, sizeId={sizeId}, qty={quantity}, note={note}");
+                Console.WriteLine($"   toppingIds: {(toppingIds != null ? string.Join(",", toppingIds) : "null")}");
+                
                 var product = await _context.Products.FindAsync(id);
-                if (product == null) return NotFound();
+                if (product == null) {
+                    Console.WriteLine($"❌ Product not found: {id}");
+                    return Json(new { success = false, message = "Sản phẩm không tồn tại" });
+                }
 
                 var size = sizeId.HasValue
                     ? await _context.ProductSizes.FindAsync(sizeId.Value)
@@ -229,10 +234,10 @@ namespace Asm_GD1.Controllers
                     ToppingIDs = toppingIds != null && toppingIds.Length > 0
                         ? string.Join(",", toppingIds)
                         : "",
-                    ToppingName = string.Join(", ", toppings.Select(t => t.Name)),
+                    ToppingName = string.Join(", ", toppings.Select(t => t.ToppingName)),
                     Note = note ?? "",
                     UnitPrice = unitPrice,
-                    Quantity = quantity,
+                    Quantity = quantity > 0 ? quantity : 1,
                     Price = unitPrice
                 };
 
@@ -240,14 +245,25 @@ namespace Asm_GD1.Controllers
                 cart.UpdatedAt = DateTime.UtcNow;
                 await _context.SaveChangesAsync();
 
-                TempData["SuccessMessage"] = "Đã thêm món vào giỏ hàng!";
-                return RedirectToAction("Index", "Cart");
+                Console.WriteLine($"✅ Item added to cart: {newItem.CartItemID}");
+                Console.WriteLine($"   UnitPrice: {unitPrice}, Quantity: {newItem.Quantity}");
+                
+                return Json(new { 
+                    success = true, 
+                    message = "Đã thêm vào giỏ hàng", 
+                    cartItemId = newItem.CartItemID,
+                    productName = product.Name,
+                    unitPrice = unitPrice
+                });
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
-                TempData["ErrorMessage"] = "Có lỗi xảy ra!";
-                return RedirectToAction("Detail", "Food", new { id });
+                Console.WriteLine($"❌ Error in AddToCart: {ex.Message}");
+                Console.WriteLine($"   StackTrace: {ex.StackTrace}");
+                return Json(new { 
+                    success = false, 
+                    message = "Có lỗi xảy ra: " + ex.Message 
+                });
             }
         }
 

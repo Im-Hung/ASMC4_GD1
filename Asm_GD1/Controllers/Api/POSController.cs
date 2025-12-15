@@ -1,4 +1,4 @@
-using Asm_GD1.Data;
+﻿using Asm_GD1.Data;
 using Asm_GD1.Models;
 using Asm_GD1.Models.DTOs;
 using Microsoft.AspNetCore.Authorization;
@@ -62,131 +62,156 @@ namespace Asm_GD1.Controllers.Api
         [HttpPost("orders")]
         public async Task<ActionResult<ApiResponse<OrderDto>>> CreatePOSOrder([FromBody] POSOrderDto dto)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ApiResponse<OrderDto>.ErrorResponse("Invalid data",
-                    ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage)).ToList()));
-            }
-
-            if (dto.Items == null || !dto.Items.Any())
-            {
-                return BadRequest(ApiResponse<OrderDto>.ErrorResponse("Order must have at least one item"));
-            }
-
-            var staffId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var subTotal = dto.Items.Sum(i => i.UnitPrice * i.Quantity);
-            decimal discountAmount = 0;
-
-            // Apply discount if code is provided
-            if (!string.IsNullOrEmpty(dto.DiscountCode))
-            {
-                var discount = await _context.Discounts
-                    .FirstOrDefaultAsync(d => d.Code == dto.DiscountCode
-                        && d.IsActive
-                        && d.StartDate <= DateTime.Now
-                        && d.EndDate >= DateTime.Now
-                        && (d.UsageLimit == null || d.UsageCount < d.UsageLimit)
-                        && (d.MinOrderAmount == null || subTotal >= d.MinOrderAmount));
-
-                if (discount != null)
+                Console.WriteLine("================================");
+                Console.WriteLine("[CreatePOSOrder] Called");
+                Console.WriteLine($"[CreatePOSOrder] DTO: {System.Text.Json.JsonSerializer.Serialize(dto)}");
+                
+                if (!ModelState.IsValid)
                 {
-                    discountAmount = subTotal * (discount.DiscountPercent / 100);
-                    if (discount.MaxDiscountAmount.HasValue && discountAmount > discount.MaxDiscountAmount.Value)
+                    var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage)).ToList();
+                    Console.WriteLine($"[CreatePOSOrder] ModelState invalid: {string.Join(",", errors)}");
+                    return BadRequest(ApiResponse<OrderDto>.ErrorResponse("Invalid data", errors));
+                }
+
+                if (dto.Items == null || !dto.Items.Any())
+                {
+                    Console.WriteLine("[CreatePOSOrder] No items in order");
+                    return BadRequest(ApiResponse<OrderDto>.ErrorResponse("Order must have at least one item"));
+                }
+
+                var staffId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                Console.WriteLine($"[CreatePOSOrder] Staff ID: {staffId}");
+
+                var subTotal = dto.Items.Sum(i => i.UnitPrice * i.Quantity);
+                decimal discountAmount = 0;
+
+                // Apply discount if code is provided
+                if (!string.IsNullOrEmpty(dto.DiscountCode))
+                {
+                    Console.WriteLine($"[CreatePOSOrder] Looking for discount code: {dto.DiscountCode}");
+                    var discount = await _context.Discounts
+                        .FirstOrDefaultAsync(d => d.Code == dto.DiscountCode
+                            && d.IsActive
+                            && d.StartDate <= DateTime.Now
+                            && d.EndDate >= DateTime.Now
+                            && (d.UsageLimit == null || d.UsageCount < d.UsageLimit)
+                            && (d.MinOrderAmount == null || subTotal >= d.MinOrderAmount));
+
+                    if (discount != null)
                     {
-                        discountAmount = discount.MaxDiscountAmount.Value;
+                        discountAmount = subTotal * (discount.DiscountPercent / 100);
+                        if (discount.MaxDiscountAmount.HasValue && discountAmount > discount.MaxDiscountAmount.Value)
+                        {
+                            discountAmount = discount.MaxDiscountAmount.Value;
+                        }
+                        discount.UsageCount++;
+                        Console.WriteLine($"[CreatePOSOrder] Discount applied: {discountAmount}");
                     }
-                    discount.UsageCount++;
-                }
-            }
-
-            var totalAmount = subTotal - discountAmount;
-
-            var order = new Order
-            {
-                UserID = staffId,
-                CustomerName = dto.CustomerName ?? "Walk-in Customer",
-                CustomerPhone = dto.CustomerPhone ?? "",
-                CustomerEmail = null,
-                ShippingAddress = null,
-                Note = dto.Note,
-                Status = "Completed",
-                PaymentMethod = dto.PaymentMethod ?? "Cash",
-                PaymentStatus = "Paid",
-                SubTotal = subTotal,
-                ShippingFee = 0,
-                DiscountAmount = discountAmount,
-                DiscountCode = dto.DiscountCode,
-                TotalAmount = totalAmount,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
-            };
-
-            // Create order items
-            foreach (var item in dto.Items)
-            {
-                var product = await _context.Products.FindAsync(item.ProductID);
-                if (product == null)
-                {
-                    return BadRequest(ApiResponse<OrderDto>.ErrorResponse($"Product with ID {item.ProductID} not found"));
+                    else
+                    {
+                        Console.WriteLine("[CreatePOSOrder] Discount not found or inactive");
+                    }
                 }
 
-                var orderItem = new OrderItem
+                var totalAmount = subTotal - discountAmount;
+                Console.WriteLine($"[CreatePOSOrder] SubTotal: {subTotal}, Discount: {discountAmount}, Total: {totalAmount}");
+
+                var order = new Order
                 {
-                    ProductID = item.ProductID,
-                    ProductName = product.Name,
-                    ProductImage = product.ImageUrl,
-                    SizeName = item.SizeName,
-                    ToppingName = item.ToppingName,
-                    Quantity = item.Quantity,
-                    UnitPrice = item.UnitPrice,
-                    TotalPrice = item.UnitPrice * item.Quantity,
-                    Note = item.Note
+                    UserID = staffId,
+                    CustomerName = dto.CustomerName ?? "Walk-in Customer",
+                    CustomerPhone = dto.CustomerPhone ?? "",
+                    CustomerEmail = null,
+                    ShippingAddress = null,
+                    Note = dto.Note,
+                    Status = "Completed",
+                    PaymentMethod = dto.PaymentMethod ?? "Cash",
+                    PaymentStatus = "Paid",
+                    SubTotal = subTotal,
+                    ShippingFee = 0,
+                    DiscountAmount = discountAmount,
+                    DiscountCode = dto.DiscountCode,
+                    TotalAmount = totalAmount,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
                 };
-                order.OrderItems.Add(orderItem);
 
-                // Update sold count
-                product.SoldCount += item.Quantity;
-            }
-
-            _context.Orders.Add(order);
-            await _context.SaveChangesAsync();
-
-            var orderDto = new OrderDto
-            {
-                OrderID = order.OrderID,
-                UserID = order.UserID,
-                CustomerName = order.CustomerName,
-                CustomerPhone = order.CustomerPhone,
-                CustomerEmail = order.CustomerEmail,
-                ShippingAddress = order.ShippingAddress,
-                Note = order.Note,
-                Status = order.Status,
-                PaymentMethod = order.PaymentMethod,
-                PaymentStatus = order.PaymentStatus,
-                SubTotal = order.SubTotal,
-                ShippingFee = order.ShippingFee,
-                DiscountAmount = order.DiscountAmount,
-                TotalAmount = order.TotalAmount,
-                Items = order.OrderItems.Select(oi => new OrderItemDto
+                // Create order items
+                foreach (var item in dto.Items)
                 {
-                    OrderItemID = oi.OrderItemID,
-                    ProductID = oi.ProductID,
-                    ProductName = oi.ProductName,
-                    ProductImage = oi.ProductImage,
-                    SizeName = oi.SizeName,
-                    ToppingName = oi.ToppingName,
-                    Quantity = oi.Quantity,
-                    UnitPrice = oi.UnitPrice,
-                    TotalPrice = oi.TotalPrice,
-                    Note = oi.Note
-                }).ToList(),
-                CreatedAt = order.CreatedAt,
-                UpdatedAt = order.UpdatedAt
-            };
+                    var product = await _context.Products.FindAsync(item.ProductID);
+                    if (product == null)
+                    {
+                        Console.WriteLine($"[CreatePOSOrder] Product not found: {item.ProductID}");
+                        return BadRequest(ApiResponse<OrderDto>.ErrorResponse($"Product with ID {item.ProductID} not found"));
+                    }
 
-            return CreatedAtAction(nameof(GetPendingOrders), 
-                ApiResponse<OrderDto>.SuccessResponse(orderDto, "Order created successfully"));
+                    var orderItem = new OrderItem
+                    {
+                        ProductID = item.ProductID,
+                        ProductName = product.Name,
+                        ProductImage = product.ImageUrl,
+                        SizeName = item.SizeName ?? "",
+                        ToppingName = item.ToppingName ?? "",
+                        Quantity = item.Quantity,
+                        UnitPrice = item.UnitPrice,
+                        TotalPrice = item.UnitPrice * item.Quantity,
+                        Note = item.Note ?? ""
+                    };
+                    order.OrderItems.Add(orderItem);
+
+                    // Update sold count
+                    product.SoldCount += item.Quantity;
+                }
+
+                _context.Orders.Add(order);
+                await _context.SaveChangesAsync();
+                Console.WriteLine($"[CreatePOSOrder] Order saved: {order.OrderID}");
+
+                var orderDto = new OrderDto
+                {
+                    OrderID = order.OrderID,
+                    UserID = order.UserID,
+                    CustomerName = order.CustomerName,
+                    CustomerPhone = order.CustomerPhone,
+                    CustomerEmail = order.CustomerEmail,
+                    ShippingAddress = order.ShippingAddress,
+                    Note = order.Note,
+                    Status = order.Status,
+                    PaymentMethod = order.PaymentMethod,
+                    PaymentStatus = order.PaymentStatus,
+                    SubTotal = order.SubTotal,
+                    ShippingFee = order.ShippingFee,
+                    DiscountAmount = order.DiscountAmount,
+                    TotalAmount = order.TotalAmount,
+                    Items = order.OrderItems.Select(oi => new OrderItemDto
+                    {
+                        OrderItemID = oi.OrderItemID,
+                        ProductID = oi.ProductID,
+                        ProductName = oi.ProductName,
+                        ProductImage = oi.ProductImage,
+                        SizeName = oi.SizeName,
+                        ToppingName = oi.ToppingName,
+                        Quantity = oi.Quantity,
+                        UnitPrice = oi.UnitPrice,
+                        TotalPrice = oi.TotalPrice,
+                        Note = oi.Note
+                    }).ToList(),
+                    CreatedAt = order.CreatedAt,
+                    UpdatedAt = order.UpdatedAt
+                };
+
+                Console.WriteLine("[CreatePOSOrder] ? Order created successfully");
+                return Ok(ApiResponse<OrderDto>.SuccessResponse(orderDto, "Order created successfully"));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[CreatePOSOrder] ? Exception: {ex.Message}");
+                Console.WriteLine($"[CreatePOSOrder] StackTrace: {ex.StackTrace}");
+                return StatusCode(500, ApiResponse<OrderDto>.ErrorResponse($"Internal server error: {ex.Message}"));
+            }
         }
 
         /// <summary>
